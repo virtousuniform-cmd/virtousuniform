@@ -50,7 +50,8 @@ export function SiteHeader() {
   };
 
   const STAFF_ROLES = ["SUPER_ADMIN", "ADMIN", "EDITOR"];
-  const isAdmin = session?.user?.role && STAFF_ROLES.includes(session.user.role);
+  const user = session?.user as { role?: string; name?: string; email?: string } | undefined;
+  const isAdmin = user?.role && STAFF_ROLES.includes(user.role);
   const dashboardHref = isAdmin ? "/admin" : "/dashboard";
 
   return (

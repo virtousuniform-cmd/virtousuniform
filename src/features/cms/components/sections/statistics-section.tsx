@@ -15,6 +15,7 @@ export function StatisticsSection({ content }: { content: StatisticsContent }) {
       <RevealGroup className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-6 py-16 sm:grid-cols-4">
         {content.items.map((stat, i) => {
           const Icon = ICONS[i % ICONS.length];
+          if (!Icon) return null;
           return (
             <RevealItem key={stat.label} className="text-center">
               <Icon className="mx-auto mb-3 size-5 text-brand" />

@@ -64,7 +64,7 @@ export async function logAudit(params: {
       action: params.action,
       entityType: params.entityType,
       entityId: params.entityId,
-      metadata: params.metadata,
+      metadata: params.metadata as any,
     },
   });
 }

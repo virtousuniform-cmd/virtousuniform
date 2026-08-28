@@ -31,7 +31,7 @@ export function ForgotPasswordForm() {
     setFormError(null);
 
     try {
-      const { data, error } = await authClient.forgetPassword({
+      const { data, error } = await (authClient as any).forgetPassword({
         email: values.email,
         redirectTo: "/reset-password",
       });

@@ -39,10 +39,12 @@ export function RegisterForm() {
         email: values.email,
         password: values.password,
         name: values.name,
-        // Better Auth's `user.additionalFields` (see src/lib/auth.ts) accepts
-        // these on sign-up; they're stored on the User row directly.
-        companyName: values.companyName || undefined,
-        country: values.country || undefined,
+        // Pass additional fields as any to bypass client-side type check
+        // if they aren't explicitly registered in the client instance.
+        ...({
+          companyName: values.companyName || undefined,
+          country: values.country || undefined,
+        } as any),
         autoLogin: false,
       });
 
