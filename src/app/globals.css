@@ -1,0 +1,273 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ────────────────────────────────────────────────────────────
+   Design Tokens — "Precision Industrial"
+   Charcoal (anchor) / Warm Off-White (surface) / Safety Amber (accent)
+
+   Deliberately NOT the default "corporate blue gradient" every other
+   B2B/industrial site defaults to. Charcoal reads as tooling/carbon
+   fiber rather than generic tech-startup navy; amber is the one bold,
+   memorable color used consistently for every CTA and highlight,
+   nodding to real PPE hi-vis without being loud about it.
+   ──────────────────────────────────────────────────────────── */
+:root {
+  --radius: 0.625rem;
+
+  /* Warm off-white surface — not sterile pure white */
+  --background: oklch(0.985 0.003 75);
+  --foreground: oklch(0.16 0.01 260);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.16 0.01 260);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.16 0.01 260);
+
+  /* Charcoal — the anchor color (header, footer, hero) */
+  --primary: oklch(0.2 0.012 260);
+  --primary-foreground: oklch(0.98 0.003 75);
+
+  --secondary: oklch(0.94 0.005 260);
+  --secondary-foreground: oklch(0.2 0.012 260);
+
+  --muted: oklch(0.955 0.004 75);
+  --muted-foreground: oklch(0.46 0.015 260);
+
+  --accent: oklch(0.5 0.02 258);
+  --accent-foreground: oklch(0.98 0.003 75);
+
+  /* Safety Amber — THE brand accent. Every CTA, stat, and highlight
+     uses this instead of the charcoal, so it stays rare and meaningful. */
+  --brand: oklch(0.74 0.17 55);
+  --brand-foreground: oklch(0.16 0.02 55);
+
+  --success: oklch(0.6 0.14 155);
+  --success-foreground: oklch(0.98 0.01 155);
+
+  --warning: oklch(0.78 0.15 80);
+  --warning-foreground: oklch(0.2 0.05 80);
+
+  --destructive: oklch(0.55 0.21 25);
+  --destructive-foreground: oklch(0.98 0.01 25);
+
+  --border: oklch(0.9 0.006 260);
+  --input: oklch(0.9 0.006 260);
+  --ring: oklch(0.74 0.17 55 / 0.5);
+
+  --chart-1: oklch(0.74 0.17 55);
+  --chart-2: oklch(0.6 0.14 155);
+  --chart-3: oklch(0.5 0.02 258);
+  --chart-4: oklch(0.55 0.1 220);
+  --chart-5: oklch(0.55 0.21 25);
+
+  /* Secondary accent trio — used only for the rare moment charcoal/amber
+     alone feels flat (chart series, background glows). Not a primary
+     brand color, so used sparingly and never on CTAs. */
+  --brand-cyan: oklch(0.72 0.13 220);
+  --brand-violet: oklch(0.58 0.17 290);
+
+  --gradient-brand: linear-gradient(
+    135deg,
+    oklch(0.14 0.01 260) 0%,
+    oklch(0.22 0.015 258) 55%,
+    oklch(0.28 0.02 255) 100%
+  );
+  --gradient-mesh: radial-gradient(at 15% 20%, oklch(0.74 0.17 55 / 0.22) 0px, transparent 50%),
+    radial-gradient(at 85% 15%, oklch(0.5 0.02 258 / 0.35) 0px, transparent 50%),
+    radial-gradient(at 50% 95%, oklch(0.58 0.17 290 / 0.18) 0px, transparent 50%);
+}
+
+.dark {
+  --background: oklch(0.15 0.01 260);
+  --foreground: oklch(0.96 0.005 75);
+
+  --card: oklch(0.19 0.012 260);
+  --card-foreground: oklch(0.96 0.005 75);
+
+  --popover: oklch(0.19 0.012 260);
+  --popover-foreground: oklch(0.96 0.005 75);
+
+  --primary: oklch(0.74 0.17 55);
+  --primary-foreground: oklch(0.16 0.02 55);
+
+  --secondary: oklch(0.25 0.012 260);
+  --secondary-foreground: oklch(0.96 0.005 75);
+
+  --muted: oklch(0.23 0.012 260);
+  --muted-foreground: oklch(0.66 0.015 260);
+
+  --accent: oklch(0.6 0.02 258);
+  --accent-foreground: oklch(0.14 0.01 260);
+
+  --brand: oklch(0.74 0.17 55);
+  --brand-foreground: oklch(0.16 0.02 55);
+
+  --success: oklch(0.65 0.14 155);
+  --success-foreground: oklch(0.14 0.03 155);
+
+  --warning: oklch(0.75 0.15 80);
+  --warning-foreground: oklch(0.18 0.05 80);
+
+  --destructive: oklch(0.65 0.2 25);
+  --destructive-foreground: oklch(0.14 0.03 25);
+
+  --border: oklch(1 0 0 / 0.1);
+  --input: oklch(1 0 0 / 0.15);
+  --ring: oklch(0.74 0.17 55 / 0.5);
+
+  --brand-cyan: oklch(0.78 0.12 220);
+  --brand-violet: oklch(0.66 0.16 290);
+
+  --gradient-brand: linear-gradient(
+    135deg,
+    oklch(0.1 0.008 260) 0%,
+    oklch(0.18 0.012 258) 55%,
+    oklch(0.24 0.018 255) 100%
+  );
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand-cyan: var(--brand-cyan);
+  --color-brand-violet: var(--brand-violet);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-inter), ui-sans-serif, sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  ::selection {
+    background: var(--brand);
+    color: var(--brand-foreground);
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 999px;
+    border: 2px solid var(--background);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-foreground);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .bg-gradient-brand {
+    background-image: var(--gradient-brand);
+  }
+  .bg-gradient-mesh {
+    background-image: var(--gradient-mesh);
+  }
+  .text-gradient-brand {
+    background-image: linear-gradient(135deg, var(--brand) 0%, var(--brand-cyan) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  /* 3D tilt surface — GPU-composited, no JS animation loop required for
+     the base state; only mousemove events update the transform. */
+  .tilt-surface {
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.15s ease-out;
+  }
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  /* Angled section divider referencing an industrial cut-line — CSS
+     clip-path only, no image asset, no layout-shift risk. */
+  .clip-angle-bottom {
+    clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+  }
+  .clip-angle-top {
+    clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
+  }
+  /* Infinite horizontal marquee for the certification/trust-badge strip */
+  .marquee-track {
+    animation: marquee 28s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Respect reduced-motion preference across all custom animations */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

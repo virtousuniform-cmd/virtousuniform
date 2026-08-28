@@ -1,0 +1,719 @@
+// ════════════════════════════════════════════════════════════════
+// Gloves Manufacturing Platform — Prisma Schema
+// Provider: Supabase PostgreSQL
+// ════════════════════════════════════════════════════════════════
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ────────────────────────────────────────────────────────────────
+// ENUMS
+// ────────────────────────────────────────────────────────────────
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+  CUSTOMER
+}
+
+enum StockStatus {
+  IN_STOCK
+  OUT_OF_STOCK
+  MADE_TO_ORDER
+  DISCONTINUED
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  SCHEDULED
+  ARCHIVED
+}
+
+enum RfqStatus {
+  NEW
+  UNDER_REVIEW
+  QUOTED
+  NEGOTIATING
+  AWAITING_CUSTOMER
+  CONFIRMED
+  CLOSED
+  CANCELLED
+}
+
+enum PreferredContactMethod {
+  EMAIL
+  PHONE
+  WHATSAPP
+}
+
+enum MessageSenderType {
+  CUSTOMER
+  ADMIN
+}
+
+enum ContactStatus {
+  NEW
+  IN_PROGRESS
+  RESOLVED
+  ARCHIVED
+}
+
+enum NotificationChannel {
+  IN_APP
+  EMAIL
+  BOTH
+}
+
+enum NotificationType {
+  RFQ_CREATED
+  RFQ_STATUS_CHANGED
+  RFQ_MESSAGE
+  CONTACT_MESSAGE
+  CONTACT_REPLY
+  ACCOUNT
+  SYSTEM
+}
+
+enum GalleryMediaType {
+  IMAGE
+  VIDEO
+}
+
+enum HomepageSectionKey {
+  HERO
+  ABOUT
+  STATISTICS
+  FEATURED_PRODUCTS
+  INDUSTRIES_SERVED
+  MANUFACTURING_PROCESS
+  CERTIFICATES
+  FACTORY_IMAGES
+  TESTIMONIALS
+  GLOBAL_PRESENCE
+  LATEST_BLOG
+  FAQ
+  CTA
+  FOOTER
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  LOGIN
+  LOGOUT
+  STATUS_CHANGE
+  EXPORT
+}
+
+// ────────────────────────────────────────────────────────────────
+// AUTH (Better Auth compatible models)
+// ────────────────────────────────────────────────────────────────
+
+model User {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  image         String?
+  phone         String?
+  companyName   String?
+  country       String?
+  role          Role     @default(CUSTOMER)
+  isActive      Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  accounts      Account[]
+  sessions      Session[]
+  rfqs          Rfq[]
+  savedProducts SavedProduct[]
+  notifications Notification[]
+  contactMessages ContactMessage[]
+  rfqMessages   RfqMessage[]
+  contactReplies ContactReply[]
+  auditLogs     AuditLog[]
+  blogPosts     BlogPost[]
+  testimonialsApproved Testimonial[] @relation("TestimonialApprovedBy")
+
+  @@index([email])
+  @@index([role])
+  @@map("users")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  userId                String
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  idToken               String?
+  password              String?
+  issuer                String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, accountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  ipAddress String?
+  userAgent String?
+  expiresAt DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verifications")
+}
+
+// ────────────────────────────────────────────────────────────────
+// CATALOG: Categories & Products
+// ────────────────────────────────────────────────────────────────
+
+model Category {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  description String?
+  image       String?
+  isVisible   Boolean @default(true)
+  sortOrder   Int     @default(0)
+
+  parentId String?
+  parent   Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  children Category[] @relation("CategoryHierarchy")
+
+  seoTitle       String?
+  seoDescription String?
+
+  products Product[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([parentId])
+  @@index([slug])
+  @@map("categories")
+}
+
+model Product {
+  id                String      @id @default(cuid())
+  name              String
+  slug              String      @unique
+  sku               String?     @unique
+  modelNumber       String?
+  shortDescription  String?
+  longDescription   String?     @db.Text
+
+  material    String?
+  application String?
+  color       String[]
+  sizes       String[]
+  packaging   String?
+  moq         String?
+  weight      String?
+
+  stockStatus StockStatus @default(IN_STOCK)
+  isFeatured  Boolean     @default(false)
+  status      ContentStatus @default(DRAFT)
+
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  images      ProductImage[]
+  brochurePdf String?
+  videoUrl    String?
+
+  specifications ProductSpecification[]
+  certificates   ProductCertificate[]
+
+  relatedTo   Product[] @relation("RelatedProducts")
+  relatedFrom Product[] @relation("RelatedProducts")
+
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String[]
+
+  rfqItems      RfqItem[]
+  savedByUsers  SavedProduct[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([categoryId])
+  @@index([slug])
+  @@index([status])
+  @@index([isFeatured])
+  @@map("products")
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  url       String
+  altText   String?
+  isPrimary Boolean @default(false)
+  sortOrder Int     @default(0)
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+  @@map("product_images")
+}
+
+model ProductSpecification {
+  id        String @id @default(cuid())
+  productId String
+  label     String
+  value     String
+  sortOrder Int    @default(0)
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@map("product_specifications")
+}
+
+model ProductCertificate {
+  id            String @id @default(cuid())
+  productId     String
+  certificateId String
+
+  product     Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  certificate Certificate @relation(fields: [certificateId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, certificateId])
+  @@map("product_certificates")
+}
+
+model SavedProduct {
+  id        String @id @default(cuid())
+  userId    String
+  productId String
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+  @@index([userId])
+  @@map("saved_products")
+}
+
+// ────────────────────────────────────────────────────────────────
+// RFQ (Request For Quotation)
+// ────────────────────────────────────────────────────────────────
+
+model Rfq {
+  id     String    @id @default(cuid())
+  refNo  String    @unique // e.g. RFQ-2026-000123
+  status RfqStatus @default(NEW)
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  companyName            String
+  contactName            String
+  email                  String
+  phone                  String
+  country                String
+  quantity               String
+  requirements           String?  @db.Text
+  preferredContactMethod PreferredContactMethod @default(EMAIL)
+
+  items       RfqItem[]
+  attachments RfqAttachment[]
+  messages    RfqMessage[]
+
+  assignedToAdminId String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  closedAt  DateTime?
+
+  @@index([userId])
+  @@index([status])
+  @@index([refNo])
+  @@map("rfqs")
+}
+
+model RfqItem {
+  id        String  @id @default(cuid())
+  rfqId     String
+  productId String?
+  quantity  String?
+  notes     String?
+
+  rfq     Rfq      @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  product Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  @@index([rfqId])
+  @@map("rfq_items")
+}
+
+model RfqAttachment {
+  id       String @id @default(cuid())
+  rfqId    String
+  fileUrl  String
+  fileName String
+  fileType String?
+
+  rfq Rfq @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([rfqId])
+  @@map("rfq_attachments")
+}
+
+model RfqMessage {
+  id         String            @id @default(cuid())
+  rfqId      String
+  senderType MessageSenderType
+  senderId   String?
+
+  message     String  @db.Text
+  attachments String[]
+  isRead      Boolean @default(false)
+
+  rfq    Rfq   @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  sender User? @relation(fields: [senderId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([rfqId])
+  @@map("rfq_messages")
+}
+
+// ────────────────────────────────────────────────────────────────
+// CONTACT
+// ────────────────────────────────────────────────────────────────
+
+model ContactMessage {
+  id      String        @id @default(cuid())
+  name    String
+  email   String
+  phone   String?
+  subject String
+  message String        @db.Text
+  status  ContactStatus @default(NEW)
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  replies ContactReply[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([userId])
+  @@map("contact_messages")
+}
+
+model ContactReply {
+  id               String @id @default(cuid())
+  contactMessageId String
+  adminId          String?
+  message          String @db.Text
+
+  contactMessage ContactMessage @relation(fields: [contactMessageId], references: [id], onDelete: Cascade)
+  admin          User?          @relation(fields: [adminId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([contactMessageId])
+  @@map("contact_replies")
+}
+
+// ────────────────────────────────────────────────────────────────
+// BLOG
+// ────────────────────────────────────────────────────────────────
+
+model BlogPost {
+  id            String        @id @default(cuid())
+  title         String
+  slug          String        @unique
+  excerpt       String?
+  content       String        @db.Text
+  featuredImage String?
+  status        ContentStatus @default(DRAFT)
+  publishedAt   DateTime?
+  scheduledAt   DateTime?
+
+  authorId String?
+  author   User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  categoryId String?
+  category   BlogCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  tags BlogPostTag[]
+
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([slug])
+  @@index([status])
+  @@index([categoryId])
+  @@map("blog_posts")
+}
+
+model BlogCategory {
+  id   String @id @default(cuid())
+  name String
+  slug String @unique
+
+  posts BlogPost[]
+
+  @@map("blog_categories")
+}
+
+model BlogTag {
+  id   String @id @default(cuid())
+  name String @unique
+  slug String @unique
+
+  posts BlogPostTag[]
+
+  @@map("blog_tags")
+}
+
+model BlogPostTag {
+  postId String
+  tagId  String
+
+  post BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag  BlogTag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+  @@map("blog_post_tags")
+}
+
+// ────────────────────────────────────────────────────────────────
+// GALLERY
+// ────────────────────────────────────────────────────────────────
+
+model GalleryAlbum {
+  id          String  @id @default(cuid())
+  title       String
+  slug        String  @unique
+  description String?
+  coverImage  String?
+
+  media GalleryMedia[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("gallery_albums")
+}
+
+model GalleryMedia {
+  id      String           @id @default(cuid())
+  albumId String?
+  type    GalleryMediaType @default(IMAGE)
+  url     String
+  caption String?
+  sortOrder Int @default(0)
+
+  album GalleryAlbum? @relation(fields: [albumId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([albumId])
+  @@map("gallery_media")
+}
+
+// ────────────────────────────────────────────────────────────────
+// TESTIMONIALS & CERTIFICATIONS
+// ────────────────────────────────────────────────────────────────
+
+model Testimonial {
+  id             String  @id @default(cuid())
+  customerName   String
+  companyName    String?
+  country        String?
+  image          String?
+  rating         Int     @default(5)
+  review         String  @db.Text
+  isApproved     Boolean @default(false)
+  isFeatured     Boolean @default(false)
+
+  approvedById String?
+  approvedBy   User?   @relation("TestimonialApprovedBy", fields: [approvedById], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isApproved])
+  @@map("testimonials")
+}
+
+model Certificate {
+  id          String   @id @default(cuid())
+  title       String
+  issuer      String?
+  fileUrl     String
+  thumbnail   String?
+  issuedDate  DateTime?
+  expiryDate  DateTime?
+  sortOrder   Int      @default(0)
+
+  products ProductCertificate[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("certificates")
+}
+
+// ────────────────────────────────────────────────────────────────
+// NOTIFICATIONS
+// ────────────────────────────────────────────────────────────────
+
+model Notification {
+  id      String              @id @default(cuid())
+  userId  String
+  type    NotificationType
+  channel NotificationChannel @default(IN_APP)
+  title   String
+  body    String
+  link    String?
+  isRead  Boolean             @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+  @@map("notifications")
+}
+
+// ────────────────────────────────────────────────────────────────
+// CMS (Homepage & site-wide content, no hardcoding)
+// ────────────────────────────────────────────────────────────────
+
+model HomepageSection {
+  id      String             @id @default(cuid())
+  key     HomepageSectionKey @unique
+  isVisible Boolean          @default(true)
+  sortOrder Int              @default(0)
+  content   Json             // flexible per-section structured content
+
+  updatedAt DateTime @updatedAt
+
+  @@map("homepage_sections")
+}
+
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value Json
+
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+model FaqItem {
+  id        String  @id @default(cuid())
+  question  String
+  answer    String  @db.Text
+  category  String?
+  sortOrder Int     @default(0)
+  isVisible Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("faq_items")
+}
+
+model Career {
+  id          String        @id @default(cuid())
+  title       String
+  slug        String        @unique
+  department  String?
+  location    String?
+  employmentType String?
+  description String        @db.Text
+  status      ContentStatus @default(DRAFT)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("careers")
+}
+
+// ────────────────────────────────────────────────────────────────
+// AUDIT LOG
+// ────────────────────────────────────────────────────────────────
+
+model AuditLog {
+  id         String      @id @default(cuid())
+  userId     String?
+  action     AuditAction
+  entityType String
+  entityId   String?
+  metadata   Json?
+  ipAddress  String?
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([entityType, entityId])
+  @@map("audit_logs")
+}
