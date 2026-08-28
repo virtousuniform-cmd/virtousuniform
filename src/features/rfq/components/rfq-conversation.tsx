@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn, formatDate } from "@/lib/utils";
 import { sendRfqMessageAction } from "../actions/rfq-message.action";
+import { supabasePublic } from "@/lib/supabase";
 
 type Message = {
   id: string;
@@ -29,6 +30,39 @@ export function RfqConversation({
   const [draft, setDraft] = useState("");
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const channel = supabasePublic
+      .channel(`rfq-${rfqId}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "rfq_messages",
+          filter: `rfqId=eq.${rfqId}`,
+        },
+        (payload) => {
+          const newMessage = payload.new as Message;
+          setItems((prev) => {
+            if (prev.find((m) => m.id === newMessage.id)) return prev;
+            return [...prev, newMessage];
+          });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabasePublic.removeChannel(channel);
+    };
+  }, [rfqId]);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [items]);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -55,7 +89,10 @@ export function RfqConversation({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="max-h-[420px] space-y-3 overflow-y-auto rounded-lg border border-border bg-muted/30 p-4">
+      <div
+        ref={scrollRef}
+        className="max-h-[420px] space-y-3 overflow-y-auto rounded-lg border border-border bg-muted/30 p-4"
+      >
         {items.length === 0 && (
           <p className="py-8 text-center text-sm text-muted-foreground">
             No messages yet. Start the conversation below.

@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { headers } from "next/headers";
 import type { Metadata } from "next";
-import { Heart, FileText, MessageSquare, ArrowRight } from "lucide-react";
+import { Heart, FileText, MessageSquare, ArrowRight, ExternalLink } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { savedProductRepository } from "@/features/products/repositories/saved-product.repository";
 import { rfqRepository } from "@/features/rfq/repositories/rfq.repository";
 import { RfqStatusBadge } from "@/features/rfq/components/rfq-status-badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Dashboard" };
@@ -25,13 +26,24 @@ export default async function DashboardOverviewPage() {
 
   return (
     <div className="space-y-6 p-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-foreground">
-          Welcome back, {session!.user.name.split(" ")[0]}
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Here&apos;s what&apos;s happening with your account.
-        </p>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold text-foreground">
+            Welcome back, {session!.user.name.split(" ")[0]}
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Here&apos;s what&apos;s happening with your account.
+          </p>
+        </div>
+        <Button variant="outline" size="sm" asChild className="gap-2">
+          <a
+            href={process.env.NEXT_PUBLIC_COMPANY_WEBSITE_URL || "https://glovesmfg.com"}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Visit Website <ExternalLink className="size-3.5" />
+          </a>
+        </Button>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">

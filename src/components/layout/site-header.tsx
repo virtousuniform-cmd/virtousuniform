@@ -112,13 +112,31 @@ export function SiteHeader() {
           </Button>
         </div>
 
-        <button
-          className="p-2 text-primary-foreground lg:hidden"
-          onClick={() => setMobileOpen((o) => !o)}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-        >
-          {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
+        <div className="flex items-center gap-1 lg:hidden">
+          {!isPending && !session && (
+            <Link
+              href="/login"
+              className="px-3 py-2 text-sm font-medium text-primary-foreground/90 hover:text-primary-foreground"
+            >
+              Sign In
+            </Link>
+          )}
+          {session && (
+            <Link
+              href={dashboardHref}
+              className="flex size-9 items-center justify-center rounded-md text-primary-foreground/90 hover:bg-white/10"
+            >
+              <User className="size-5" />
+            </Link>
+          )}
+          <button
+            className="flex size-9 items-center justify-center rounded-md text-primary-foreground/90 hover:bg-white/10"
+            onClick={() => setMobileOpen((o) => !o)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          >
+            {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+          </button>
+        </div>
       </div>
 
       {mobileOpen && (

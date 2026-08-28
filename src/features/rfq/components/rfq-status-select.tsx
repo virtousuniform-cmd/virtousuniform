@@ -9,7 +9,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { updateRfqStatusAction } from "../actions/update-rfq-status.action";
+import { updateRfqStatusAction } from "../actions/rfq.actions";
 import { RFQ_STATUS_LABELS, RFQ_STATUS_OPTIONS } from "./rfq-status-badge";
 
 export function RfqStatusSelect({

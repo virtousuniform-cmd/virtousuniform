@@ -1,21 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Info } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
+import { useSession } from "@/lib/auth-client";
 
 import { contactFormSchema, type ContactFormValues } from "../schemas/contact.schema";
 import { createContactMessageAction } from "../actions/create-contact-message.action";
 
 export function ContactForm() {
+  const router = useRouter();
+  const { data: session, isPending } = useSession();
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -28,6 +32,15 @@ export function ContactForm() {
   });
 
   async function onSubmit(values: ContactFormValues) {
+    if (!session) {
+      toast.info("Registration Required", {
+        description: "Create a free account to send your message — it takes less than a minute, and lets you track responses directly from your dashboard.",
+        duration: 6000,
+      });
+      router.push("/register?redirect=/contact");
+      return;
+    }
+
     setSubmitting(true);
     const result = await createContactMessageAction(values);
     setSubmitting(false);

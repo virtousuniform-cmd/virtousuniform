@@ -69,4 +69,8 @@ export const contactRepository = {
       orderBy: { createdAt: "desc" },
     });
   },
+
+  async delete(id: string) {
+    return prisma.contactMessage.delete({ where: { id } });
+  },
 };

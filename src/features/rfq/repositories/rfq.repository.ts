@@ -36,7 +36,17 @@ export const rfqRepository = {
     return prisma.rfq.findUnique({
       where: { id },
       include: {
-        items: { include: { product: true } },
+        items: {
+          include: {
+            product: {
+              include: {
+                category: true,
+                images: { orderBy: { sortOrder: "asc" }, take: 1 },
+                specifications: { orderBy: { sortOrder: "asc" }, take: 3 },
+              },
+            },
+          },
+        },
         attachments: true,
         messages: { orderBy: { createdAt: "asc" } },
         user: { select: { id: true, name: true, email: true } },
@@ -78,6 +88,12 @@ export const rfqRepository = {
 
   async countAll() {
     return prisma.rfq.count();
+  },
+
+  async delete(id: string) {
+    return prisma.rfq.delete({
+      where: { id },
+    });
   },
 
   async addMessage(rfqId: string, senderType: "CUSTOMER" | "ADMIN", senderId: string | undefined, message: string) {

@@ -55,4 +55,10 @@ export const notificationService = {
       data: { isRead: true },
     });
   },
+
+  async clearAll(userId: string) {
+    return prisma.notification.deleteMany({
+      where: { userId },
+    });
+  },
 };

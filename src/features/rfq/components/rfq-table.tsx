@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
 import { RfqStatusBadge } from "./rfq-status-badge";
 import { formatDate } from "@/lib/utils";
+import { DeleteRfqButton } from "./delete-rfq-button";
+import { RfqPdfButton } from "./rfq-pdf-button";
 
 type RfqRow = {
   id: string;
@@ -26,11 +28,12 @@ export function RfqTable({ rfqs }: { rfqs: RfqRow[] }) {
             <TableHead>Country</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Submitted</TableHead>
+            <TableHead className="w-24 text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {rfqs.map((rfq) => (
-            <TableRow key={rfq.id} className="cursor-pointer">
+            <TableRow key={rfq.id}>
               <TableCell className="font-medium text-foreground">
                 <Link href={`/admin/rfqs/${rfq.id}`} className="hover:underline">
                   {rfq.refNo}
@@ -44,6 +47,16 @@ export function RfqTable({ rfqs }: { rfqs: RfqRow[] }) {
               </TableCell>
               <TableCell className="text-muted-foreground">
                 {formatDate(rfq.createdAt)}
+              </TableCell>
+              <TableCell>
+                <div className="flex justify-end gap-1">
+                  <RfqPdfButton
+                    rfqId={rfq.id}
+                    refNo={rfq.refNo}
+                    customerName={rfq.contactName}
+                  />
+                  <DeleteRfqButton rfqId={rfq.id} refNo={rfq.refNo} />
+                </div>
               </TableCell>
             </TableRow>
           ))}

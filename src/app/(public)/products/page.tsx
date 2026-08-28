@@ -9,6 +9,7 @@ import { AdminPagination } from "@/components/shared/admin-pagination";
 import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { TiltCard } from "@/components/motion/tilt-card";
 import { cn } from "@/lib/utils";
+import { DownloadCatalogueButton } from "@/features/products/components/download-catalogue-button";
 
 export const metadata: Metadata = {
   title: "Products",
@@ -39,15 +40,20 @@ export default async function ProductsPage({
       {/* Charcoal page header — matches header/footer, gives every
           non-homepage page the same premium anchor point. */}
       <div className="bg-primary py-16">
-        <div className="mx-auto max-w-7xl px-6">
-          <p className="text-sm font-medium tracking-wide text-brand uppercase">Catalog</p>
-          <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight text-primary-foreground sm:text-4xl">
-            Find the Right Glove for the Job
-          </h1>
-          <p className="mt-3 max-w-2xl text-primary-foreground/70">
-            Precision-engineered gloves for industrial, medical, and specialty applications —
-            manufactured to international quality standards.
-          </p>
+        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-6 md:flex-row md:items-end">
+          <div>
+            <p className="text-sm font-medium tracking-wide text-brand uppercase">Catalog</p>
+            <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight text-primary-foreground sm:text-4xl">
+              Find the Right Glove for the Job
+            </h1>
+            <p className="mt-3 max-w-2xl text-primary-foreground/70">
+              Precision-engineered gloves for industrial, medical, and specialty applications —
+              manufactured to international quality standards.
+            </p>
+          </div>
+          <div className="shrink-0">
+            <DownloadCatalogueButton />
+          </div>
         </div>
       </div>
 

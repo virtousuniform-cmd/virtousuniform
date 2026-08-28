@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { rfqRepository } from "@/features/rfq/repositories/rfq.repository";
@@ -6,6 +7,7 @@ import { RfqStatusSelect } from "@/features/rfq/components/rfq-status-select";
 import { RfqConversation } from "@/features/rfq/components/rfq-conversation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDate } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = { title: "Request for Quotation — Admin" };
 
@@ -44,32 +46,72 @@ export default async function AdminRfqDetailPage({
               ) : (
                 <ul className="divide-y divide-border">
                   {rfq.items.map((item) => (
-                    <li key={item.id} className="flex items-center justify-between py-2 text-sm">
-                      <div>
-                        <p className="font-medium text-foreground">
-                          {item.product ? (
-                            <Link
-                              href={`/admin/products/${item.product.id}`}
-                              className="hover:underline"
-                            >
-                              {item.product.name}
-                            </Link>
-                          ) : (
-                            "Custom item"
-                          )}
-                        </p>
+                    <li key={item.id} className="flex gap-4 py-4 first:pt-0 last:pb-0">
+                      {item.product?.images?.[0] ? (
+                        <div className="relative size-20 shrink-0 overflow-hidden rounded-md border border-border bg-muted">
+                          <Image
+                            src={item.product.images[0].url}
+                            alt={item.product.images[0].altText || item.product.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex size-20 shrink-0 items-center justify-center rounded-md border border-dashed border-border bg-muted text-xs text-muted-foreground">
+                          No image
+                        </div>
+                      )}
+                      <div className="flex-1 space-y-1">
+                        <div className="flex items-start justify-between gap-4">
+                          <div>
+                            <p className="font-medium text-foreground">
+                              {item.product ? (
+                                <Link
+                                  href={`/products/${item.product.slug}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="hover:underline"
+                                >
+                                  {item.product.name}
+                                </Link>
+                              ) : (
+                                "Custom item"
+                              )}
+                            </p>
+                            {item.product?.category && (
+                              <p className="text-xs text-muted-foreground">
+                                Category: {item.product.category.name}
+                              </p>
+                            )}
+                          </div>
+                          <Badge variant="outline" className="shrink-0">
+                            Qty: {item.quantity}
+                          </Badge>
+                        </div>
+
+                        {item.product?.specifications && item.product.specifications.length > 0 && (
+                          <div className="flex flex-wrap gap-x-4 gap-y-1 pt-1">
+                            {item.product.specifications.map((spec) => (
+                              <p key={spec.id} className="text-xs text-muted-foreground">
+                                <span className="font-medium text-foreground/70">{spec.label}:</span> {spec.value}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+
                         {item.notes && (
-                          <p className="text-muted-foreground">{item.notes}</p>
+                          <p className="rounded bg-muted px-2 py-1 text-xs text-muted-foreground">
+                            Note: {item.notes}
+                          </p>
                         )}
                       </div>
-                      <span className="text-muted-foreground">{item.quantity}</span>
                     </li>
                   ))}
                 </ul>
               )}
               {rfq.requirements && (
-                <div className="mt-4 rounded-md bg-muted/50 p-3 text-sm">
-                  <p className="mb-1 font-medium text-foreground">Additional requirements</p>
+                <div className="mt-6 rounded-md bg-muted/50 p-4 text-sm">
+                  <p className="mb-2 font-medium text-foreground">Detailed requirements</p>
                   <p className="whitespace-pre-line text-muted-foreground">
                     {rfq.requirements}
                   </p>

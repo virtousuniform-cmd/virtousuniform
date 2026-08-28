@@ -5,6 +5,7 @@ import { ContactReplyForm } from "@/features/contact/components/contact-reply-fo
 import { ContactStatusSelect } from "@/features/contact/components/contact-status-select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDate } from "@/lib/utils";
+import { DeleteMessageButton } from "@/features/contact/components/delete-message-button";
 
 export const metadata: Metadata = { title: "Message — Admin" };
 
@@ -26,7 +27,14 @@ export default async function AdminMessageDetailPage({
           </p>
           <h1 className="text-2xl font-semibold text-foreground">{message.subject}</h1>
         </div>
-        <ContactStatusSelect contactMessageId={message.id} initialStatus={message.status} />
+        <div className="flex items-center gap-3">
+          <ContactStatusSelect contactMessageId={message.id} initialStatus={message.status} />
+          <DeleteMessageButton
+            messageId={message.id}
+            subject={message.subject}
+            redirectTo="/admin/messages"
+          />
+        </div>
       </div>
 
       <Card>

@@ -7,6 +7,7 @@ import { contactRepository } from "@/features/contact/repositories/contact.repos
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDate } from "@/lib/utils";
+import { DeleteMessageButton } from "@/features/contact/components/delete-message-button";
 
 export const metadata: Metadata = { title: "Messages" };
 
@@ -44,7 +45,10 @@ export default async function CustomerMessagesPage() {
             <Card key={msg.id}>
               <CardHeader className="flex-row items-center justify-between">
                 <CardTitle className="text-base">{msg.subject}</CardTitle>
-                <Badge variant="outline">{STATUS_LABELS[msg.status] ?? msg.status}</Badge>
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline">{STATUS_LABELS[msg.status] ?? msg.status}</Badge>
+                  <DeleteMessageButton messageId={msg.id} subject={msg.subject} />
+                </div>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div>
