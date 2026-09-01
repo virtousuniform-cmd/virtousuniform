@@ -115,7 +115,7 @@ export const productRepository = {
         specifications: {
           create: data.specifications.map((s, i) => ({ ...s, sortOrder: i })),
         },
-      },
+      } as any,
     });
   },
 
@@ -154,7 +154,7 @@ export const productRepository = {
           specifications: {
             create: data.specifications.map((s, i) => ({ ...s, sortOrder: i })),
           },
-        },
+        } as any,
       });
     });
   },

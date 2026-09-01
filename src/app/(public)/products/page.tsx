@@ -98,74 +98,77 @@ export default async function ProductsPage({
           </div>
         ) : (
           <RevealGroup className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {items.map((product) => (
-              <RevealItem key={product.id}>
-                <TiltCard maxTilt={5} className="rounded-xl">
-                  <Link
-                    href={`/products/${product.slug}`}
-                    className="group block overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-shadow hover:shadow-lg"
-                  >
-                    <div className="relative aspect-[4/3] bg-muted">
-                      {product.images[0] ? (
-                        <Image
-                          src={product.images[0].url}
-                          alt={product.images[0].altText ?? product.name}
-                          fill
-                          sizes="(max-width: 640px) 100vw, 33vw"
-                          className="object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                      ) : (
-                        <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
-                          No image
-                        </div>
-                      )}
-                      {product.isFeatured && (
-                        <Badge variant="brand" className="absolute top-3 left-3">
-                          Featured
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="space-y-1.5 p-4">
-                      {product.category && (
-                        <p className="text-xs font-medium text-brand uppercase">
-                          {product.category.name}
-                        </p>
-                      )}
-                      <h3 className="font-medium text-foreground group-hover:text-brand">
-                        {product.name}
-                      </h3>
-                      {product.shortDescription && (
-                        <p className="line-clamp-2 text-sm text-muted-foreground">
-                          {product.shortDescription}
-                        </p>
-                      )}
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {product.protectionLevel && (
-                          <span className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground uppercase">
-                            {product.protectionLevel}
-                          </span>
+            {items.map((item) => {
+              const product = item as any;
+              return (
+                <RevealItem key={product.id}>
+                  <TiltCard maxTilt={5} className="rounded-xl">
+                    <Link
+                      href={`/products/${product.slug}`}
+                      className="group block overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-shadow hover:shadow-lg"
+                    >
+                      <div className="relative aspect-[4/3] bg-muted">
+                        {product.images[0] ? (
+                          <Image
+                            src={product.images[0].url}
+                            alt={product.images[0].altText ?? product.name}
+                            fill
+                            sizes="(max-width: 640px) 100vw, 33vw"
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
+                            No image
+                          </div>
                         )}
-                        {product.material && (
-                          <span className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground uppercase">
-                            {product.material}
-                          </span>
+                        {product.isFeatured && (
+                          <Badge variant="brand" className="absolute top-3 left-3">
+                            Featured
+                          </Badge>
                         )}
                       </div>
-                    </div>
-                    <div className="mt-auto border-t border-border p-4 pt-0">
-                      <div className="flex items-center justify-between pt-4">
-                        <span className="text-xs font-semibold text-brand uppercase tracking-wider">
-                          View Specs
-                        </span>
-                        <div className="size-8 rounded-full bg-primary/5 flex items-center justify-center group-hover:bg-brand/10 group-hover:text-brand transition-colors">
-                          <Search className="size-3.5" />
+                      <div className="space-y-1.5 p-4">
+                        {product.category && (
+                          <p className="text-xs font-medium text-brand uppercase">
+                            {product.category.name}
+                          </p>
+                        )}
+                        <h3 className="font-medium text-foreground group-hover:text-brand">
+                          {product.name}
+                        </h3>
+                        {product.shortDescription && (
+                          <p className="line-clamp-2 text-sm text-muted-foreground">
+                            {product.shortDescription}
+                          </p>
+                        )}
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {product.protectionLevel && (
+                            <span className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground uppercase">
+                              {product.protectionLevel}
+                            </span>
+                          )}
+                          {product.material && (
+                            <span className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground uppercase">
+                              {product.material}
+                            </span>
+                          )}
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                </TiltCard>
-              </RevealItem>
-            ))}
+                      <div className="mt-auto border-t border-border p-4 pt-0">
+                        <div className="flex items-center justify-between pt-4">
+                          <span className="text-xs font-semibold text-brand uppercase tracking-wider">
+                            View Specs
+                          </span>
+                          <div className="size-8 rounded-full bg-primary/5 flex items-center justify-center group-hover:bg-brand/10 group-hover:text-brand transition-colors">
+                            <Search className="size-3.5" />
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </TiltCard>
+                </RevealItem>
+              );
+            })}
           </RevealGroup>
         )}
 

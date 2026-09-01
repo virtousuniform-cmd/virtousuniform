@@ -13,12 +13,13 @@ export default async function EditProductPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [product, categories] = await Promise.all([
+  const [productData, categories] = await Promise.all([
     productRepository.findById(id),
     categoryRepository.findAll(),
   ]);
 
-  if (!product) notFound();
+  if (!productData) notFound();
+  const product = productData as any;
 
   return (
     <div className="mx-auto max-w-4xl space-y-6 p-6">
@@ -43,9 +44,9 @@ export default async function EditProductPage({
           material: product.material ?? "",
           coating: product.coating ?? "",
           protectionLevel: product.protectionLevel ?? "",
-          applications: (product as any).applications,
+          applications: product.applications,
           features: product.features,
-          colors: (product as any).colors,
+          colors: product.colors,
           sizes: product.sizes,
           packaging: product.packaging ?? "",
           moq: product.moq ?? "",
@@ -55,7 +56,7 @@ export default async function EditProductPage({
           isFeatured: product.isFeatured,
           brochurePdf: product.brochurePdf ?? "",
           videoUrl: product.videoUrl ?? "",
-          specifications: product.specifications.map((s) => ({
+          specifications: product.specifications.map((s: any) => ({
             label: s.label,
             value: s.value,
           })),
