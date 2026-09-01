@@ -10,6 +10,8 @@ import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { TiltCard } from "@/components/motion/tilt-card";
 import { cn } from "@/lib/utils";
 import { DownloadCatalogueButton } from "@/features/products/components/download-catalogue-button";
+import { Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 export const metadata: Metadata = {
   title: "Products",
@@ -61,17 +63,31 @@ export default async function ProductsPage({
           PPE brands use so a buyer can jump straight to their use case
           instead of scanning an unfiltered grid. Pure server-rendered
           links (query params), no client JS needed. */}
-      <div className="border-b border-border bg-card py-4">
-        <div className="mx-auto flex max-w-7xl flex-wrap gap-2 px-6">
-          <FilterPill href="/products" active={!query.categoryId} label="All Products" />
-          {categories.map((c) => (
-            <FilterPill
-              key={c.id}
-              href={`/products?categoryId=${c.id}`}
-              active={query.categoryId === c.id}
-              label={c.name}
-            />
-          ))}
+      <div className="border-b border-border bg-card py-6">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-wrap gap-2">
+              <FilterPill href="/products" active={!query.categoryId} label="All Products" />
+              {categories.map((c) => (
+                <FilterPill
+                  key={c.id}
+                  href={`/products?categoryId=${c.id}`}
+                  active={query.categoryId === c.id}
+                  label={c.name}
+                />
+              ))}
+            </div>
+
+            <form action="/products" className="relative w-full max-w-sm">
+              <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                name="search"
+                defaultValue={query.search}
+                placeholder="Search products..."
+                className="pl-9"
+              />
+            </form>
+          </div>
         </div>
       </div>
 
@@ -123,6 +139,28 @@ export default async function ProductsPage({
                           {product.shortDescription}
                         </p>
                       )}
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {product.protectionLevel && (
+                          <span className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground uppercase">
+                            {product.protectionLevel}
+                          </span>
+                        )}
+                        {product.material && (
+                          <span className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground uppercase">
+                            {product.material}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="mt-auto border-t border-border p-4 pt-0">
+                      <div className="flex items-center justify-between pt-4">
+                        <span className="text-xs font-semibold text-brand uppercase tracking-wider">
+                          View Specs
+                        </span>
+                        <div className="size-8 rounded-full bg-primary/5 flex items-center justify-center group-hover:bg-brand/10 group-hover:text-brand transition-colors">
+                          <Search className="size-3.5" />
+                        </div>
+                      </div>
                     </div>
                   </Link>
                 </TiltCard>

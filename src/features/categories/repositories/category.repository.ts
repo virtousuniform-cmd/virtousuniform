@@ -31,6 +31,18 @@ export const categoryRepository = {
     return prisma.category.findUnique({ where: { id } });
   },
 
+  async findBySlug(slug: string) {
+    return prisma.category.findUnique({
+      where: { slug, deletedAt: null, isVisible: true },
+      include: {
+        products: {
+          where: { status: "PUBLISHED", deletedAt: null },
+          include: { images: { take: 1 } },
+        },
+      },
+    });
+  },
+
   async slugExists(slug: string, excludeId?: string) {
     const existing = await prisma.category.findFirst({
       where: { slug, ...(excludeId && { id: { not: excludeId } }) },

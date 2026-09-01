@@ -11,46 +11,125 @@ async function main() {
   //   pnpm promote:admin you@example.com
   // See scripts/promote-admin.ts for details.
 
-  // ── Sample category & product ─────────────────────────────
-  const category = await prisma.category.upsert({
-    where: { slug: "industrial-safety-gloves" },
-    update: {},
-    create: {
-      name: "Industrial Safety Gloves",
-      slug: "industrial-safety-gloves",
-      description: "Cut-resistant and heavy-duty gloves for industrial applications.",
-      isVisible: true,
-      sortOrder: 1,
+  // ── Categories ─────────────────────────────────────────────
+  const categoriesData = [
+    {
+      name: "Industrial Safety",
+      slug: "industrial-safety",
+      description: "High-performance protection for manufacturing, construction, and heavy industry.",
     },
-  });
+    {
+      name: "Medical & Healthcare",
+      slug: "medical-healthcare",
+      description: "Sterile and non-sterile examination gloves meeting international health standards.",
+    },
+    {
+      name: "Chemical Resistant",
+      slug: "chemical-resistant",
+      description: "Specialized barrier protection against hazardous substances and solvents.",
+    },
+    {
+      name: "Food Processing",
+      slug: "food-processing",
+      description: "FDA-compliant gloves designed for safe and hygienic food handling.",
+    },
+  ];
 
-  await prisma.product.upsert({
-    where: { slug: "cut-resistant-nitrile-gloves" },
-    update: {},
-    create: {
-      name: "Cut-Resistant Nitrile Coated Gloves",
-      slug: "cut-resistant-nitrile-gloves",
-      sku: "GLV-NIT-001",
-      shortDescription: "ANSI Cut Level A4 nitrile-coated safety gloves.",
+  const categories = await Promise.all(
+    categoriesData.map((cat) =>
+      prisma.category.upsert({
+        where: { slug: cat.slug },
+        update: {},
+        create: { ...cat, isVisible: true },
+      })
+    )
+  );
+
+  const industrialCat = categories.find((c) => c.slug === "industrial-safety")!;
+  const medicalCat = categories.find((c) => c.slug === "medical-healthcare")!;
+
+  // ── Products (DEMO CONTENT) ──────────────────────────────
+  const demoProducts = [
+    {
+      name: "Pro-Grip Nitrile Coated Safety Gloves",
+      slug: "pro-grip-nitrile-coated",
+      sku: "DEMO-IND-001",
+      shortDescription: "[DEMO] ANSI Cut Level A3 nitrile-coated industrial gloves.",
       longDescription:
-        "Engineered for demanding industrial environments, offering superior grip, abrasion resistance, and cut protection without sacrificing dexterity.",
-      material: "Nitrile / HPPE blend",
-      application: "Manufacturing, Logistics, Construction",
-      color: ["Black", "Gray"],
+        "NOTE: THIS IS DEMO CONTENT. The Pro-Grip series provides excellent manual dexterity and a secure grip in oily conditions. Designed for assembly lines and general maintenance.\n\nKey Performance Characteristics:\n- High abrasion resistance for extended wear life.\n- Breathable liner ensures comfort during long shifts.\n- Ergonomic design reduces hand fatigue.",
+      material: "HPPE / Glass Fiber",
+      coating: "Sandy Nitrile",
+      protectionLevel: "ANSI Cut A3, EN388 4X42C",
+      applications: ["Automotive", "Metal Fabrication", "Glass Handling", "Assembly"],
+      features: ["Breathable back", "Reinforced thumb crotch", "Oeko-Tex certified", "Touchscreen compatible"],
+      colors: ["High-viz Yellow", "Gray", "Black"],
       sizes: ["S", "M", "L", "XL", "XXL"],
-      packaging: "12 pairs / bag, 12 bags / carton",
-      moq: "5,000 pairs",
-      weight: "45g per pair",
       stockStatus: "IN_STOCK",
       isFeatured: true,
       status: "PUBLISHED",
-      categoryId: category.id,
-      seoTitle: "Cut-Resistant Nitrile Coated Gloves | ANSI A4",
-      seoDescription:
-        "Industrial-grade cut-resistant nitrile coated gloves, ANSI A4 rated, manufactured for global export.",
-      seoKeywords: ["cut resistant gloves", "nitrile coated gloves", "industrial safety gloves"],
+      categoryId: industrialCat.id,
+      seoTitle: "Pro-Grip Nitrile Coated Industrial Gloves | Demo",
+      seoDescription: "High-performance nitrile coated safety gloves for industrial applications. [Demo Content]",
     },
-  });
+    {
+      name: "Safe-Touch Blue Nitrile Exam Gloves",
+      slug: "safe-touch-nitrile-exam",
+      sku: "DEMO-MED-002",
+      shortDescription: "[DEMO] Powder-free medical grade nitrile examination gloves.",
+      longDescription:
+        "NOTE: THIS IS DEMO CONTENT. Safe-Touch exam gloves offer superior barrier protection and puncture resistance. 100% latex-free to prevent allergic reactions. Ideal for healthcare environments requiring high sensitivity.\n\nStandards Compliance:\n- FDA 510(k) cleared.\n- Meets ASTM D6319 and EN 455 standards.",
+      material: "100% Synthetic Nitrile",
+      coating: "None (Polymer coated interior)",
+      protectionLevel: "ASTM D6319, EN 455",
+      applications: ["Medical", "Dental", "Laboratory", "Tattooing", "Food Handling"],
+      features: ["Powder-free", "Beaded cuff", "Textured fingertips", "Ambidextrous"],
+      colors: ["Medical Blue", "Violet", "Black", "White"],
+      sizes: ["XS", "S", "M", "L", "XL"],
+      stockStatus: "IN_STOCK",
+      isFeatured: true,
+      status: "PUBLISHED",
+      categoryId: medicalCat.id,
+      seoTitle: "Safe-Touch Medical Grade Nitrile Exam Gloves | Demo",
+      seoDescription: "Premium medical grade nitrile examination gloves, powder-free and latex-free. [Demo Content]",
+    },
+    {
+      name: "Thermal-Shield Heat Resistant Gloves",
+      slug: "thermal-shield-heat-resistant",
+      sku: "DEMO-IND-003",
+      shortDescription: "[DEMO] Heat-resistant Kevlar blend gloves for high-temp environments.",
+      longDescription:
+        "NOTE: THIS IS DEMO CONTENT. Engineered for protection up to 250°C (480°F) contact heat. Durable and comfortable for extended wear in foundries and commercial kitchens.\n\nAdvanced Thermal Protection:\n- Double-layered Kevlar construction.\n- Extended cuff for wrist and forearm protection.",
+      material: "Kevlar / Para-aramid",
+      coating: "Uncoated",
+      protectionLevel: "EN407 Level 2 Contact Heat",
+      applications: ["Foundry", "Welding", "Industrial Kitchens", "Steel Mill"],
+      features: ["Flame resistant", "Double-layered", "Extra-long cuff", "Cut resistant"],
+      colors: ["Natural Yellow"],
+      sizes: ["M", "L", "XL"],
+      stockStatus: "MADE_TO_ORDER",
+      isFeatured: false,
+      status: "PUBLISHED",
+      categoryId: industrialCat.id,
+      seoTitle: "Thermal-Shield Heat Resistant Kevlar Gloves | Demo",
+      seoDescription: "Professional grade heat-resistant gloves for extreme temperature environments. [Demo Content]",
+    },
+  ];
+
+  for (const product of demoProducts) {
+    await prisma.product.upsert({
+      where: { slug: product.slug },
+      update: {},
+      create: {
+        ...product as any,
+        specifications: {
+          create: [
+            { label: "Standard", value: "Demo Certified" },
+            { label: "Washable", value: "Up to 5 times" },
+          ],
+        },
+      },
+    });
+  }
 
   // ── Homepage CMS defaults ──────────────────────────────────
   const sections: {

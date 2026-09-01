@@ -247,8 +247,11 @@ model Product {
   longDescription   String?     @db.Text
 
   material    String?
-  application String?
-  color       String[]
+  coating     String?
+  protectionLevel String?
+  applications String[]
+  features    String[]
+  colors      String[]
   sizes       String[]
   packaging   String?
   moq         String?

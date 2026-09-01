@@ -147,7 +147,7 @@ export function CataloguePdfTemplate({ products }: { products: any[] }) {
               <Text style={styles.productName}>{product.name}</Text>
 
               {product.shortDescription && (
-                <Text style={styles.productDescription} numberOfLines={2}>
+                <Text style={styles.productDescription}>
                   {product.shortDescription}
                 </Text>
               )}
@@ -159,10 +159,10 @@ export function CataloguePdfTemplate({ products }: { products: any[] }) {
                     <Text style={styles.specValue}>{product.material}</Text>
                   </View>
                 )}
-                {product.application && (
+                {product.applications && product.applications.length > 0 && (
                   <View style={styles.specRow}>
                     <Text style={styles.specLabel}>App:</Text>
-                    <Text style={styles.specValue}>{product.application}</Text>
+                    <Text style={styles.specValue}>{product.applications.join(", ")}</Text>
                   </View>
                 )}
                 <Text style={styles.rfqTag}>REQUEST QUOTATION</Text>

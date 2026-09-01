@@ -20,8 +20,11 @@ export const productFormSchema = z.object({
   longDescription: z.string().max(10000).optional().or(z.literal("")),
 
   material: z.string().max(200).optional().or(z.literal("")),
-  application: z.string().max(200).optional().or(z.literal("")),
-  color: z.array(z.string()).default([]),
+  coating: z.string().max(200).optional().or(z.literal("")),
+  protectionLevel: z.string().max(300).optional().or(z.literal("")),
+  applications: z.array(z.string()).default([]),
+  features: z.array(z.string()).default([]),
+  colors: z.array(z.string()).default([]),
   sizes: z.array(z.string()).default([]),
   packaging: z.string().max(300).optional().or(z.literal("")),
   moq: z.string().max(100).optional().or(z.literal("")),

@@ -55,22 +55,26 @@ export function ProductForm({
       status: "DRAFT",
       stockStatus: "IN_STOCK",
       isFeatured: false,
-      color: [],
+      colors: [],
       sizes: [],
       specifications: [],
       seoKeywords: [],
+      features: [],
+      applications: [],
       ...defaultValues,
     },
   });
 
-  // Color/size are stored as string arrays (see product.schema.ts), but the
+  // Color/size/features/applications are stored as string arrays (see product.schema.ts), but the
   // simplest input for an admin is a comma-separated text field. Keep local
   // text state in sync with the array field rather than trying to edit the
   // array directly on every keystroke.
-  const [colorText, setColorText] = useState((defaultValues?.color ?? []).join(", "));
+  const [colorText, setColorText] = useState((defaultValues?.colors ?? []).join(", "));
   const [sizeText, setSizeText] = useState((defaultValues?.sizes ?? []).join(", "));
+  const [featuresText, setFeaturesText] = useState((defaultValues?.features ?? []).join(", "));
+  const [applicationsText, setApplicationsText] = useState((defaultValues?.applications ?? []).join(", "));
 
-  function syncArrayField(field: "color" | "sizes", text: string) {
+  function syncArrayField(field: "colors" | "sizes" | "features" | "applications", text: string) {
     const values = text
       .split(",")
       .map((v) => v.trim())
@@ -202,22 +206,52 @@ export function ProductForm({
             <Input id="material" {...register("material")} />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="application">Application</Label>
-            <Input id="application" {...register("application")} />
+            <Label htmlFor="coating">Coating</Label>
+            <Input id="coating" {...register("coating")} />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="color">Color(s)</Label>
+            <Label htmlFor="protectionLevel">Protection Level</Label>
+            <Input id="protectionLevel" {...register("protectionLevel")} />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="applications">Applications</Label>
             <Input
-              id="color"
+              id="applications"
+              value={applicationsText}
+              placeholder="e.g. Automotive, Medical, Laboratory"
+              onChange={(e) => {
+                setApplicationsText(e.target.value);
+                syncArrayField("applications", e.target.value);
+              }}
+            />
+            <p className="text-xs text-muted-foreground">Comma-separated.</p>
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="features">Key Features</Label>
+            <Input
+              id="features"
+              value={featuresText}
+              placeholder="e.g. Powder-free, Textured, Ambidextrous"
+              onChange={(e) => {
+                setFeaturesText(e.target.value);
+                syncArrayField("features", e.target.value);
+              }}
+            />
+            <p className="text-xs text-muted-foreground">Comma-separated.</p>
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="colors">Color(s)</Label>
+            <Input
+              id="colors"
               value={colorText}
               placeholder="e.g. Blue, White, Black"
               onChange={(e) => {
                 setColorText(e.target.value);
-                syncArrayField("color", e.target.value);
+                syncArrayField("colors", e.target.value);
               }}
             />
             <p className="text-xs text-muted-foreground">Comma-separated.</p>
-            {errors.color && <FieldError message={errors.color.message as string} />}
+            {errors.colors && <FieldError message={errors.colors.message as string} />}
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="sizes">Size(s)</Label>
