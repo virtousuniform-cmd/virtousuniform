@@ -17,8 +17,17 @@ export default async function AdminRfqDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const rfq = await rfqRepository.findById(id);
+  console.log("Fetching RFQ:", id);
+  let rfq;
+  try {
+    rfq = await rfqRepository.findById(id);
+  } catch (err) {
+    console.error("Error fetching RFQ:", err);
+    throw err;
+  }
+
   if (!rfq) notFound();
+  console.log("RFQ fetched successfully:", rfq.refNo);
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-6">

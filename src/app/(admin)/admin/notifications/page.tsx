@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import type { Metadata } from "next";
 import { auth } from "@/lib/auth";
@@ -8,7 +9,12 @@ export const metadata: Metadata = { title: "Notifications — Admin" };
 
 export default async function AdminNotificationsPage() {
   const session = await auth.api.getSession({ headers: await headers() });
-  const notifications = await notificationService.findByUser(session!.user.id);
+
+  if (!session) {
+    redirect("/login?redirect=/admin/notifications");
+  }
+
+  const notifications = await notificationService.findByUser(session.user.id);
 
   return (
     <div className="space-y-6 p-6">

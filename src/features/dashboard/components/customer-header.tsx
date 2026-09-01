@@ -33,7 +33,7 @@ export function CustomerHeader({
     <header className="flex h-14 items-center justify-between border-b border-border bg-card px-4 lg:px-6">
       <div className="lg:hidden">
         <Link href="/" className="font-semibold text-foreground">
-          Gloves<span className="text-primary">Mfg</span>
+          Virtous<span className="text-primary">Uniform</span>
         </Link>
       </div>
       <div className="hidden lg:block" />

@@ -17,7 +17,7 @@ export function AuthShell({
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <Link href="/" className="text-lg font-semibold text-foreground">
-            Gloves<span className="text-primary">Mfg</span>
+            Virtous<span className="text-primary">Uniform</span>
           </Link>
         </div>
 

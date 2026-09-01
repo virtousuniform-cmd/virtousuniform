@@ -29,10 +29,10 @@ const DEFAULT_CONTACT_INFO: ContactInfoSetting = {
 const DEFAULT_SOCIAL_LINKS: SocialLinksSetting = {};
 
 const DEFAULT_SEO: SeoDefaultsSetting = {
-  siteTitle: "Global Protective Gloves Manufacturer | Premium Industrial Supply",
-  titleTemplate: "%s | Gloves Manufacturing Co.",
+  siteTitle: "Virtous Uniform | Premium Professional Workwear Manufacturer",
+  titleTemplate: "%s | Virtous Uniform Co.",
   defaultDescription:
-    "ISO-certified manufacturer of industrial, medical, and protective gloves, exporting to 40+ countries with rigorous quality assurance and scalable production capacity.",
+    "ISO-certified manufacturer of professional uniforms, workwear, and protective gear, exporting to 40+ countries with rigorous quality assurance and scalable production capacity.",
   ogImage: "",
 };
 

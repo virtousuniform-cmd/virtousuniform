@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: seo.defaultDescription,
     openGraph: {
       type: "website",
-      siteName: "Gloves Manufacturing Co.",
+      siteName: "Virtous Uniform Co.",
       images: seo.ogImage ? [{ url: seo.ogImage }] : undefined,
     },
     twitter: {

@@ -32,7 +32,7 @@ export function CustomerSidebar() {
     <aside className="hidden w-60 shrink-0 border-r border-border bg-card lg:flex lg:flex-col">
       <div className="flex h-14 items-center border-b border-border px-5">
         <Link href="/" className="font-semibold text-foreground">
-          Gloves<span className="text-primary">Mfg</span>
+          Virtous<span className="text-primary">Uniform</span>
         </Link>
       </div>
       <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-4">

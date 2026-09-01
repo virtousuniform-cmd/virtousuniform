@@ -141,9 +141,9 @@ async function main() {
       key: "HERO",
       sortOrder: 1,
       content: {
-        headline: "Precision-Engineered Gloves for a Safer World",
+        headline: "Premium Uniform Solutions for a Professional World",
         subheadline:
-          "ISO-certified manufacturing, exporting to 40+ countries with rigorous quality assurance.",
+          "ISO-certified manufacturing, exporting to 40+ countries with rigorous quality assurance and design excellence.",
         ctaPrimary: { label: "Explore Products", href: "/products" },
         ctaSecondary: { label: "Request a Quotation", href: "/request-quote" },
       },
@@ -155,7 +155,7 @@ async function main() {
         items: [
           { label: "Countries Served", value: 40 },
           { label: "Years of Experience", value: 20 },
-          { label: "Gloves Produced Annually", value: 50000000 },
+          { label: "Uniforms Produced Annually", value: 50000000 },
           { label: "Quality Certifications", value: 12 },
         ],
       },
@@ -200,19 +200,19 @@ async function main() {
     {
       question: "What is your minimum order quantity (MOQ)?",
       answer:
-        "MOQ varies by product, typically starting at 5,000 pairs. Contact our export team for exact figures on your product of interest.",
+        "MOQ varies by product, typically starting at 500 units. Contact our export team for exact figures on your product of interest.",
       sortOrder: 1,
     },
     {
-      question: "Do you offer custom branding and packaging?",
+      question: "Do you offer custom branding and embroidery?",
       answer:
-        "Yes, private labeling, custom packaging, and branded catalogues are available for orders above the standard MOQ.",
+        "Yes, private labeling, custom embroidery, and branded packaging are available for orders above the standard MOQ.",
       sortOrder: 2,
     },
     {
       question: "What certifications do your products carry?",
       answer:
-        "Our products are manufactured under ISO 9001, ISO 13485, and CE certification, with product-specific certifications available on request.",
+        "Our products are manufactured under ISO 9001 and meet international workwear standards, with product-specific certifications available on request.",
       sortOrder: 3,
     },
   ];

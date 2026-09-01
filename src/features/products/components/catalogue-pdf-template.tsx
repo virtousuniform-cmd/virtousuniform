@@ -120,9 +120,9 @@ export function CataloguePdfTemplate({ products }: { products: any[] }) {
         <View style={styles.header}>
           <View>
             <Text style={styles.brandName}>
-              Gloves<Text style={styles.brandSub}>Mfg</Text>
+              Virtous<Text style={styles.brandSub}>Uniform</Text>
             </Text>
-            <Text style={{ color: "#666" }}>Precision Industrial Quality</Text>
+            <Text style={{ color: "#666" }}>Precision Uniform Solutions</Text>
           </View>
           <View>
             <Text style={styles.docTitle}>Product Catalogue</Text>
@@ -173,7 +173,7 @@ export function CataloguePdfTemplate({ products }: { products: any[] }) {
 
         {/* Footer */}
         <Text style={styles.footer} fixed>
-          © 2026 Gloves Manufacturing Co. | Industrial • Medical • Specialty PPE
+          © 2026 Virtous Uniform Co. | Professional Uniforms • Workwear • Specialty PPE
         </Text>
       </Page>
     </Document>

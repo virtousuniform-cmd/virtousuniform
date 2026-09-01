@@ -79,6 +79,8 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     alignItems: "center",
   },
+  colImage: { width: 40, marginRight: 10 },
+  productImage: { width: 40, height: 40, borderRadius: 2, objectFit: "cover" },
   colProduct: { flex: 3 },
   colQty: { flex: 1, textAlign: "right" },
   colNotes: { flex: 2, marginLeft: 10 },
@@ -106,9 +108,9 @@ export function RfqPdfTemplate({ rfq }: { rfq: any }) {
         <View style={styles.header}>
           <View>
             <Text style={styles.brandName}>
-              Gloves<Text style={styles.brandSub}>Mfg</Text>
+              Virtous<Text style={styles.brandSub}>Uniform</Text>
             </Text>
-            <Text style={{ color: "#666" }}>Precision Industrial Quality</Text>
+            <Text style={{ color: "#666" }}>Precision Uniform Solutions</Text>
           </View>
           <View>
             <Text style={styles.docTitle}>Request for Quotation</Text>
@@ -177,6 +179,7 @@ export function RfqPdfTemplate({ rfq }: { rfq: any }) {
           <Text style={styles.sectionTitle}>Requested Products</Text>
           <View style={styles.table}>
             <View style={styles.tableHeader}>
+              <View style={styles.colImage} />
               <Text style={styles.colProduct}>Product</Text>
               <Text style={styles.colNotes}>Configuration / Notes</Text>
               <Text style={styles.colQty}>Quantity</Text>
@@ -184,6 +187,11 @@ export function RfqPdfTemplate({ rfq }: { rfq: any }) {
 
             {rfq.items.map((item: any) => (
               <View key={item.id} style={styles.tableRow}>
+                <View style={styles.colImage}>
+                  {item.product?.images?.[0]?.url && (
+                    <Image src={item.product.images[0].url} style={styles.productImage} />
+                  )}
+                </View>
                 <View style={styles.colProduct}>
                   <Text style={styles.productName}>
                     {item.product?.name || "Custom Item"}
@@ -206,7 +214,7 @@ export function RfqPdfTemplate({ rfq }: { rfq: any }) {
 
         {/* Footer */}
         <Text style={styles.footer}>
-          This is an automatically generated document from Gloves Manufacturing Platform.
+          This is an automatically generated document from Virtous Uniform Platform.
           Internal Admin Copy — Confidential.
         </Text>
       </Page>
