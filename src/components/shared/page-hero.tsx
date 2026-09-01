@@ -3,14 +3,16 @@ export function PageHero({
   title,
   description,
 }: {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   description: string;
 }) {
   return (
     <section className="bg-primary py-20">
       <div className="mx-auto max-w-4xl px-6 text-center">
-        <p className="text-sm font-medium tracking-wide text-brand uppercase">{eyebrow}</p>
+        {eyebrow && (
+          <p className="text-sm font-medium tracking-wide text-brand uppercase">{eyebrow}</p>
+        )}
         <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight text-primary-foreground sm:text-4xl">
           {title}
         </h1>

@@ -17,17 +17,9 @@ export default async function AdminRfqDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  console.log("Fetching RFQ:", id);
-  let rfq;
-  try {
-    rfq = await rfqRepository.findById(id);
-  } catch (err) {
-    console.error("Error fetching RFQ:", err);
-    throw err;
-  }
+  const rfq = await rfqRepository.findById(id);
 
   if (!rfq) notFound();
-  console.log("RFQ fetched successfully:", rfq.refNo);
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-6">
@@ -54,7 +46,7 @@ export default async function AdminRfqDetailPage({
                 </p>
               ) : (
                 <ul className="divide-y divide-border">
-                  {rfq.items.map((item) => (
+                  {rfq.items.map((item: any) => (
                     <li key={item.id} className="flex gap-4 py-4 first:pt-0 last:pb-0">
                       {item.product?.images?.[0] ? (
                         <div className="relative size-20 shrink-0 overflow-hidden rounded-md border border-border bg-muted">
@@ -94,13 +86,13 @@ export default async function AdminRfqDetailPage({
                             )}
                           </div>
                           <Badge variant="outline" className="shrink-0">
-                            Qty: {item.quantity}
+                            Qty: {item.quantity || "—"}
                           </Badge>
                         </div>
 
                         {item.product?.specifications && item.product.specifications.length > 0 && (
                           <div className="flex flex-wrap gap-x-4 gap-y-1 pt-1">
-                            {item.product.specifications.map((spec) => (
+                            {item.product.specifications.map((spec: any) => (
                               <p key={spec.id} className="text-xs text-muted-foreground">
                                 <span className="font-medium text-foreground/70">{spec.label}:</span> {spec.value}
                               </p>

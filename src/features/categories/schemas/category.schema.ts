@@ -11,6 +11,7 @@ export const categoryFormSchema = z.object({
   parentId: z.string().cuid().optional().or(z.literal("")),
   isVisible: z.boolean().default(true),
   sortOrder: z.number().int().default(0),
+  isFeaturedOnHome: z.boolean().default(false),
 });
 
 export type CategoryFormValues = z.infer<typeof categoryFormSchema>;

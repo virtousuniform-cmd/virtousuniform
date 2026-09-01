@@ -15,6 +15,7 @@ import {
   ImageIcon,
   Award,
   LayoutTemplate,
+  Layers,
   Search,
   BarChart3,
   Settings,
@@ -56,11 +57,12 @@ const NAV_SECTIONS: {
   {
     label: "Content",
     items: [
+      { href: "/admin/cms", label: "Homepage CMS", icon: LayoutTemplate },
+      { href: "/admin/cms/pages", label: "Custom Pages", icon: Layers },
       { href: "/admin/blogs", label: "Blog", icon: Newspaper },
       { href: "/admin/gallery", label: "Gallery", icon: ImageIcon },
       { href: "/admin/certificates", label: "Certifications", icon: Award },
       { href: "/admin/testimonials", label: "Testimonials", icon: Star },
-      { href: "/admin/cms", label: "Homepage CMS", icon: LayoutTemplate },
     ],
   },
   {

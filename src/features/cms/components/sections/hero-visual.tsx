@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { Scissors, Droplets, Ruler, Package } from "lucide-react";
+import { Scissors, Award, Package, Globe2 } from "lucide-react";
 import { TiltCard } from "@/components/motion/tilt-card";
 
 // Technical spec badges rather than repeating the trust-marquee content
@@ -12,9 +12,9 @@ import { TiltCard } from "@/components/motion/tilt-card";
 // Ansell use on their product pages.
 const CARDS = [
   { icon: Scissors, label: "Cut Level A5", tone: "text-brand" },
-  { icon: Droplets, label: "0.5mm Nitrile Coat", tone: "text-brand-cyan" },
-  { icon: Ruler, label: "EN 388: 4X42D", tone: "text-brand-violet" },
-  { icon: Package, label: "MOQ 5,000 Pairs", tone: "text-brand" },
+  { icon: Award, label: "Quality Guaranteed", tone: "text-brand-cyan" },
+  { icon: Package, label: "MOQ 100 Units", tone: "text-brand-violet" },
+  { icon: Globe2, label: "Global Export", tone: "text-brand" },
 ] as const;
 
 /**

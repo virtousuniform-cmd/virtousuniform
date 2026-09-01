@@ -243,6 +243,90 @@ async function main() {
     });
   }
 
+  // ── Custom Pages (CMS) ────────────────────────────────────
+  const pages = [
+    {
+      title: "About Us",
+      slug: "about",
+      content: "<p>Virtous Uniform is a leading manufacturer of professional workwear and uniforms...</p>",
+      status: "PUBLISHED",
+    },
+    {
+      title: "Manufacturing Process",
+      slug: "manufacturing-process",
+      content: "<p>Our state-of-the-art manufacturing facility employs advanced techniques...</p>",
+      status: "PUBLISHED",
+    },
+    {
+      title: "Why Choose Us",
+      slug: "why-choose-us",
+      content: "<p>We offer unparalleled quality, competitive pricing, and global delivery...</p>",
+      status: "PUBLISHED",
+    },
+    {
+      title: "Quality Assurance",
+      slug: "quality-assurance",
+      content: "<p>Every garment undergoes rigorous quality checks to ensure compliance...</p>",
+      status: "PUBLISHED",
+    },
+    {
+      title: "Research & Development",
+      slug: "research-development",
+      content: "<p>We continuously innovate to bring the best fabric technologies to our clients...</p>",
+      status: "PUBLISHED",
+    },
+    {
+      title: "Certifications",
+      slug: "certifications",
+      content: "<p>Our facility is ISO 9001:2015 certified...</p>",
+      status: "PUBLISHED",
+    },
+    {
+      title: "Factory Tour",
+      slug: "factory-tour",
+      content: "<p>Take a virtual look inside our production line...</p>",
+      status: "PUBLISHED",
+    },
+    {
+      title: "Industries Served",
+      slug: "industries-served",
+      content: "<p>We provide uniform solutions for Healthcare, Hospitality, Construction, and more...</p>",
+      status: "PUBLISHED",
+    },
+    {
+      title: "Export Markets",
+      slug: "export-markets",
+      content: "<p>We export to over 40 countries across Europe, Middle East, and North America...</p>",
+      status: "PUBLISHED",
+    },
+    {
+      title: "Privacy Policy",
+      slug: "privacy-policy",
+      content: "<p>Your privacy is important to us...</p>",
+      status: "PUBLISHED",
+    },
+    {
+      title: "Terms of Service",
+      slug: "terms",
+      content: "<p>By using our services, you agree to the following terms...</p>",
+      status: "PUBLISHED",
+    },
+  ];
+
+  for (const page of pages) {
+    await prisma.contentPage.upsert({
+      where: { slug: page.slug },
+      update: {},
+      create: page as any,
+    });
+  }
+
+  // ── Featured Categories for Home ─────────────────────────
+  await prisma.category.updateMany({
+    where: { slug: { in: ["industrial-safety", "medical-healthcare", "chemical-resistant"] } },
+    data: { isFeaturedOnHome: true },
+  });
+
   console.log("Seed complete. Register an account, then run: pnpm promote:admin <email>");
 }
 

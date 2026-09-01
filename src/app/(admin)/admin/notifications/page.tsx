@@ -24,7 +24,7 @@ export default async function AdminNotificationsPage() {
           New RFQs, contact messages, and system activity.
         </p>
       </div>
-      <NotificationList notifications={notifications} />
+      <NotificationList notifications={notifications || []} />
     </div>
   );
 }

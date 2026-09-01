@@ -136,16 +136,30 @@ export function CategoryForm({
             />
           </div>
 
-          <div className="flex items-center gap-2 sm:col-span-2">
-            <input
-              id="isVisible"
-              type="checkbox"
-              className="size-4 rounded border-input"
-              {...register("isVisible")}
-            />
-            <Label htmlFor="isVisible" className="font-normal">
-              Visible on the public site
-            </Label>
+          <div className="flex flex-col gap-4 sm:col-span-2">
+            <div className="flex items-center gap-2">
+              <input
+                id="isVisible"
+                type="checkbox"
+                className="size-4 rounded border-input"
+                {...register("isVisible")}
+              />
+              <Label htmlFor="isVisible" className="font-normal">
+                Visible on the public site
+              </Label>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <input
+                id="isFeaturedOnHome"
+                type="checkbox"
+                className="size-4 rounded border-input"
+                {...register("isFeaturedOnHome")}
+              />
+              <Label htmlFor="isFeaturedOnHome" className="font-normal">
+                Feature on Homepage (Redesigned Category Grid)
+              </Label>
+            </div>
           </div>
         </CardContent>
       </Card>

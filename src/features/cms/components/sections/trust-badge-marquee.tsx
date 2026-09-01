@@ -2,11 +2,9 @@ import { ShieldCheck, Award, Globe2, Factory, Leaf, Clock } from "lucide-react";
 
 const BADGES = [
   { icon: ShieldCheck, label: "ISO 9001:2015" },
-  { icon: Award, label: "CE Certified" },
-  { icon: Globe2, label: "40+ Countries" },
-  { icon: Factory, label: "ANSI / EN 388" },
-  { icon: Leaf, label: "REACH Compliant" },
-  { icon: Clock, label: "24/7 Export Support" },
+  { icon: Globe2, label: "12+ Countries" },
+  { icon: Award, label: "Premium Quality" },
+  { icon: Clock, label: "24/7 Customer Service" },
 ];
 
 /**

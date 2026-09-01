@@ -60,6 +60,7 @@ export const categoryRepository = {
         parentId: data.parentId || null,
         isVisible: data.isVisible,
         sortOrder: data.sortOrder,
+        isFeaturedOnHome: data.isFeaturedOnHome,
       },
     });
   },
@@ -74,6 +75,7 @@ export const categoryRepository = {
         parentId: data.parentId || null,
         isVisible: data.isVisible,
         sortOrder: data.sortOrder,
+        isFeaturedOnHome: data.isFeaturedOnHome,
       },
     });
   },
