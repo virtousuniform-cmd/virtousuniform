@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Facebook, Linkedin, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react";
 import { settingsRepository } from "@/features/settings/repositories/settings.repository";
+import { cn } from "@/lib/utils";
 
 const FOOTER_COLUMNS = [
   {
@@ -40,11 +41,21 @@ const FOOTER_COLUMNS = [
   },
 ];
 
-export async function SiteFooter() {
+export async function SiteFooter({ publishedSlugs = [] }: { publishedSlugs?: string[] }) {
   const [contactInfo, socialLinks] = await Promise.all([
     settingsRepository.getContactInfo(),
     settingsRepository.getSocialLinks(),
   ]);
+
+  const dynamicFooterColumns = FOOTER_COLUMNS.map((col) => ({
+    ...col,
+    links: col.links.filter((link) => {
+      const slug = link.href.replace("/", "");
+      if (link.href === "/products" || link.href === "/request-quote" || link.href === "/contact" || link.href === "/about") return true;
+      if (slug.startsWith("admin") || slug.startsWith("dashboard")) return true;
+      return publishedSlugs.includes(slug);
+    }),
+  })).filter((col) => col.links.length > 0);
 
   return (
     // Charcoal, matching the header — bookends the site so the amber
@@ -123,7 +134,7 @@ export async function SiteFooter() {
             </div>
           </div>
 
-          {FOOTER_COLUMNS.map((col) => (
+          {dynamicFooterColumns.map((col) => (
             <div key={col.heading}>
               <h3 className="text-sm font-semibold text-primary-foreground">{col.heading}</h3>
               <ul className="mt-3 space-y-2">
@@ -147,10 +158,16 @@ export async function SiteFooter() {
             © {new Date().getFullYear()} Virtous Uniform Co. All rights reserved.
           </p>
           <div className="flex gap-4 text-xs text-primary-foreground/50">
-            <Link href="/privacy-policy" className="hover:text-brand">
+            <Link
+              href="/privacy-policy"
+              className={cn("hover:text-brand", !publishedSlugs.includes("privacy-policy") && "hidden")}
+            >
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-brand">
+            <Link
+              href="/terms"
+              className={cn("hover:text-brand", !publishedSlugs.includes("terms") && "hidden")}
+            >
               Terms of Service
             </Link>
           </div>

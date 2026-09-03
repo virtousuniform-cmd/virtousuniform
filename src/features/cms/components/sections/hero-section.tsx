@@ -4,30 +4,23 @@ import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/reveal";
 import { HeroVisualLoader } from "./hero-visual-loader";
 import { TrustBadgeMarquee } from "./trust-badge-marquee";
+import { HeroBackgroundSlider } from "./hero-background-slider";
 
 type HeroContent = {
   headline: string;
   subheadline?: string;
   ctaPrimary?: { label: string; href: string };
   ctaSecondary?: { label: string; href: string };
+  images?: string[];
 };
 
 export function HeroSection({ content }: { content: HeroContent }) {
   return (
     <>
-      <section className="relative overflow-hidden bg-gradient-brand">
-        {/* Decorative animated gradient mesh — pure CSS, no JS cost */}
-        <div className="absolute inset-0 bg-gradient-mesh opacity-90" aria-hidden="true" />
-        <div
-          className="absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M0 0h1v1H0V0zm10 0h1v1h-1V0zm10 0h1v1h-1V0zm10 0h1v1h-1V0zm10 0h1v1h-1V0zm10 0h1v1h-1V0z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
-          }}
-          aria-hidden="true"
-        />
+      <section className="relative overflow-hidden bg-primary min-h-[600px] flex items-center">
+        <HeroBackgroundSlider images={content.images} />
 
-        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 pt-24 pb-28 sm:pt-32 sm:pb-36 lg:grid-cols-[1.1fr_0.9fr] lg:pt-40 lg:pb-44">
+        <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-6 pt-24 pb-28 sm:pt-32 sm:pb-36 lg:grid-cols-[1.1fr_0.9fr] lg:pt-40 lg:pb-44 w-full">
           <div className="text-center lg:text-left">
             <Reveal>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-brand">

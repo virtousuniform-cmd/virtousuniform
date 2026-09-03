@@ -32,7 +32,7 @@ const SIMPLE_LINKS = [
   { href: "/export-markets", label: "Export Markets" },
 ];
 
-export function SiteHeader() {
+export function SiteHeader({ publishedSlugs = [] }: { publishedSlugs?: string[] }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -54,6 +54,20 @@ export function SiteHeader() {
   const isAdmin = user?.role && STAFF_ROLES.includes(user.role);
   const dashboardHref = isAdmin ? "/admin" : "/dashboard";
 
+  const dynamicCompanyLinks = COMPANY_LINKS.filter(
+    (link) => publishedSlugs.includes(link.href.replace("/", "")) || link.href === "/about",
+  );
+
+  const dynamicResourceLinks = RESOURCES_LINKS.filter(
+    (link) => publishedSlugs.includes(link.href.replace("/", ""))
+  );
+
+  const dynamicSimpleLinks = SIMPLE_LINKS.filter(
+    (link) =>
+      link.href === "/products" ||
+      publishedSlugs.includes(link.href.replace("/", ""))
+  );
+
   return (
     // Charcoal, always-solid header — bookends the site with the equally
     // dark footer. Deliberately not white/blurred: on an industrial site
@@ -68,13 +82,13 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
-          <NavDropdown label="Company" items={COMPANY_LINKS} />
-          {SIMPLE_LINKS.map((link) => (
+          {dynamicCompanyLinks.length > 0 && <NavDropdown label="Company" items={dynamicCompanyLinks} />}
+          {dynamicSimpleLinks.map((link) => (
             <NavLink key={link.href} href={link.href} active={pathname === link.href}>
               {link.label}
             </NavLink>
           ))}
-          <NavDropdown label="Resources" items={RESOURCES_LINKS} />
+          {dynamicResourceLinks.length > 0 && <NavDropdown label="Resources" items={dynamicResourceLinks} />}
           <NavLink href="/contact" active={pathname === "/contact"}>
             Contact
           </NavLink>
@@ -142,7 +156,7 @@ export function SiteHeader() {
       {mobileOpen && (
         <div className="border-t border-white/10 bg-primary px-6 py-4 lg:hidden">
           <nav className="flex flex-col gap-1">
-            {[...SIMPLE_LINKS, ...COMPANY_LINKS, ...RESOURCES_LINKS, { href: "/contact", label: "Contact" }].map(
+            {[...dynamicSimpleLinks, ...dynamicCompanyLinks, ...dynamicResourceLinks, { href: "/contact", label: "Contact" }].map(
               (link) => (
                 <Link
                   key={link.href}
