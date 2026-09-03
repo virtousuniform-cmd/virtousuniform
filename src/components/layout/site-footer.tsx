@@ -17,8 +17,6 @@ const FOOTER_COLUMNS = [
     heading: "Products",
     links: [
       { href: "/products", label: "Browse Products" },
-      { href: "/industries-served", label: "Industries Served" },
-      { href: "/export-markets", label: "Export Markets" },
       { href: "/request-quote", label: "Request a Quotation" },
     ],
   },
@@ -51,7 +49,7 @@ export async function SiteFooter({ publishedSlugs = [] }: { publishedSlugs?: str
     ...col,
     links: col.links.filter((link) => {
       const slug = link.href.replace("/", "");
-      if (link.href === "/products" || link.href === "/request-quote" || link.href === "/contact") return true;
+      if (link.href === "/products" || link.href === "/request-quote" || link.href === "/contact" || link.href === "/about") return true;
       if (slug.startsWith("admin") || slug.startsWith("dashboard")) return true;
       return publishedSlugs.includes(slug);
     }),

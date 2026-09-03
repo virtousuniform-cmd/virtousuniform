@@ -13,13 +13,17 @@ export function generateRfqRefNo(sequence: number) {
 }
 
 /** Format a date consistently across the app (server + client safe). */
-export function formatDate(date: Date | string, options?: Intl.DateTimeFormatOptions) {
+export function formatDate(date: Date | string | null | undefined, options?: Intl.DateTimeFormatOptions) {
+  if (!date) return "—";
+  const d = new Date(date);
+  if (isNaN(d.getTime())) return "—";
+
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
     ...options,
-  }).format(new Date(date));
+  }).format(d);
 }
 
 /** Truncate text to a max length, respecting word boundaries. */

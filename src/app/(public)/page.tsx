@@ -8,6 +8,8 @@ export const metadata: Metadata = {
     "ISO-certified manufacturer of industrial, medical, and protective gloves, exporting worldwide.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const sections = await homepageRepository.findVisibleOrdered();
 

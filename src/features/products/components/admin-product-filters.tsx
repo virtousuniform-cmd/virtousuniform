@@ -31,6 +31,7 @@ export function AdminProductFilters({
     }
     params.delete("page"); // Reset to first page
     router.push(`/admin/products?${params.toString()}`);
+    router.refresh();
   }
 
   return (

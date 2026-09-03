@@ -17,9 +17,21 @@ export default async function AdminRfqDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const rfq = await rfqRepository.findById(id);
 
-  if (!rfq) notFound();
+  let rfq;
+  try {
+    console.log("Loading RFQ ID:", id);
+    rfq = await rfqRepository.findById(id);
+    console.log("RFQ loaded successfully:", rfq?.refNo);
+  } catch (error: any) {
+    console.error("Error loading RFQ:", error.message);
+    throw new Error(`Failed to load RFQ: ${error.message}`);
+  }
+
+  if (!rfq) {
+    console.log("RFQ not found for ID:", id);
+    notFound();
+  }
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-6">
@@ -48,11 +60,11 @@ export default async function AdminRfqDetailPage({
                 <ul className="divide-y divide-border">
                   {rfq.items.map((item: any) => (
                     <li key={item.id} className="flex gap-4 py-4 first:pt-0 last:pb-0">
-                      {item.product?.images?.[0] ? (
+                      {item.product?.images?.[0]?.url ? (
                         <div className="relative size-20 shrink-0 overflow-hidden rounded-md border border-border bg-muted">
                           <Image
                             src={item.product.images[0].url}
-                            alt={item.product.images[0].altText || item.product.name}
+                            alt={item.product.images[0].altText || item.product.name || "Product"}
                             fill
                             className="object-cover"
                           />
@@ -66,7 +78,7 @@ export default async function AdminRfqDetailPage({
                         <div className="flex items-start justify-between gap-4">
                           <div>
                             <p className="font-medium text-foreground">
-                              {item.product ? (
+                              {item.product?.name ? (
                                 <Link
                                   href={`/products/${item.product.slug}`}
                                   target="_blank"
@@ -79,7 +91,7 @@ export default async function AdminRfqDetailPage({
                                 "Custom item"
                               )}
                             </p>
-                            {item.product?.category && (
+                            {item.product?.category?.name && (
                               <p className="text-xs text-muted-foreground">
                                 Category: {item.product.category.name}
                               </p>

@@ -14,7 +14,13 @@ export default async function AdminNotificationsPage() {
     redirect("/login?redirect=/admin/notifications");
   }
 
-  const notifications = await notificationService.findByUser(session.user.id);
+  let notifications;
+  try {
+    notifications = await notificationService.findByUser(session.user.id);
+  } catch (error) {
+    console.error("Error loading notifications:", error);
+    throw new Error("Failed to load notifications");
+  }
 
   return (
     <div className="space-y-6 p-6">

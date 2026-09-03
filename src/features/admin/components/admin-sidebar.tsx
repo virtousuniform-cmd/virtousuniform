@@ -59,6 +59,7 @@ const NAV_SECTIONS: {
     items: [
       { href: "/admin/cms", label: "Homepage CMS", icon: LayoutTemplate },
       { href: "/admin/cms/pages", label: "Custom Pages", icon: Layers },
+      { href: "/admin/faq", label: "FAQs", icon: MessageSquare },
       { href: "/admin/blogs", label: "Blog", icon: Newspaper },
       { href: "/admin/gallery", label: "Gallery", icon: ImageIcon },
       { href: "/admin/certificates", label: "Certifications", icon: Award },

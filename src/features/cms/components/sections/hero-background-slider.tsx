@@ -4,16 +4,26 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 
-export function HeroBackgroundSlider({ images = [] }: { images?: string[] }) {
+export function HeroBackgroundSlider({
+  images = [],
+  onIndexChange
+}: {
+  images?: string[];
+  onIndexChange?: (index: number) => void;
+}) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
     if (images.length <= 1) return;
     const timer = setInterval(() => {
-      setIndex((current) => (current + 1) % images.length);
-    }, 4000);
+      setIndex((current) => {
+        const next = (current + 1) % images.length;
+        onIndexChange?.(next);
+        return next;
+      });
+    }, 5000); // 5 seconds for smoother feel
     return () => clearInterval(timer);
-  }, [images.length]);
+  }, [images.length, onIndexChange]);
 
   if (images.length === 0) {
     return (
@@ -47,7 +57,7 @@ export function HeroBackgroundSlider({ images = [] }: { images?: string[] }) {
             alt="Hero Background"
             fill
             priority
-            className="object-cover"
+            className="object-cover object-center md:object-[center_20%]"
           />
           {/* Overlay to ensure text legibility */}
           <div className="absolute inset-0 bg-black/60" />

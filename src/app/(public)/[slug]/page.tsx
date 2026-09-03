@@ -31,22 +31,21 @@ export default async function DynamicContentPage({ params }: Props) {
   return (
     <div>
       <div className="bg-primary py-16">
-        <div className="mx-auto max-w-7xl px-6 text-center">
-          <p className="text-sm font-medium tracking-wide text-brand uppercase">Company</p>
-          <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight text-primary-foreground sm:text-4xl">
+        <div className="mx-auto max-w-6xl px-6 text-center">
+          <h1 className="font-display text-4xl font-semibold tracking-tight text-primary-foreground sm:text-5xl">
             {page.title}
           </h1>
           {page.seoDescription && (
-            <p className="mx-auto mt-4 max-w-2xl text-primary-foreground/70">
+            <p className="mx-auto mt-4 max-w-2xl text-primary-foreground/70 text-lg">
               {page.seoDescription}
             </p>
           )}
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 py-16">
+      <div className="mx-auto max-w-6xl px-6 py-16">
         <div
-          className="prose prose-slate max-w-none mx-auto dark:prose-invert prose-headings:font-display prose-headings:font-semibold prose-a:text-brand"
+          className="prose prose-slate max-w-none dark:prose-invert prose-headings:font-display prose-headings:font-semibold prose-a:text-brand text-lg leading-relaxed"
           dangerouslySetInnerHTML={{ __html: cleanContent }}
         />
       </div>

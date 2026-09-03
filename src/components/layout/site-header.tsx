@@ -54,19 +54,19 @@ export function SiteHeader({ publishedSlugs = [] }: { publishedSlugs?: string[] 
   const isAdmin = user?.role && STAFF_ROLES.includes(user.role);
   const dashboardHref = isAdmin ? "/admin" : "/dashboard";
 
-  const dynamicCompanyLinks = COMPANY_LINKS.filter(
-    (link) => publishedSlugs.includes(link.href.replace("/", "")),
+  // Flat list of all potential dynamic pages from our constants
+  const allPotentialLinks = [...COMPANY_LINKS, ...RESOURCES_LINKS, ...SIMPLE_LINKS.filter(l => l.href !== "/products")];
+
+  // Filter links that actually have a published page
+  const availableLinks = allPotentialLinks.filter(link =>
+    publishedSlugs.includes(link.href.replace("/", ""))
   );
 
-  const dynamicResourceLinks = RESOURCES_LINKS.filter(
-    (link) => publishedSlugs.includes(link.href.replace("/", ""))
-  );
+  // About Us is a top-level link now
+  const aboutLink = availableLinks.find(l => l.href === "/about");
 
-  const dynamicSimpleLinks = SIMPLE_LINKS.filter(
-    (link) =>
-      link.href === "/products" ||
-      publishedSlugs.includes(link.href.replace("/", ""))
-  );
+  // "More" links are everything else that is published
+  const moreLinks = availableLinks.filter(l => l.href !== "/about");
 
   return (
     // Charcoal, always-solid header — bookends the site with the equally
@@ -82,16 +82,27 @@ export function SiteHeader({ publishedSlugs = [] }: { publishedSlugs?: string[] 
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
-          {dynamicCompanyLinks.length > 0 && <NavDropdown label="Company" items={dynamicCompanyLinks} />}
-          {dynamicSimpleLinks.map((link) => (
-            <NavLink key={link.href} href={link.href} active={pathname === link.href}>
-              {link.label}
-            </NavLink>
-          ))}
-          {dynamicResourceLinks.length > 0 && <NavDropdown label="Resources" items={dynamicResourceLinks} />}
+          <NavLink href="/about" active={pathname === "/about"}>
+            About Us
+          </NavLink>
+
+          <NavLink href="/products" active={pathname === "/products" || pathname.startsWith("/products/")}>
+            Products
+          </NavLink>
+
           <NavLink href="/contact" active={pathname === "/contact"}>
             Contact
           </NavLink>
+
+          {moreLinks.length > 0 && (
+            <NavDropdown
+              label="More"
+              items={moreLinks.map(l => ({
+                href: l.href,
+                label: l.label
+              }))}
+            />
+          )}
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex">
@@ -156,7 +167,28 @@ export function SiteHeader({ publishedSlugs = [] }: { publishedSlugs?: string[] 
       {mobileOpen && (
         <div className="border-t border-white/10 bg-primary px-6 py-4 lg:hidden">
           <nav className="flex flex-col gap-1">
-            {[...dynamicSimpleLinks, ...dynamicCompanyLinks, ...dynamicResourceLinks, { href: "/contact", label: "Contact" }].map(
+            <Link
+              href="/about"
+              onClick={() => setMobileOpen(false)}
+              className="rounded-md px-3 py-2 text-sm font-medium text-primary-foreground/90 hover:bg-white/10"
+            >
+              About Us
+            </Link>
+            <Link
+              href="/products"
+              onClick={() => setMobileOpen(false)}
+              className="rounded-md px-3 py-2 text-sm font-medium text-primary-foreground/90 hover:bg-white/10"
+            >
+              Products
+            </Link>
+            <Link
+              href="/contact"
+              onClick={() => setMobileOpen(false)}
+              className="rounded-md px-3 py-2 text-sm font-medium text-primary-foreground/90 hover:bg-white/10"
+            >
+              Contact
+            </Link>
+            {moreLinks.map(
               (link) => (
                 <Link
                   key={link.href}
