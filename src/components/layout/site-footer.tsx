@@ -51,7 +51,7 @@ export async function SiteFooter({ publishedSlugs = [] }: { publishedSlugs?: str
     ...col,
     links: col.links.filter((link) => {
       const slug = link.href.replace("/", "");
-      if (link.href === "/products" || link.href === "/request-quote" || link.href === "/contact" || link.href === "/about") return true;
+      if (link.href === "/products" || link.href === "/request-quote" || link.href === "/contact") return true;
       if (slug.startsWith("admin") || slug.startsWith("dashboard")) return true;
       return publishedSlugs.includes(slug);
     }),

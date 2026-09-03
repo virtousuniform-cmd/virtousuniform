@@ -8,6 +8,7 @@ export const categoryFormSchema = z.object({
     .max(120)
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use lowercase letters, numbers, and hyphens only"),
   description: z.string().max(500).optional().or(z.literal("")),
+  image: z.string().url().optional().or(z.literal("")),
   parentId: z.string().cuid().optional().or(z.literal("")),
   isVisible: z.boolean().default(true),
   sortOrder: z.number().int().default(0),

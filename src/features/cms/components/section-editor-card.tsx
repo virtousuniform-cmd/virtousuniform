@@ -6,10 +6,10 @@ import { StatisticsSectionEditor } from "./editors/statistics-section-editor";
 import { CtaSectionEditor } from "./editors/cta-section-editor";
 
 const SECTION_LABELS: Record<string, string> = {
-  HERO: "Hero",
+  HERO: "Hero Slider",
   ABOUT: "About",
   STATISTICS: "Statistics",
-  FEATURED_PRODUCTS: "Featured Products",
+  FEATURED_PRODUCTS: "Homepage Categories",
   INDUSTRIES_SERVED: "Industries Served",
   MANUFACTURING_PROCESS: "Manufacturing Process",
   CERTIFICATES: "Certificates",
@@ -49,7 +49,7 @@ function renderEditor(section: HomepageSection) {
         return (
           <p className="text-sm text-muted-foreground">
             This section pulls live content from its own admin screen —{" "}
-            {section.key === "FEATURED_PRODUCTS" && "mark products as Featured in Products"}
+            {section.key === "FEATURED_PRODUCTS" && "mark categories as 'Feature on Homepage' in Categories"}
             {section.key === "TESTIMONIALS" && "approve and feature testimonials in Testimonials"}
             {section.key === "FAQ" && "manage entries in FAQ"}. Use the toggle above to
             show or hide it on the homepage.

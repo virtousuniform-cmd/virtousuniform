@@ -55,7 +55,7 @@ export function SiteHeader({ publishedSlugs = [] }: { publishedSlugs?: string[] 
   const dashboardHref = isAdmin ? "/admin" : "/dashboard";
 
   const dynamicCompanyLinks = COMPANY_LINKS.filter(
-    (link) => publishedSlugs.includes(link.href.replace("/", "")) || link.href === "/about",
+    (link) => publishedSlugs.includes(link.href.replace("/", "")),
   );
 
   const dynamicResourceLinks = RESOURCES_LINKS.filter(

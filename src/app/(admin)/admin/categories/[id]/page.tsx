@@ -31,9 +31,11 @@ export default async function EditCategoryPage({
           name: category.name,
           slug: category.slug,
           description: category.description ?? "",
+          image: category.image ?? "",
           parentId: category.parentId ?? "",
           isVisible: category.isVisible,
           sortOrder: category.sortOrder,
+          isFeaturedOnHome: category.isFeaturedOnHome,
         }}
       />
     </div>
