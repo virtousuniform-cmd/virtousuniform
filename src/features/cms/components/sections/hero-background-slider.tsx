@@ -39,7 +39,7 @@ export function HeroBackgroundSlider({
     enter: (direction: number) => ({
       x: direction > 0 ? "100%" : "-100%",
       opacity: 0,
-      scale: 1.1,
+      scale: 1.05,
     }),
     center: {
       zIndex: 1,
@@ -51,7 +51,7 @@ export function HeroBackgroundSlider({
       zIndex: 0,
       x: direction < 0 ? "100%" : "-100%",
       opacity: 0,
-      scale: 0.9,
+      scale: 0.98,
     }),
   };
 
@@ -77,10 +77,10 @@ export function HeroBackgroundSlider({
             alt={`Hero Background ${index + 1}`}
             fill
             priority
-            className="object-cover object-center"
+            className="object-cover object-center md:object-top"
           />
           {/* Professional Overlay */}
-          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 bg-black/40" />
         </motion.div>
       </AnimatePresence>
     </div>

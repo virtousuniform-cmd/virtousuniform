@@ -66,7 +66,7 @@ export function HeroSection({ content }: { content: HeroContent }) {
                   <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="font-display text-5xl leading-[1.05] font-bold tracking-tight text-white sm:text-6xl lg:text-8xl drop-shadow-2xl"
+                    className="font-display text-4xl leading-[1.05] font-bold tracking-tight text-white sm:text-5xl lg:text-6xl drop-shadow-2xl"
                   >
                     {currentSlide.headline}
                   </motion.h1>
@@ -75,7 +75,7 @@ export function HeroSection({ content }: { content: HeroContent }) {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="mx-auto mt-8 max-w-2xl text-xl text-white/90 lg:mx-0 font-medium drop-shadow-lg leading-relaxed md:text-2xl"
+                    className="mx-auto mt-6 max-w-2xl text-lg text-white/90 lg:mx-0 font-medium drop-shadow-lg leading-relaxed md:text-xl"
                   >
                     {currentSlide.subheadline}
                   </motion.p>
