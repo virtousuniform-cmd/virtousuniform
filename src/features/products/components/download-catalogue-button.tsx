@@ -22,7 +22,7 @@ export function DownloadCatalogueButton() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = "virtous-uniform-catalogue-2026.pdf";
+      link.download = "vu-gloves-catalogue-2026.pdf";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
