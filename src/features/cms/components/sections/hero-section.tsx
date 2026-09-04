@@ -27,8 +27,8 @@ export function HeroSection({ content }: { content: HeroContent }) {
 
   const slides = content.slides || [];
   const currentSlide = slides[slideIndex] || {
-    headline: (content as any).headline || "Virtous Uniform",
-    subheadline: (content as any).subheadline || "Premium Professional Workwear",
+    headline: (content as any).headline || "VU Gloves",
+    subheadline: (content as any).subheadline || "Premium Professional Protective Gear",
   };
 
   // Re-trigger text animation whenever slide changes

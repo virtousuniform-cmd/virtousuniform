@@ -76,9 +76,9 @@ export function SiteHeader({ publishedSlugs = [] }: { publishedSlugs?: string[] 
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2 font-display text-lg font-semibold text-primary-foreground">
           <span className="flex size-7 items-center justify-center rounded-md bg-brand text-sm font-bold text-brand-foreground">
-            V
+            VU
           </span>
-          Virtous<span className="text-brand">Uniform</span>
+          VU<span className="text-brand">Gloves</span>
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">

@@ -120,9 +120,9 @@ export function CataloguePdfTemplate({ products }: { products: any[] }) {
         <View style={styles.header}>
           <View>
             <Text style={styles.brandName}>
-              Virtous<Text style={styles.brandSub}>Uniform</Text>
+              VU<Text style={styles.brandSub}>Gloves</Text>
             </Text>
-            <Text style={{ color: "#666" }}>Precision Uniform Solutions</Text>
+            <Text style={{ color: "#666" }}>Precision Protective Solutions</Text>
           </View>
           <View>
             <Text style={styles.docTitle}>Product Catalogue</Text>
@@ -173,7 +173,7 @@ export function CataloguePdfTemplate({ products }: { products: any[] }) {
 
         {/* Footer */}
         <Text style={styles.footer} fixed>
-          © 2026 Virtous Uniform Co. | Professional Uniforms • Workwear • Specialty PPE
+          © 2026 VU Gloves Co. | Professional Protective Gear • Industrial • Medical
         </Text>
       </Page>
     </Document>

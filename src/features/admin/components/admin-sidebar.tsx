@@ -84,7 +84,7 @@ export function AdminSidebar() {
     <aside className="hidden w-64 shrink-0 border-r border-border bg-card lg:flex lg:flex-col">
       <div className="flex h-14 items-center border-b border-border px-5">
         <Link href="/admin" className="font-semibold text-foreground">
-          Virtous<span className="text-primary">Uniform</span>
+          VU<span className="text-primary">Gloves</span>
         </Link>
       </div>
 

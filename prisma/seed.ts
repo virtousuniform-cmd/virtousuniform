@@ -141,26 +141,26 @@ async function main() {
       key: "HERO",
       sortOrder: 1,
       content: {
-        headline: "Premium Uniform Solutions for a Professional World",
+        headline: "VU Gloves - Precision Protection for Professionals",
         subheadline:
-          "ISO-certified manufacturing, exporting to 40+ countries with rigorous quality assurance and design excellence.",
-        ctaPrimary: { label: "Explore Products", href: "/products" },
-        ctaSecondary: { label: "Request a Quotation", href: "/request-quote" },
+          "ISO-certified manufacturer of high-performance gloves, exporting to 40+ countries with rigorous quality assurance.",
+        ctaPrimary: { label: "Explore Collection", href: "/products" },
+        ctaSecondary: { label: "Request Quotation", href: "/request-quote" },
         slides: [
           {
             image: "https://images.unsplash.com/photo-1590736704728-f4730bb30770?q=80&w=2074&auto=format&fit=crop",
-            headline: "Elevating Professional Standards",
-            subheadline: "Custom-tailored uniform solutions for global industries, blending safety with unparalleled style."
+            headline: "Engineered for Safety",
+            subheadline: "High-performance nitrile and specialized protective solutions for demanding industrial environments."
           },
           {
             image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop",
-            headline: "Precision Manufacturing",
-            subheadline: "Every stitch reflects our commitment to quality, ensuring durability and comfort in every garment."
+            headline: "Uncompromising Quality",
+            subheadline: "Every glove reflects our 20-year legacy of manufacturing excellence and international standards compliance."
           },
           {
             image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop",
-            headline: "Global Export Excellence",
-            subheadline: "Serving diverse sectors across 40+ countries with reliable, ISO-certified professional workwear."
+            headline: "Global Export Partner",
+            subheadline: "Providing reliable protective gear to healthcare and industrial sectors across 40+ countries."
           }
         ]
       },
@@ -172,7 +172,7 @@ async function main() {
         items: [
           { label: "Countries Served", value: 40 },
           { label: "Years of Experience", value: 20 },
-          { label: "Uniforms Produced Annually", value: 50000000 },
+          { label: "Gloves Produced Annually", value: 50000000 },
           { label: "Quality Certifications", value: 12 },
         ],
       },
@@ -196,9 +196,9 @@ async function main() {
       key: "CTA",
       sortOrder: 6,
       content: {
-        headline: "Ready to discuss your requirements?",
+        headline: "Ready to discuss your protective requirements?",
         subheadline:
-          "Our export team responds to quotation requests within one business day.",
+          "Our export team responds to professional quotation requests within one business day.",
         cta: { label: "Request a Quotation", href: "/request-quote" },
       },
     },
@@ -207,7 +207,7 @@ async function main() {
   for (const section of sections) {
     await prisma.homepageSection.upsert({
       where: { key: section.key },
-      update: {},
+      update: { content: section.content },
       create: { key: section.key, content: section.content, sortOrder: section.sortOrder },
     });
   }
@@ -217,19 +217,19 @@ async function main() {
     {
       question: "What is your minimum order quantity (MOQ)?",
       answer:
-        "MOQ varies by product, typically starting at 500 units. Contact our export team for exact figures on your product of interest.",
+        "MOQ varies by product, typically starting at 5,000 pairs. Contact our export team for exact figures on your product of interest.",
       sortOrder: 1,
     },
     {
-      question: "Do you offer custom branding and embroidery?",
+      question: "Do you offer custom branding and packaging?",
       answer:
-        "Yes, private labeling, custom embroidery, and branded packaging are available for orders above the standard MOQ.",
+        "Yes, private labeling and custom branded packaging are available for orders above the standard MOQ.",
       sortOrder: 2,
     },
     {
-      question: "What certifications do your products carry?",
+      question: "What certifications do your gloves carry?",
       answer:
-        "Our products are manufactured under ISO 9001 and meet international workwear standards, with product-specific certifications available on request.",
+        "Our products are manufactured under ISO 9001 and meet CE, ASTM, and EN standards applicable to protective gloves.",
       sortOrder: 3,
     },
   ];
@@ -271,7 +271,7 @@ async function main() {
             <div>
               <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-6">Built on a Legacy of Excellence</h2>
               <p class="text-lg text-muted-foreground leading-relaxed">
-                For over two decades, Virtous Uniform has been at the forefront of professional garment manufacturing. What started as a local family-owned workshop has evolved into a global powerhouse, serving leading corporations and government institutions in over 40 countries.
+                For over two decades, VU Gloves has been at the forefront of professional protective gear manufacturing. What started as a local family-owned workshop has evolved into a global powerhouse, serving leading corporations and government institutions in over 40 countries.
               </p>
               <p class="mt-4 text-lg text-muted-foreground leading-relaxed">
                 Our philosophy is simple: Quality is not an act, it is a habit. We combine traditional craftsmanship with state-of-the-art automation to deliver products that don't just meet standards, but set them.
@@ -292,8 +292,8 @@ async function main() {
               <div class="text-sm font-medium text-muted-foreground uppercase tracking-wider">Global Markets</div>
             </div>
             <div class="text-center">
-              <div class="text-4xl font-bold text-brand mb-2">1M+</div>
-              <div class="text-sm font-medium text-muted-foreground uppercase tracking-wider">Units Monthly</div>
+              <div class="text-4xl font-bold text-brand mb-2">5M+</div>
+              <div class="text-sm font-medium text-muted-foreground uppercase tracking-wider">Pairs Monthly</div>
             </div>
           </div>
 
@@ -317,8 +317,8 @@ async function main() {
         </div>
       `,
       status: "PUBLISHED",
-      seoTitle: "About Virtous Uniform | Global Leader in Professional Workwear",
-      seoDescription: "Learn about our 20-year legacy of manufacturing high-quality industrial, medical, and professional uniforms for clients in 40+ countries."
+      seoTitle: "About VU Gloves | Global Leader in Professional Protective Gear",
+      seoDescription: "Learn about our 20-year legacy of manufacturing high-quality industrial, medical, and professional gloves for clients in 40+ countries."
     },
     {
       title: "Manufacturing Process",
@@ -328,7 +328,7 @@ async function main() {
           <header class="max-w-3xl">
             <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-6">Precision Engineering at Scale</h2>
             <p class="text-lg text-muted-foreground leading-relaxed">
-              Our vertically integrated manufacturing process allows us to maintain total quality control, from raw fabric inspection to final garment finishing.
+              Our vertically integrated manufacturing process allows us to maintain total quality control, from raw material inspection to final product finishing.
             </p>
           </header>
 
@@ -336,41 +336,41 @@ async function main() {
             <div class="flex flex-col md:flex-row gap-8 items-center">
               <div class="md:w-1/2">
                 <div class="text-xs font-bold text-brand uppercase tracking-widest mb-2">Step 01</div>
-                <h3 class="text-2xl font-bold mb-4">Fabric R&D & Sourcing</h3>
-                <p class="text-muted-foreground">We source only premium, certified fibers. Our lab tests for tensile strength, color fastness, and protection ratings before any cutting begins.</p>
+                <h3 class="text-2xl font-bold mb-4">Material R&D & Sourcing</h3>
+                <p class="text-muted-foreground">We source only premium, certified polymers and fibers. Our lab tests for tensile strength, chemical resistance, and protection ratings.</p>
               </div>
               <div class="md:w-1/2 aspect-video rounded-xl overflow-hidden bg-muted">
-                <img src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=2070&auto=format&fit=crop" class="object-cover" alt="Fabric testing" />
+                <img src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=2070&auto=format&fit=crop" class="object-cover" alt="Material testing" />
               </div>
             </div>
 
             <div class="flex flex-col md:flex-row-reverse gap-8 items-center">
               <div class="md:w-1/2">
                 <div class="text-xs font-bold text-brand uppercase tracking-widest mb-2">Step 02</div>
-                <h3 class="text-2xl font-bold mb-4">Precision Auto-Cutting</h3>
-                <p class="text-muted-foreground">Using advanced CAD/CAM systems and automated cutting tables, we ensure 100% pattern accuracy and minimal fabric waste.</p>
+                <h3 class="text-2xl font-bold mb-4">Automated Dipping & Forming</h3>
+                <p class="text-muted-foreground">Using advanced automated dipping lines, we ensure uniform coating thickness and perfect ergonomic fit for every size.</p>
               </div>
               <div class="md:w-1/2 aspect-video rounded-xl overflow-hidden bg-muted">
-                <img src="https://images.unsplash.com/photo-1504198453319-5ce911bafcde?q=80&w=2070&auto=format&fit=crop" class="object-cover" alt="Precision cutting" />
+                <img src="https://images.unsplash.com/photo-1504198453319-5ce911bafcde?q=80&w=2070&auto=format&fit=crop" class="object-cover" alt="Automated production" />
               </div>
             </div>
 
             <div class="flex flex-col md:flex-row gap-8 items-center">
               <div class="md:w-1/2">
                 <div class="text-xs font-bold text-brand uppercase tracking-widest mb-2">Step 03</div>
-                <h3 class="text-2xl font-bold mb-4">Specialized Stitching</h3>
-                <p class="text-muted-foreground">Our assembly lines utilize heavy-duty industrial machines managed by master tailors with decades of experience in technical workwear.</p>
+                <h3 class="text-2xl font-bold mb-4">Precision Finishing</h3>
+                <p class="text-muted-foreground">Our assembly lines utilize precision technology managed by experts with decades of experience in technical safety gear.</p>
               </div>
               <div class="md:w-1/2 aspect-video rounded-xl overflow-hidden bg-muted">
-                <img src="https://images.unsplash.com/photo-1525909002-1b05f0c869d8?q=80&w=2070&auto=format&fit=crop" class="object-cover" alt="Garment stitching" />
+                <img src="https://images.unsplash.com/photo-1525909002-1b05f0c869d8?q=80&w=2070&auto=format&fit=crop" class="object-cover" alt="Final finishing" />
               </div>
             </div>
           </div>
         </div>
       `,
       status: "PUBLISHED",
-      seoTitle: "Modern Manufacturing Process | Virtous Uniform Co.",
-      seoDescription: "Explore our state-of-the-art production line, from CAD design and automated cutting to specialized technical stitching."
+      seoTitle: "Modern Glove Manufacturing Process | VU Gloves Co.",
+      seoDescription: "Explore our state-of-the-art production line, from material design and automated dipping to specialized quality finishing."
     },
     {
       title: "Quality Standards",
@@ -380,7 +380,7 @@ async function main() {
           <div class="p-12 rounded-3xl bg-brand text-brand-foreground shadow-2xl">
             <h2 class="text-3xl font-bold mb-6">Zero Tolerance for Defects</h2>
             <p class="text-xl leading-relaxed opacity-90">
-              Our quality assurance team operates as an independent body within the factory. Every single unit produced at Virtous Uniform undergoes a 12-point inspection process.
+              Our quality assurance team operates as an independent body within the factory. Every single pair produced at VU Gloves undergoes a 12-point inspection process.
             </p>
           </div>
 
@@ -390,14 +390,14 @@ async function main() {
                 <span class="size-2 rounded-full bg-brand"></span>
                 In-Line Inspection
               </h3>
-              <p class="text-muted-foreground">Quality controllers are stationed at every 5 machines to catch and rectify stitching errors immediately during the assembly phase.</p>
+              <p class="text-muted-foreground">Quality controllers are stationed at critical points to catch and rectify errors immediately during the manufacturing phase.</p>
             </div>
             <div class="p-8 border border-border rounded-2xl hover:bg-card transition-colors">
               <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
                 <span class="size-2 rounded-full bg-brand"></span>
                 Standard Compliance
               </h3>
-              <p class="text-muted-foreground">We strictly adhere to ISO 9001:2015, ensuring our management systems and production outputs meet international rigor.</p>
+              <p class="text-muted-foreground">We strictly adhere to ISO 9001:2015, ensuring our management systems and production outputs meet international safety rigor.</p>
             </div>
           </div>
 
@@ -409,7 +409,7 @@ async function main() {
         </div>
       `,
       status: "PUBLISHED",
-      seoTitle: "Quality Assurance & Certifications | Virtous Uniform",
+      seoTitle: "Quality Assurance & Certifications | VU Gloves",
       seoDescription: "Learn about our rigorous 12-point quality inspection and our compliance with global safety and manufacturing standards."
     },
   ];
