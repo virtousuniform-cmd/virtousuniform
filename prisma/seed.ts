@@ -146,6 +146,23 @@ async function main() {
           "ISO-certified manufacturing, exporting to 40+ countries with rigorous quality assurance and design excellence.",
         ctaPrimary: { label: "Explore Products", href: "/products" },
         ctaSecondary: { label: "Request a Quotation", href: "/request-quote" },
+        slides: [
+          {
+            image: "https://images.unsplash.com/photo-1590736704728-f4730bb30770?q=80&w=2074&auto=format&fit=crop",
+            headline: "Elevating Professional Standards",
+            subheadline: "Custom-tailored uniform solutions for global industries, blending safety with unparalleled style."
+          },
+          {
+            image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop",
+            headline: "Precision Manufacturing",
+            subheadline: "Every stitch reflects our commitment to quality, ensuring durability and comfort in every garment."
+          },
+          {
+            image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop",
+            headline: "Global Export Excellence",
+            subheadline: "Serving diverse sectors across 40+ countries with reliable, ISO-certified professional workwear."
+          }
+        ]
       },
     },
     {
@@ -248,83 +265,167 @@ async function main() {
     {
       title: "About Us",
       slug: "about",
-      content: "<p>Virtous Uniform is a leading manufacturer of professional workwear and uniforms...</p>",
+      content: `
+        <div class="space-y-12">
+          <section class="grid gap-12 lg:grid-cols-2 items-center">
+            <div>
+              <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-6">Built on a Legacy of Excellence</h2>
+              <p class="text-lg text-muted-foreground leading-relaxed">
+                For over two decades, Virtous Uniform has been at the forefront of professional garment manufacturing. What started as a local family-owned workshop has evolved into a global powerhouse, serving leading corporations and government institutions in over 40 countries.
+              </p>
+              <p class="mt-4 text-lg text-muted-foreground leading-relaxed">
+                Our philosophy is simple: Quality is not an act, it is a habit. We combine traditional craftsmanship with state-of-the-art automation to deliver products that don't just meet standards, but set them.
+              </p>
+            </div>
+            <div class="relative aspect-video overflow-hidden rounded-2xl bg-muted shadow-2xl">
+              <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop" class="object-cover" alt="Our Facility" />
+            </div>
+          </section>
+
+          <div class="grid gap-8 sm:grid-cols-3 border-y border-border py-12">
+            <div class="text-center">
+              <div class="text-4xl font-bold text-brand mb-2">20+</div>
+              <div class="text-sm font-medium text-muted-foreground uppercase tracking-wider">Years Experience</div>
+            </div>
+            <div class="text-center">
+              <div class="text-4xl font-bold text-brand mb-2">40+</div>
+              <div class="text-sm font-medium text-muted-foreground uppercase tracking-wider">Global Markets</div>
+            </div>
+            <div class="text-center">
+              <div class="text-4xl font-bold text-brand mb-2">1M+</div>
+              <div class="text-sm font-medium text-muted-foreground uppercase tracking-wider">Units Monthly</div>
+            </div>
+          </div>
+
+          <section>
+            <h2 class="text-3xl font-bold tracking-tight text-center mb-12">Our Core Values</h2>
+            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              <div class="p-8 rounded-2xl bg-card border border-border hover:border-brand transition-colors">
+                <h3 class="text-xl font-bold mb-3">Integrity</h3>
+                <p class="text-muted-foreground">We believe in transparent business practices and building long-term trust with our partners worldwide.</p>
+              </div>
+              <div class="p-8 rounded-2xl bg-card border border-border hover:border-brand transition-colors">
+                <h3 class="text-xl font-bold mb-3">Innovation</h3>
+                <p class="text-muted-foreground">Continuously investing in fabric technology and ergonomic designs to ensure safety and comfort.</p>
+              </div>
+              <div class="p-8 rounded-2xl bg-card border border-border hover:border-brand transition-colors">
+                <h3 class="text-xl font-bold mb-3">Sustainability</h3>
+                <p class="text-muted-foreground">Committed to ethical manufacturing and reducing our environmental footprint through efficient production.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      `,
       status: "PUBLISHED",
+      seoTitle: "About Virtous Uniform | Global Leader in Professional Workwear",
+      seoDescription: "Learn about our 20-year legacy of manufacturing high-quality industrial, medical, and professional uniforms for clients in 40+ countries."
     },
     {
       title: "Manufacturing Process",
-      slug: "manufacturing-process",
-      content: "<p>Our state-of-the-art manufacturing facility employs advanced techniques...</p>",
+      slug: "manufacturing",
+      content: `
+        <div class="space-y-16">
+          <header class="max-w-3xl">
+            <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-6">Precision Engineering at Scale</h2>
+            <p class="text-lg text-muted-foreground leading-relaxed">
+              Our vertically integrated manufacturing process allows us to maintain total quality control, from raw fabric inspection to final garment finishing.
+            </p>
+          </header>
+
+          <div class="grid gap-12">
+            <div class="flex flex-col md:flex-row gap-8 items-center">
+              <div class="md:w-1/2">
+                <div class="text-xs font-bold text-brand uppercase tracking-widest mb-2">Step 01</div>
+                <h3 class="text-2xl font-bold mb-4">Fabric R&D & Sourcing</h3>
+                <p class="text-muted-foreground">We source only premium, certified fibers. Our lab tests for tensile strength, color fastness, and protection ratings before any cutting begins.</p>
+              </div>
+              <div class="md:w-1/2 aspect-video rounded-xl overflow-hidden bg-muted">
+                <img src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=2070&auto=format&fit=crop" class="object-cover" alt="Fabric testing" />
+              </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row-reverse gap-8 items-center">
+              <div class="md:w-1/2">
+                <div class="text-xs font-bold text-brand uppercase tracking-widest mb-2">Step 02</div>
+                <h3 class="text-2xl font-bold mb-4">Precision Auto-Cutting</h3>
+                <p class="text-muted-foreground">Using advanced CAD/CAM systems and automated cutting tables, we ensure 100% pattern accuracy and minimal fabric waste.</p>
+              </div>
+              <div class="md:w-1/2 aspect-video rounded-xl overflow-hidden bg-muted">
+                <img src="https://images.unsplash.com/photo-1504198453319-5ce911bafcde?q=80&w=2070&auto=format&fit=crop" class="object-cover" alt="Precision cutting" />
+              </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-8 items-center">
+              <div class="md:w-1/2">
+                <div class="text-xs font-bold text-brand uppercase tracking-widest mb-2">Step 03</div>
+                <h3 class="text-2xl font-bold mb-4">Specialized Stitching</h3>
+                <p class="text-muted-foreground">Our assembly lines utilize heavy-duty industrial machines managed by master tailors with decades of experience in technical workwear.</p>
+              </div>
+              <div class="md:w-1/2 aspect-video rounded-xl overflow-hidden bg-muted">
+                <img src="https://images.unsplash.com/photo-1525909002-1b05f0c869d8?q=80&w=2070&auto=format&fit=crop" class="object-cover" alt="Garment stitching" />
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
       status: "PUBLISHED",
+      seoTitle: "Modern Manufacturing Process | Virtous Uniform Co.",
+      seoDescription: "Explore our state-of-the-art production line, from CAD design and automated cutting to specialized technical stitching."
     },
     {
-      title: "Why Choose Us",
-      slug: "why-choose-us",
-      content: "<p>We offer unparalleled quality, competitive pricing, and global delivery...</p>",
+      title: "Quality Standards",
+      slug: "quality",
+      content: `
+        <div class="space-y-12">
+          <div class="p-12 rounded-3xl bg-brand text-brand-foreground shadow-2xl">
+            <h2 class="text-3xl font-bold mb-6">Zero Tolerance for Defects</h2>
+            <p class="text-xl leading-relaxed opacity-90">
+              Our quality assurance team operates as an independent body within the factory. Every single unit produced at Virtous Uniform undergoes a 12-point inspection process.
+            </p>
+          </div>
+
+          <div class="grid gap-6 md:grid-cols-2">
+            <div class="p-8 border border-border rounded-2xl hover:bg-card transition-colors">
+              <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <span class="size-2 rounded-full bg-brand"></span>
+                In-Line Inspection
+              </h3>
+              <p class="text-muted-foreground">Quality controllers are stationed at every 5 machines to catch and rectify stitching errors immediately during the assembly phase.</p>
+            </div>
+            <div class="p-8 border border-border rounded-2xl hover:bg-card transition-colors">
+              <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <span class="size-2 rounded-full bg-brand"></span>
+                Standard Compliance
+              </h3>
+              <p class="text-muted-foreground">We strictly adhere to ISO 9001:2015, ensuring our management systems and production outputs meet international rigor.</p>
+            </div>
+          </div>
+
+          <section class="bg-muted/50 rounded-2xl p-12 text-center">
+            <h2 class="text-2xl font-bold mb-4">Request Our Certificates</h2>
+            <p class="text-muted-foreground mb-8 max-w-lg mx-auto">We provide full documentation for all our test results and certifications to our wholesale partners.</p>
+            <a href="/contact" class="inline-flex h-12 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90">Contact Compliance Team</a>
+          </section>
+        </div>
+      `,
       status: "PUBLISHED",
-    },
-    {
-      title: "Quality Assurance",
-      slug: "quality-assurance",
-      content: "<p>Every garment undergoes rigorous quality checks to ensure compliance...</p>",
-      status: "PUBLISHED",
-    },
-    {
-      title: "Research & Development",
-      slug: "research-development",
-      content: "<p>We continuously innovate to bring the best fabric technologies to our clients...</p>",
-      status: "PUBLISHED",
-    },
-    {
-      title: "Certifications",
-      slug: "certifications",
-      content: "<p>Our facility is ISO 9001:2015 certified...</p>",
-      status: "PUBLISHED",
-    },
-    {
-      title: "Factory Tour",
-      slug: "factory-tour",
-      content: "<p>Take a virtual look inside our production line...</p>",
-      status: "PUBLISHED",
-    },
-    {
-      title: "Industries Served",
-      slug: "industries-served",
-      content: "<p>We provide uniform solutions for Healthcare, Hospitality, Construction, and more...</p>",
-      status: "PUBLISHED",
-    },
-    {
-      title: "Export Markets",
-      slug: "export-markets",
-      content: "<p>We export to over 40 countries across Europe, Middle East, and North America...</p>",
-      status: "PUBLISHED",
-    },
-    {
-      title: "Privacy Policy",
-      slug: "privacy-policy",
-      content: "<p>Your privacy is important to us...</p>",
-      status: "PUBLISHED",
-    },
-    {
-      title: "Terms of Service",
-      slug: "terms",
-      content: "<p>By using our services, you agree to the following terms...</p>",
-      status: "PUBLISHED",
+      seoTitle: "Quality Assurance & Certifications | Virtous Uniform",
+      seoDescription: "Learn about our rigorous 12-point quality inspection and our compliance with global safety and manufacturing standards."
     },
   ];
 
   for (const page of pages) {
     await prisma.contentPage.upsert({
       where: { slug: page.slug },
-      update: {},
-      create: page as any,
+      update: { ...page as any },
+      create: { ...page as any },
     });
   }
 
   // ── Featured Categories for Home ─────────────────────────
   await prisma.category.updateMany({
     where: { slug: { in: ["industrial-safety", "medical-healthcare", "chemical-resistant"] } },
-    data: { isFeaturedOnHome: true },
+    data: { isFeaturedOnHome: true, isVisible: true },
   });
 
   console.log("Seed complete. Register an account, then run: pnpm promote:admin <email>");

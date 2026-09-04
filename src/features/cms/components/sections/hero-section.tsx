@@ -4,87 +4,127 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Reveal } from "@/components/motion/reveal";
 import { HeroVisualLoader } from "./hero-visual-loader";
 import { TrustBadgeMarquee } from "./trust-badge-marquee";
 import { HeroBackgroundSlider } from "./hero-background-slider";
 import { AnimatePresence, motion } from "motion/react";
 
-type HeroContent = {
+type HeroSlide = {
+  image: string;
   headline: string;
-  subheadline?: string;
+  subheadline: string;
+};
+
+type HeroContent = {
+  slides?: HeroSlide[];
   ctaPrimary?: { label: string; href: string };
   ctaSecondary?: { label: string; href: string };
-  images?: string[];
 };
 
 export function HeroSection({ content }: { content: HeroContent }) {
   const [slideIndex, setSlideIndex] = useState(0);
   const [showText, setShowText] = useState(true);
 
-  // Trigger text re-animation on slide change
+  const slides = content.slides || [];
+  const currentSlide = slides[slideIndex] || {
+    headline: (content as any).headline || "Virtous Uniform",
+    subheadline: (content as any).subheadline || "Premium Professional Workwear",
+  };
+
+  // Re-trigger text animation whenever slide changes
   useEffect(() => {
     setShowText(false);
-    const timer = setTimeout(() => setShowText(true), 1200); // 1.2s delay to let image settle
+    // Wait for the image slide animation to almost finish before starting text
+    const timer = setTimeout(() => setShowText(true), 600);
     return () => clearTimeout(timer);
   }, [slideIndex]);
 
+  const imageList = slides.map(s => s.image);
+
   return (
     <>
-      <section className="relative overflow-hidden bg-primary min-h-[85vh] md:min-h-[700px] flex items-center">
-        <HeroBackgroundSlider images={content.images} onIndexChange={setSlideIndex} />
+      <section className="relative overflow-hidden bg-primary min-h-[90vh] md:min-h-[750px] flex items-center">
+        {/* Background Images Layer */}
+        <HeroBackgroundSlider images={imageList} onIndexChange={setSlideIndex} />
 
-        <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-6 pt-24 pb-28 sm:pt-32 sm:pb-36 lg:grid-cols-[1.1fr_0.9fr] lg:pt-40 lg:pb-44 w-full">
-          <div className="text-center lg:text-left min-h-[300px] flex flex-col justify-center">
+        {/* Content Layer */}
+        <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 px-6 pt-24 pb-28 sm:pt-32 sm:pb-36 lg:grid-cols-[1.2fr_0.8fr] w-full">
+          <div className="text-center lg:text-left min-h-[400px] flex flex-col justify-center">
             <AnimatePresence mode="wait">
               {showText && (
                 <motion.div
-                  key={slideIndex} // Re-animate on every slide
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 1.05 }}
-                  transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                  key={slideIndex}
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{
+                    duration: 0.8,
+                    ease: [0.16, 1, 0.3, 1],
+                    staggerChildren: 0.1
+                  }}
                 >
-                  <h1 className="mt-5 font-display text-4xl leading-[1.05] font-semibold tracking-tight text-primary-foreground sm:text-5xl lg:text-7xl drop-shadow-2xl">
-                    {content.headline}
-                  </h1>
+                  <motion.h1
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="font-display text-5xl leading-[1.05] font-bold tracking-tight text-white sm:text-6xl lg:text-8xl drop-shadow-2xl"
+                  >
+                    {currentSlide.headline}
+                  </motion.h1>
 
-                  {content.subheadline && (
-                    <p className="mx-auto mt-6 max-w-xl text-lg text-primary-foreground/90 lg:mx-0 font-medium drop-shadow-lg leading-relaxed">
-                      {content.subheadline}
-                    </p>
-                  )}
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="mx-auto mt-8 max-w-2xl text-xl text-white/90 lg:mx-0 font-medium drop-shadow-lg leading-relaxed md:text-2xl"
+                  >
+                    {currentSlide.subheadline}
+                  </motion.p>
 
-                  {(content.ctaPrimary || content.ctaSecondary) && (
-                    <div className="mt-10 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
-                      {content.ctaPrimary && (
-                        <Button size="lg" variant="brand" asChild className="shadow-2xl h-14 px-8 text-base">
-                          <Link href={content.ctaPrimary.href}>
-                            {content.ctaPrimary.label}
-                            <ArrowRight className="ml-2 size-5" />
-                          </Link>
-                        </Button>
-                      )}
-                      {content.ctaSecondary && (
-                        <Button
-                          size="lg"
-                          variant="outline"
-                          asChild
-                          className="border-white/40 bg-black/30 backdrop-blur-md text-primary-foreground hover:bg-white/20 h-14 px-8 text-base"
-                        >
-                          <Link href={content.ctaSecondary.href}>{content.ctaSecondary.label}</Link>
-                        </Button>
-                      )}
-                    </div>
-                  )}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.4 }}
+                    className="mt-12 flex flex-wrap items-center justify-center gap-4 lg:justify-start"
+                  >
+                    {content.ctaPrimary && (
+                      <Button size="lg" variant="brand" asChild className="shadow-2xl h-16 px-10 text-lg group">
+                        <Link href={content.ctaPrimary.href}>
+                          {content.ctaPrimary.label}
+                          <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                      </Button>
+                    )}
+                    {content.ctaSecondary && (
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        asChild
+                        className="border-white/30 bg-white/10 backdrop-blur-md text-white hover:bg-white/20 h-16 px-10 text-lg"
+                      >
+                        <Link href={content.ctaSecondary.href}>{content.ctaSecondary.label}</Link>
+                      </Button>
+                    )}
+                  </motion.div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
+          {/* Optional Right Side Visual (Cards) */}
           <div className="hidden lg:block">
             <HeroVisualLoader />
           </div>
+        </div>
+
+        {/* Progress Bar (Visual indicator of slide timing) */}
+        <div className="absolute bottom-0 left-0 h-1.5 bg-white/10 w-full z-20">
+          <motion.div
+            key={slideIndex}
+            initial={{ width: "0%" }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 6, ease: "linear" }}
+            className="h-full bg-brand"
+          />
         </div>
       </section>
 
