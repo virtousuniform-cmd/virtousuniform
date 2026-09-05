@@ -6,8 +6,13 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { pdf } from "@react-pdf/renderer";
 import { CataloguePdfTemplate } from "./catalogue-pdf-template";
+import { cn } from "@/lib/utils";
 
-export function DownloadCatalogueButton() {
+export function DownloadCatalogueButton({
+  variant = "brand"
+}: {
+  variant?: "brand" | "white" | "outline"
+}) {
   const [isGenerating, setIsGenerating] = useState(false);
 
   async function handleDownload() {
@@ -37,10 +42,13 @@ export function DownloadCatalogueButton() {
     }
   }
 
+  const buttonVariant = variant === "white" ? "outline" : variant;
+  const whiteStyles = variant === "white" ? "border-white/30 bg-white/10 backdrop-blur-md text-white hover:bg-white/20 h-16 px-10 text-lg shadow-2xl" : "";
+
   return (
     <Button
-      variant="brand"
-      className="gap-2"
+      variant={buttonVariant as any}
+      className={cn("gap-2", whiteStyles)}
       disabled={isGenerating}
       onClick={handleDownload}
     >

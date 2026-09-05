@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { HeroVisualLoader } from "./hero-visual-loader";
 import { TrustBadgeMarquee } from "./trust-badge-marquee";
 import { HeroBackgroundSlider } from "./hero-background-slider";
+import { DownloadCatalogueButton } from "@/features/products/components/download-catalogue-button";
 import { AnimatePresence, motion } from "motion/react";
 
 type HeroSlide = {
@@ -80,31 +81,29 @@ export function HeroSection({ content }: { content: HeroContent }) {
                     {currentSlide.subheadline}
                   </motion.p>
 
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.4 }}
-                    className="mt-12 flex flex-wrap items-center justify-center gap-4 lg:justify-start"
-                  >
-                    {content.ctaPrimary && (
-                      <Button size="lg" variant="brand" asChild className="shadow-2xl h-16 px-10 text-lg group">
-                        <Link href={content.ctaPrimary.href}>
-                          {content.ctaPrimary.label}
-                          <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
-                        </Link>
-                      </Button>
-                    )}
-                    {content.ctaSecondary && (
-                      <Button
-                        size="lg"
-                        variant="outline"
-                        asChild
-                        className="border-white/30 bg-white/10 backdrop-blur-md text-white hover:bg-white/20 h-16 px-10 text-lg"
-                      >
-                        <Link href={content.ctaSecondary.href}>{content.ctaSecondary.label}</Link>
-                      </Button>
-                    )}
-                  </motion.div>
+                    <div className="mt-12 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+                      {content.ctaPrimary && (
+                        <Button size="lg" variant="brand" asChild className="shadow-2xl h-16 px-10 text-lg group">
+                          <Link href={content.ctaPrimary.href}>
+                            {content.ctaPrimary.label}
+                            <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
+                          </Link>
+                        </Button>
+                      )}
+                      {content.ctaSecondary && (
+                        <Button
+                          size="lg"
+                          variant="outline"
+                          asChild
+                          className="border-white/30 bg-white/10 backdrop-blur-md text-white hover:bg-white/20 h-16 px-10 text-lg"
+                        >
+                          <Link href={content.ctaSecondary.href}>{content.ctaSecondary.label}</Link>
+                        </Button>
+                      )}
+                      <div className="hidden sm:block">
+                        <DownloadCatalogueButton variant="white" />
+                      </div>
+                    </div>
                 </motion.div>
               )}
             </AnimatePresence>

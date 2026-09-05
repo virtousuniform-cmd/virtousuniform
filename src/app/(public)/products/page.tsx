@@ -10,8 +10,8 @@ import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { TiltCard } from "@/components/motion/tilt-card";
 import { cn } from "@/lib/utils";
 import { DownloadCatalogueButton } from "@/features/products/components/download-catalogue-button";
+import { ProductFilters } from "@/features/products/components/product-filters";
 import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
 
 export const metadata: Metadata = {
   title: "Products",
@@ -59,37 +59,11 @@ export default async function ProductsPage({
         </div>
       </div>
 
-      {/* Quick industry/category filter — the "glove finder" pattern real
-          PPE brands use so a buyer can jump straight to their use case
-          instead of scanning an unfiltered grid. Pure server-rendered
-          links (query params), no client JS needed. */}
-      <div className="border-b border-border bg-card py-6">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-            <div className="flex flex-wrap gap-2">
-              <FilterPill href="/products" active={!query.categoryId} label="All Products" />
-              {categories.map((c) => (
-                <FilterPill
-                  key={c.id}
-                  href={`/products?categoryId=${c.id}`}
-                  active={query.categoryId === c.id}
-                  label={c.name}
-                />
-              ))}
-            </div>
-
-            <form action="/products" className="relative w-full max-w-sm">
-              <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                name="search"
-                defaultValue={query.search}
-                placeholder="Search products..."
-                className="pl-9"
-              />
-            </form>
-          </div>
-        </div>
-      </div>
+      <ProductFilters
+        categories={categories}
+        currentCategoryId={query.categoryId}
+        currentSearch={query.search}
+      />
 
       <div className="mx-auto max-w-7xl px-6 py-16">
         {items.length === 0 ? (
@@ -182,29 +156,5 @@ export default async function ProductsPage({
         </div>
       </div>
     </div>
-  );
-}
-
-function FilterPill({
-  href,
-  active,
-  label,
-}: {
-  href: string;
-  active: boolean;
-  label: string;
-}) {
-  return (
-    <Link
-      href={href}
-      className={cn(
-        "rounded-full border px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-colors",
-        active
-          ? "border-brand bg-brand text-brand-foreground"
-          : "border-border text-muted-foreground hover:border-brand/50 hover:text-foreground",
-      )}
-    >
-      {label}
-    </Link>
   );
 }

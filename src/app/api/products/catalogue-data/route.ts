@@ -12,12 +12,12 @@ export async function GET() {
         category: true,
         images: {
           orderBy: { sortOrder: "asc" },
-          take: 1,
         },
       },
-      orderBy: {
-        name: "asc",
-      },
+      orderBy: [
+        { category: { sortOrder: "asc" } },
+        { name: "asc" },
+      ],
     });
 
     return NextResponse.json(products);
