@@ -141,9 +141,9 @@ async function main() {
       key: "HERO",
       sortOrder: 1,
       content: {
-        headline: "VU Gloves - Precision Protection for Professionals",
+        headline: "Virtuous Uniform - Precision Protection for Professionals",
         subheadline:
-          "ISO-certified manufacturer of high-performance gloves, exporting to 40+ countries with rigorous quality assurance.",
+          "Manufacturer of high-performance gloves, exporting to 12+ countries with rigorous quality assurance.",
         ctaPrimary: { label: "Explore Collection", href: "/products" },
         ctaSecondary: { label: "Request Quotation", href: "/request-quote" },
         slides: [
@@ -160,7 +160,7 @@ async function main() {
           {
             image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop",
             headline: "Global Export Partner",
-            subheadline: "Providing reliable protective gear to healthcare and industrial sectors across 40+ countries."
+            subheadline: "Providing reliable protective gear to healthcare and industrial sectors across 12+ countries."
           }
         ]
       },
@@ -170,7 +170,7 @@ async function main() {
       sortOrder: 2,
       content: {
         items: [
-          { label: "Countries Served", value: 40 },
+          { label: "Countries Served", value: 12 },
           { label: "Years of Experience", value: 20 },
           { label: "Gloves Produced Annually", value: 50000000 },
           { label: "Quality Certifications", value: 12 },
@@ -229,7 +229,7 @@ async function main() {
     {
       question: "What certifications do your gloves carry?",
       answer:
-        "Our products are manufactured under ISO 9001 and meet CE, ASTM, and EN standards applicable to protective gloves.",
+        "Our products meet CE, ASTM, and EN standards applicable to protective gloves.",
       sortOrder: 3,
     },
   ];
@@ -271,7 +271,7 @@ async function main() {
             <div>
               <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-6">Built on a Legacy of Excellence</h2>
               <p class="text-lg text-muted-foreground leading-relaxed">
-                For over two decades, VU Gloves has been at the forefront of professional protective gear manufacturing. What started as a local family-owned workshop has evolved into a global powerhouse, serving leading corporations and government institutions in over 40 countries.
+                For over two decades, Virtuous Uniform has been at the forefront of professional protective gear manufacturing. What started as a local family-owned workshop has evolved into a global powerhouse, serving leading corporations and government institutions in over 12 countries.
               </p>
               <p class="mt-4 text-lg text-muted-foreground leading-relaxed">
                 Our philosophy is simple: Quality is not an act, it is a habit. We combine traditional craftsmanship with state-of-the-art automation to deliver products that don't just meet standards, but set them.
@@ -288,7 +288,7 @@ async function main() {
               <div class="text-sm font-medium text-muted-foreground uppercase tracking-wider">Years Experience</div>
             </div>
             <div class="text-center">
-              <div class="text-4xl font-bold text-brand mb-2">40+</div>
+              <div class="text-4xl font-bold text-brand mb-2">12+</div>
               <div class="text-sm font-medium text-muted-foreground uppercase tracking-wider">Global Markets</div>
             </div>
             <div class="text-center">
@@ -317,8 +317,8 @@ async function main() {
         </div>
       `,
       status: "PUBLISHED",
-      seoTitle: "About VU Gloves | Global Leader in Professional Protective Gear",
-      seoDescription: "Learn about our 20-year legacy of manufacturing high-quality industrial, medical, and professional gloves for clients in 40+ countries."
+      seoTitle: "About Virtuous Uniform | Global Leader in Professional Protective Gear",
+      seoDescription: "Learn about our 20-year legacy of manufacturing high-quality industrial, medical, and professional gloves for clients in 12+ countries."
     },
     {
       title: "Manufacturing Process",
@@ -337,7 +337,7 @@ async function main() {
               <div class="md:w-1/2">
                 <div class="text-xs font-bold text-brand uppercase tracking-widest mb-2">Step 01</div>
                 <h3 class="text-2xl font-bold mb-4">Material R&D & Sourcing</h3>
-                <p class="text-muted-foreground">We source only premium, certified polymers and fibers. Our lab tests for tensile strength, chemical resistance, and protection ratings.</p>
+                <p class="text-muted-foreground">We source only premium polymers and fibers. Our lab tests for tensile strength, chemical resistance, and protection ratings.</p>
               </div>
               <div class="md:w-1/2 aspect-video rounded-xl overflow-hidden bg-muted">
                 <img src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=2070&auto=format&fit=crop" class="object-cover" alt="Material testing" />
@@ -369,7 +369,7 @@ async function main() {
         </div>
       `,
       status: "PUBLISHED",
-      seoTitle: "Modern Glove Manufacturing Process | VU Gloves Co.",
+      seoTitle: "Modern Glove Manufacturing Process | Virtuous Uniform Co.",
       seoDescription: "Explore our state-of-the-art production line, from material design and automated dipping to specialized quality finishing."
     },
     {
@@ -380,7 +380,7 @@ async function main() {
           <div class="p-12 rounded-3xl bg-brand text-brand-foreground shadow-2xl">
             <h2 class="text-3xl font-bold mb-6">Zero Tolerance for Defects</h2>
             <p class="text-xl leading-relaxed opacity-90">
-              Our quality assurance team operates as an independent body within the factory. Every single pair produced at VU Gloves undergoes a 12-point inspection process.
+              Our quality assurance team operates as an independent body within the factory. Every single pair produced at Virtuous Uniform undergoes a 12-point inspection process.
             </p>
           </div>
 
@@ -397,7 +397,7 @@ async function main() {
                 <span class="size-2 rounded-full bg-brand"></span>
                 Standard Compliance
               </h3>
-              <p class="text-muted-foreground">We strictly adhere to ISO 9001:2015, ensuring our management systems and production outputs meet international safety rigor.</p>
+              <p class="text-muted-foreground">We ensure our management systems and production outputs meet international safety rigor.</p>
             </div>
           </div>
 
@@ -409,7 +409,7 @@ async function main() {
         </div>
       `,
       status: "PUBLISHED",
-      seoTitle: "Quality Assurance & Certifications | VU Gloves",
+      seoTitle: "Quality Assurance & Certifications | Virtuous Uniform",
       seoDescription: "Learn about our rigorous 12-point quality inspection and our compliance with global safety and manufacturing standards."
     },
   ];

@@ -29,10 +29,10 @@ const DEFAULT_CONTACT_INFO: ContactInfoSetting = {
 const DEFAULT_SOCIAL_LINKS: SocialLinksSetting = {};
 
 const DEFAULT_SEO: SeoDefaultsSetting = {
-  siteTitle: "VU Gloves | Premium Professional Protective Gear Manufacturer",
-  titleTemplate: "%s | VU Gloves Co.",
+  siteTitle: "Virtuous Uniform | Premium Professional Protective Gear Manufacturer",
+  titleTemplate: "%s | Virtuous Uniform Co.",
   defaultDescription:
-    "ISO-certified manufacturer of high-performance industrial, medical, and professional gloves, exporting to 40+ countries with rigorous quality assurance and scalable production capacity.",
+    "Manufacturer of high-performance industrial, medical, and professional gloves, exporting to 12+ countries with rigorous quality assurance and scalable production capacity.",
   ogImage: "",
 };
 

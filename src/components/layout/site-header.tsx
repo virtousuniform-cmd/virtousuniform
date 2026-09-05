@@ -78,7 +78,7 @@ export function SiteHeader({ publishedSlugs = [] }: { publishedSlugs?: string[] 
           <span className="flex size-7 items-center justify-center rounded-md bg-brand text-sm font-bold text-brand-foreground">
             VU
           </span>
-          VU<span className="text-brand">Gloves</span>
+          Virtuous<span className="text-brand">Uniform</span>
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">

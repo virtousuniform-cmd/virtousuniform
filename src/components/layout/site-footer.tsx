@@ -67,11 +67,11 @@ export async function SiteFooter({ publishedSlugs = [] }: { publishedSlugs?: str
               <span className="flex size-7 items-center justify-center rounded-md bg-brand text-sm font-bold text-brand-foreground">
                 VU
               </span>
-              VU<span className="text-brand">Gloves</span>
+              Virtuous<span className="text-brand">Uniform</span>
             </Link>
             <p className="mt-3 max-w-xs text-sm text-primary-foreground/60">
-              ISO-certified manufacturer of high-performance industrial, medical, and professional gloves,
-              exporting to 40+ countries.
+              Manufacturer of high-performance industrial, medical, and professional gloves,
+              exporting to 12+ countries.
             </p>
             <div className="mt-4 space-y-2 text-sm text-primary-foreground/70">
               <div className="flex items-center gap-2">
@@ -153,7 +153,7 @@ export async function SiteFooter({ publishedSlugs = [] }: { publishedSlugs?: str
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 sm:flex-row">
           <p className="text-xs text-primary-foreground/50">
-            © {new Date().getFullYear()} VU Gloves Co. All rights reserved.
+            © {new Date().getFullYear()} Virtuous Uniform Co. All rights reserved.
           </p>
           <div className="flex gap-4 text-xs text-primary-foreground/50">
             <Link

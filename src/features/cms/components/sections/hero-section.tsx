@@ -28,7 +28,7 @@ export function HeroSection({ content }: { content: HeroContent }) {
 
   const slides = content.slides || [];
   const currentSlide = slides[slideIndex] || {
-    headline: (content as any).headline || "VU Gloves",
+    headline: (content as any).headline || "Virtuous Uniform",
     subheadline: (content as any).subheadline || "Premium Professional Protective Gear",
   };
 

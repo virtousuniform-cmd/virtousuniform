@@ -16,7 +16,7 @@ import { Search } from "lucide-react";
 export const metadata: Metadata = {
   title: "Products",
   description:
-    "Browse our full catalog of ISO-certified industrial, medical, and protective gloves manufactured for global export.",
+    "Browse our full catalog of high-performance industrial, medical, and protective gloves manufactured for global export.",
 };
 
 export default async function ProductsPage({

@@ -108,7 +108,7 @@ export function RfqPdfTemplate({ rfq }: { rfq: any }) {
         <View style={styles.header}>
           <View>
             <Text style={styles.brandName}>
-              VU<Text style={styles.brandSub}>Gloves</Text>
+              Virtuous<Text style={styles.brandSub}>Uniform</Text>
             </Text>
             <Text style={{ color: "#666" }}>Precision Protective Solutions</Text>
           </View>
@@ -214,7 +214,7 @@ export function RfqPdfTemplate({ rfq }: { rfq: any }) {
 
         {/* Footer */}
         <Text style={styles.footer}>
-          This is an automatically generated document from VU Gloves Platform.
+          This is an automatically generated document from Virtuous Uniform Platform.
           Internal Admin Copy — Confidential.
         </Text>
       </Page>

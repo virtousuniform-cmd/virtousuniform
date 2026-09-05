@@ -167,17 +167,17 @@ export function CataloguePdfTemplate({ products }: { products: any[] }) {
   const categoryNames = Object.keys(groups);
 
   return (
-    <Document title="VU Gloves - Product Catalogue 2026">
+    <Document title="Virtuous Uniform - Product Catalogue 2026">
       {/* Cover Page */}
       <Page size="A4" style={styles.page}>
         <View style={styles.coverPage}>
-          <Text style={styles.coverTitle}>VU Gloves</Text>
+          <Text style={styles.coverTitle}>Virtuous Uniform</Text>
           <Text style={styles.coverSubtitle}>Product Catalogue 2026</Text>
           <View style={{ width: 100, height: 2, backgroundColor: COLORS.accent, marginBottom: 20 }} />
           <Text style={{ color: "#FFFFFF", fontSize: 14, textAlign: "center", maxWidth: 300 }}>
             Precision-engineered protective solutions for global industries.
           </Text>
-          <Text style={styles.coverFooter}>© 2026 VU Gloves Co. | Professional Protective Gear</Text>
+          <Text style={styles.coverFooter}>© 2026 Virtuous Uniform Co. | Professional Protective Gear</Text>
         </View>
       </Page>
 
@@ -187,7 +187,7 @@ export function CataloguePdfTemplate({ products }: { products: any[] }) {
           <View style={styles.header}>
             <View>
               <Text style={styles.brandName}>
-                VU<Text style={styles.brandSub}>Gloves</Text>
+                Virtuous<Text style={styles.brandSub}>Uniform</Text>
               </Text>
               <Text style={{ color: COLORS.muted, fontSize: 8 }}>Precision Industrial Quality</Text>
             </View>

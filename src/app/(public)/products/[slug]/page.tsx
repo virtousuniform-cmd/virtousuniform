@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const category = await categoryRepository.findBySlug(slug);
   if (category) {
     return {
-      title: `${category.name} | VU Gloves`,
+      title: `${category.name} | Virtuous Uniform`,
       description: category.description || `Browse our selection of ${category.name}.`,
     };
   }

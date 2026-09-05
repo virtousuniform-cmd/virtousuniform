@@ -5,7 +5,7 @@ import { renderHomepageSection } from "@/features/cms/components/sections";
 export const metadata: Metadata = {
   title: "Home",
   description:
-    "ISO-certified manufacturer of industrial, medical, and protective gloves, exporting worldwide.",
+    "Manufacturer of industrial, medical, and protective gloves, exporting to 12+ countries.",
 };
 
 export const dynamic = "force-dynamic";
