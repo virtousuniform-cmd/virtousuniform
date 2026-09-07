@@ -14,14 +14,18 @@ export async function generateMetadata({
 }: {
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-  const { id } = await params;
-  const rfq = await rfqRepository.findById(id);
+  try {
+    const { id } = await params;
+    const rfq = await rfqRepository.findById(id);
 
-  if (!rfq) return { title: "RFQ Not Found — Admin" };
+    if (!rfq) return { title: "RFQ Not Found — Admin" };
 
-  return {
-    title: `RFQ ${rfq.refNo} — Admin`,
-  };
+    return {
+      title: `RFQ ${rfq.refNo} — Admin`,
+    };
+  } catch (error) {
+    return { title: "Error Loading RFQ — Admin" };
+  }
 }
 
 export const dynamic = "force-dynamic";

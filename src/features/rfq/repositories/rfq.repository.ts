@@ -36,13 +36,9 @@ export const rfqRepository = {
     if (!id) return null;
 
     try {
-      return await prisma.rfq.findFirst({
-        where: {
-          OR: [
-            { id: id },
-            { refNo: id }
-          ]
-        },
+      // 1. Try finding by internal ID first (fastest)
+      let rfq = await prisma.rfq.findUnique({
+        where: { id },
         include: {
           items: {
             include: {
@@ -60,10 +56,11 @@ export const rfqRepository = {
           user: { select: { id: true, name: true, email: true } },
         },
       });
-    } catch (error) {
-      console.error("Prisma error in findById:", error);
-      // Fallback to finding by RefNo if the ID format was invalid for the primary key field
-      return prisma.rfq.findUnique({
+
+      if (rfq) return rfq;
+
+      // 2. If not found, try finding by refNo
+      return await prisma.rfq.findUnique({
         where: { refNo: id },
         include: {
           items: {
@@ -82,6 +79,9 @@ export const rfqRepository = {
           user: { select: { id: true, name: true, email: true } },
         },
       });
+    } catch (error) {
+      console.error("Critical error in rfqRepository.findById:", error);
+      return null;
     }
   },
 
