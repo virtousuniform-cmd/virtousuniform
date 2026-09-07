@@ -33,25 +33,56 @@ export const rfqRepository = {
   },
 
   async findById(id: string) {
-    return prisma.rfq.findUnique({
-      where: { id },
-      include: {
-        items: {
-          include: {
-            product: {
-              include: {
-                category: true,
-                images: { orderBy: { sortOrder: "asc" }, take: 1 },
-                specifications: { orderBy: { sortOrder: "asc" }, take: 3 },
+    if (!id) return null;
+
+    try {
+      return await prisma.rfq.findFirst({
+        where: {
+          OR: [
+            { id: id },
+            { refNo: id }
+          ]
+        },
+        include: {
+          items: {
+            include: {
+              product: {
+                include: {
+                  category: true,
+                  images: { orderBy: { sortOrder: "asc" }, take: 1 },
+                  specifications: { orderBy: { sortOrder: "asc" }, take: 3 },
+                },
               },
             },
           },
+          attachments: true,
+          messages: { orderBy: { createdAt: "asc" } },
+          user: { select: { id: true, name: true, email: true } },
         },
-        attachments: true,
-        messages: { orderBy: { createdAt: "asc" } },
-        user: { select: { id: true, name: true, email: true } },
-      },
-    });
+      });
+    } catch (error) {
+      console.error("Prisma error in findById:", error);
+      // Fallback to finding by RefNo if the ID format was invalid for the primary key field
+      return prisma.rfq.findUnique({
+        where: { refNo: id },
+        include: {
+          items: {
+            include: {
+              product: {
+                include: {
+                  category: true,
+                  images: { orderBy: { sortOrder: "asc" }, take: 1 },
+                  specifications: { orderBy: { sortOrder: "asc" }, take: 3 },
+                },
+              },
+            },
+          },
+          attachments: true,
+          messages: { orderBy: { createdAt: "asc" } },
+          user: { select: { id: true, name: true, email: true } },
+        },
+      });
+    }
   },
 
   async findMany(params: {

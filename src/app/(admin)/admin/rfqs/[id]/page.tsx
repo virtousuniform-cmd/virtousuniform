@@ -9,7 +9,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
-export const metadata: Metadata = { title: "Request for Quotation — Admin" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const rfq = await rfqRepository.findById(id);
+
+  if (!rfq) return { title: "RFQ Not Found — Admin" };
+
+  return {
+    title: `RFQ ${rfq.refNo} — Admin`,
+  };
+}
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminRfqDetailPage({
   params,
@@ -18,18 +33,22 @@ export default async function AdminRfqDetailPage({
 }) {
   const { id } = await params;
 
+  if (!id) {
+    console.error("No ID provided to RFQ detail page");
+    notFound();
+  }
+
   let rfq;
   try {
-    console.log("Loading RFQ ID:", id);
     rfq = await rfqRepository.findById(id);
-    console.log("RFQ loaded successfully:", rfq?.refNo);
   } catch (error: any) {
-    console.error("Error loading RFQ:", error.message);
-    throw new Error(`Failed to load RFQ: ${error.message}`);
+    console.error("Failed to fetch RFQ:", error);
+    // Let Next.js show the error page instead of a generic 404
+    throw error;
   }
 
   if (!rfq) {
-    console.log("RFQ not found for ID:", id);
+    console.warn(`RFQ not found for identifier: ${id}`);
     notFound();
   }
 

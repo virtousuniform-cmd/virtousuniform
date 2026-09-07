@@ -8,7 +8,22 @@ import { RfqConversation } from "@/features/rfq/components/rfq-conversation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDate } from "@/lib/utils";
 
-export const metadata: Metadata = { title: "Quotation Request" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const rfq = await rfqRepository.findById(id);
+
+  if (!rfq) return { title: "RFQ Not Found" };
+
+  return {
+    title: `RFQ ${rfq.refNo}`,
+  };
+}
+
+export const dynamic = "force-dynamic";
 
 export default async function CustomerRfqDetailPage({
   params,
@@ -16,11 +31,21 @@ export default async function CustomerRfqDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+
+  if (!id) notFound();
+
   const session = await auth.api.getSession({ headers: await headers() });
   const rfq = await rfqRepository.findById(id);
 
-  if (!rfq) notFound();
-  if (rfq.userId !== session!.user.id) redirect("/dashboard/rfqs");
+  if (!rfq) {
+    console.warn(`RFQ not found for customer: ${id}`);
+    notFound();
+  }
+
+  if (rfq.userId !== session!.user.id) {
+    console.warn(`Unauthorized RFQ access attempt: RFQ ${id} by User ${session!.user.id}`);
+    redirect("/dashboard/rfqs");
+  }
 
   return (
     <div className="mx-auto max-w-3xl space-y-6 p-6">
