@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { DownloadCatalogueButton } from "@/features/products/components/download-catalogue-button";
 import { ProductFilters } from "@/features/products/components/product-filters";
 import { Search } from "lucide-react";
+import { settingsRepository } from "@/features/settings/repositories/settings.repository";
 
 export const metadata: Metadata = {
   title: "Products",
@@ -31,9 +32,10 @@ export default async function ProductsPage({
     page: params.page,
   });
 
-  const [{ items, total, page, pageSize }, categories] = await Promise.all([
+  const [{ items, total, page, pageSize }, categories, catalogSettings] = await Promise.all([
     productRepository.findPublished(query),
     categoryRepository.findVisible(),
+    settingsRepository.getCatalogSettings(),
   ]);
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
@@ -68,10 +70,10 @@ export default async function ProductsPage({
       <div className="mx-auto max-w-7xl px-6 py-16">
         {items.length === 0 ? (
           <div className="rounded-lg border border-dashed border-border py-24 text-center">
-            <p className="text-muted-foreground">No products found.</p>
+            <p className="text-muted-foreground">No products found in this category.</p>
           </div>
         ) : (
-          <RevealGroup className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          <RevealGroup key={JSON.stringify(query)} className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {items.map((item) => {
               const product = item as any;
               return (
@@ -116,12 +118,12 @@ export default async function ProductsPage({
                           </p>
                         )}
                         <div className="mt-3 flex flex-wrap gap-2">
-                          {product.protectionLevel && (
+                          {catalogSettings.showProtectionLevel && product.protectionLevel && (
                             <span className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground uppercase">
                               {product.protectionLevel}
                             </span>
                           )}
-                          {product.material && (
+                          {catalogSettings.showMaterial && product.material && (
                             <span className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground uppercase">
                               {product.material}
                             </span>

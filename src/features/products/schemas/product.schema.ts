@@ -50,7 +50,7 @@ export type ProductFormValues = z.infer<typeof productFormSchema>;
 
 export const productListQuerySchema = z.object({
   search: z.string().optional(),
-  categoryId: z.string().cuid().optional(),
+  categoryId: z.string().optional(),
   status: z.enum(["DRAFT", "PUBLISHED", "SCHEDULED", "ARCHIVED"]).optional(),
   page: z.coerce.number().int().min(1).default(1),
   pageSize: z.coerce.number().int().min(1).max(100).default(20),

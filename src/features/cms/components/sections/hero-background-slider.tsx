@@ -16,16 +16,16 @@ export function HeroBackgroundSlider({
 
   const nextSlide = useCallback(() => {
     setDirection(1);
-    setIndex((prev) => {
-      const next = (prev + 1) % images.length;
-      onIndexChange?.(next);
-      return next;
-    });
-  }, [images.length, onIndexChange]);
+    setIndex((prev) => (prev + 1) % images.length);
+  }, [images.length]);
+
+  useEffect(() => {
+    onIndexChange?.(index);
+  }, [index, onIndexChange]);
 
   useEffect(() => {
     if (images.length <= 1) return;
-    const timer = setInterval(nextSlide, 6000); // 6 seconds for a professional, slower pace
+    const timer = setInterval(nextSlide, 6000);
     return () => clearInterval(timer);
   }, [images.length, nextSlide]);
 

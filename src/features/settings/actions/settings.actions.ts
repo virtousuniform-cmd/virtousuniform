@@ -7,6 +7,7 @@ import {
   type ContactInfoSetting,
   type SocialLinksSetting,
   type SeoDefaultsSetting,
+  type CatalogSettings,
 } from "../repositories/settings.repository";
 
 type ActionResult =
@@ -76,6 +77,29 @@ export async function updateSeoDefaultsAction(value: SeoDefaultsSetting): Promis
   } catch (err) {
     if (err instanceof UnauthorizedError) return { success: false, error: err.message };
     console.error("updateSeoDefaultsAction failed", err);
+    return { success: false, error: "Something went wrong. Please try again." };
+  }
+}
+
+export async function updateCatalogSettingsAction(value: CatalogSettings): Promise<ActionResult> {
+  try {
+    const session = await requireAdmin();
+    await settingsRepository.setCatalogSettings(value);
+
+    await logAudit({
+      userId: session.user.id,
+      action: "UPDATE",
+      entityType: "SiteSetting",
+      entityId: "catalog_settings",
+    });
+
+    revalidatePath("/", "layout");
+    revalidatePath("/products", "layout");
+    revalidatePath("/admin/settings");
+    return { success: true };
+  } catch (err) {
+    if (err instanceof UnauthorizedError) return { success: false, error: err.message };
+    console.error("updateCatalogSettingsAction failed", err);
     return { success: false, error: "Something went wrong. Please try again." };
   }
 }

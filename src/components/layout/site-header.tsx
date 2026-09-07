@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
 import { Menu, X, ChevronDown, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -62,7 +63,8 @@ export function SiteHeader({ publishedSlugs = [] }: { publishedSlugs?: string[] 
     publishedSlugs.includes(link.href.replace("/", ""))
   );
 
-  // About Us is a top-level link now
+  // Home, Products, Contact are always there (Home is "/", others are pages/logic)
+  // About Us is a top-level link if published
   const aboutLink = availableLinks.find(l => l.href === "/about");
 
   // "More" links are everything else that is published
@@ -74,16 +76,32 @@ export function SiteHeader({ publishedSlugs = [] }: { publishedSlugs?: string[] 
     // this reads as confident and premium rather than "generic SaaS".
     <header className="sticky top-0 z-40 border-b border-white/10 bg-primary">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <Link href="/" className="flex items-center gap-2 font-display text-lg font-semibold text-primary-foreground">
-          <span className="flex size-7 items-center justify-center rounded-md bg-brand text-sm font-bold text-brand-foreground">
-            VU
-          </span>
-          Virtuous<span className="text-brand">Uniform</span>
+        <Link href="/" className="flex items-center gap-2 font-display text-lg font-semibold text-primary-foreground group">
+          <div className="relative h-10 w-24 overflow-hidden">
+            <Image
+              src="/images/logo.png"
+              alt="Virtuous Uniform"
+              fill
+              className="object-contain transition-transform group-hover:scale-105"
+              priority
+              // Using a simple CSS-based logo as fallback if image fails or isn't uploaded yet
+              onError={(e) => {
+                (e.target as any).style.display = 'none';
+                (e.target as any).nextSibling.style.display = 'flex';
+              }}
+            />
+            <div className="hidden h-full items-center gap-2">
+              <span className="flex size-7 items-center justify-center rounded-md bg-brand text-sm font-bold text-brand-foreground">
+                VU
+              </span>
+              <span className="text-primary-foreground">Virtuous<span className="text-brand">Uniform</span></span>
+            </div>
+          </div>
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
-          <NavLink href="/about" active={pathname === "/about"}>
-            About Us
+          <NavLink href="/" active={pathname === "/"}>
+            Home
           </NavLink>
 
           <NavLink href="/products" active={pathname === "/products" || pathname.startsWith("/products/")}>
@@ -93,6 +111,12 @@ export function SiteHeader({ publishedSlugs = [] }: { publishedSlugs?: string[] 
           <NavLink href="/contact" active={pathname === "/contact"}>
             Contact
           </NavLink>
+
+          {aboutLink && (
+            <NavLink href="/about" active={pathname === "/about"}>
+              About Us
+            </NavLink>
+          )}
 
           {moreLinks.length > 0 && (
             <NavDropdown
@@ -168,11 +192,11 @@ export function SiteHeader({ publishedSlugs = [] }: { publishedSlugs?: string[] 
         <div className="border-t border-white/10 bg-primary px-6 py-4 lg:hidden">
           <nav className="flex flex-col gap-1">
             <Link
-              href="/about"
+              href="/"
               onClick={() => setMobileOpen(false)}
               className="rounded-md px-3 py-2 text-sm font-medium text-primary-foreground/90 hover:bg-white/10"
             >
-              About Us
+              Home
             </Link>
             <Link
               href="/products"
@@ -188,6 +212,15 @@ export function SiteHeader({ publishedSlugs = [] }: { publishedSlugs?: string[] 
             >
               Contact
             </Link>
+            {aboutLink && (
+              <Link
+                href="/about"
+                onClick={() => setMobileOpen(false)}
+                className="rounded-md px-3 py-2 text-sm font-medium text-primary-foreground/90 hover:bg-white/10"
+              >
+                About Us
+              </Link>
+            )}
             {moreLinks.map(
               (link) => (
                 <Link

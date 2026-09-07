@@ -43,12 +43,22 @@ export function ProductFilters({
     newParams.delete("page");
 
     startTransition(() => {
-      router.push(`/products?${newParams.toString()}`, { scroll: false });
+      router.push(`/products?${newParams.toString()}`);
     });
   }
 
   return (
-    <div className="border-b border-border bg-card py-6">
+    <>
+      {/* Visual progress bar at the top of the page during filtering */}
+      <div className={cn(
+        "fixed top-0 left-0 right-0 z-[100] h-1.5 bg-brand origin-left transition-transform duration-500 ease-in-out",
+        isPending ? "scale-x-100" : "scale-x-0"
+      )} />
+
+      <div className={cn(
+        "border-b border-border bg-card py-6 transition-opacity",
+        isPending && "opacity-70 pointer-events-none"
+      )}>
       <div className="mx-auto max-w-7xl px-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap gap-2">
@@ -100,6 +110,7 @@ export function ProductFilters({
         </div>
       </div>
     </div>
+    </>
   );
 }
 

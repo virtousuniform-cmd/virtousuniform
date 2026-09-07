@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle2, Shield, Info, Layers, Crosshair } from "lucide-react";
 import { TiltCard } from "@/components/motion/tilt-card";
 import { RevealGroup, RevealItem } from "@/components/motion/reveal";
+import { settingsRepository } from "@/features/settings/repositories/settings.repository";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -47,23 +48,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProductOrCategoryPage({ params }: Props) {
   const { slug } = await params;
 
-  const [product, category] = await Promise.all([
+  const [product, category, catalogSettings] = await Promise.all([
     productRepository.findBySlug(slug),
     categoryRepository.findBySlug(slug),
+    settingsRepository.getCatalogSettings(),
   ]);
 
   if (product) {
-    return <ProductDetailView product={product} />;
+    return <ProductDetailView product={product} settings={catalogSettings} />;
   }
 
   if (category) {
-    return <CategoryListingView category={category} />;
+    return <CategoryListingView category={category} settings={catalogSettings} />;
   }
 
   notFound();
 }
 
-async function ProductDetailView({ product }: { product: any }) {
+async function ProductDetailView({ product, settings }: { product: any; settings: any }) {
   const session = await auth.api.getSession({ headers: await headers() });
   const isSaved = session
     ? await savedProductRepository.isSaved(session.user.id, product.id)
@@ -146,8 +148,11 @@ async function ProductDetailView({ product }: { product: any }) {
               <Badge variant={product.stockStatus === "IN_STOCK" ? "success" : "outline"} className="px-3 py-1">
                 {product.stockStatus.replaceAll("_", " ")}
               </Badge>
-              {product.sku && (
+              {settings.showSku && product.sku && (
                 <span className="text-sm font-mono text-muted-foreground">SKU: {product.sku}</span>
+              )}
+              {settings.showModelNumber && product.modelNumber && (
+                <span className="text-sm font-mono text-muted-foreground">Model: {product.modelNumber}</span>
               )}
             </div>
           </div>
@@ -160,7 +165,7 @@ async function ProductDetailView({ product }: { product: any }) {
 
           {/* New Protection & Material Info */}
           <div className="grid grid-cols-2 gap-4">
-            {product.protectionLevel && (
+            {settings.showProtectionLevel && product.protectionLevel && (
               <div className="flex items-center gap-3 rounded-xl border border-border bg-card p-4">
                 <div className="flex size-10 items-center justify-center rounded-lg bg-brand/10 text-brand">
                   <Shield className="size-5" />
@@ -171,7 +176,7 @@ async function ProductDetailView({ product }: { product: any }) {
                 </div>
               </div>
             )}
-            {product.material && (
+            {settings.showMaterial && product.material && (
               <div className="flex items-center gap-3 rounded-xl border border-border bg-card p-4">
                 <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                   <Layers className="size-5" />
@@ -194,14 +199,14 @@ async function ProductDetailView({ product }: { product: any }) {
 
           {/* Detailed Specs Grid */}
           <div className="grid grid-cols-2 gap-x-8 gap-y-4 pt-4 text-sm">
-            {product.coating && <Spec label="Coating" value={product.coating} />}
-            {product.moq && <Spec label="MOQ" value={product.moq} />}
-            {product.packaging && <Spec label="Packaging" value={product.packaging} />}
-            {product.weight && <Spec label="Weight" value={product.weight} />}
-            {product.sizes.length > 0 && (
+            {settings.showCoating && product.coating && <Spec label="Coating" value={product.coating} />}
+            {settings.showMoq && product.moq && <Spec label="MOQ" value={product.moq} />}
+            {settings.showPackaging && product.packaging && <Spec label="Packaging" value={product.packaging} />}
+            {settings.showWeight && product.weight && <Spec label="Weight" value={product.weight} />}
+            {settings.showSizes && product.sizes.length > 0 && (
               <Spec label="Sizes" value={product.sizes.join(", ")} />
             )}
-            {product.colors.length > 0 && (
+            {settings.showColors && product.colors.length > 0 && (
               <Spec label="Colors" value={product.colors.join(", ")} />
             )}
           </div>
@@ -210,44 +215,48 @@ async function ProductDetailView({ product }: { product: any }) {
 
       {/* Applications & Features Tabs-like Sections */}
       <div className="mt-24 grid gap-16 lg:grid-cols-2">
-        <section>
-          <div className="flex items-center gap-2 mb-6">
-            <Crosshair className="size-5 text-brand" />
-            <h2 className="font-display text-2xl font-bold">Applications</h2>
-          </div>
-          <p className="text-muted-foreground leading-relaxed mb-6">
-            Optimized for performance in the following industrial and professional sectors:
-          </p>
-          <ul className="grid gap-3 sm:grid-cols-2">
-            {product.applications.map((app: string) => (
-              <li key={app} className="flex items-center gap-2 text-sm text-foreground/80 bg-muted/30 px-3 py-2 rounded-lg border border-border/50">
-                <CheckCircle2 className="size-4 text-success" />
-                {app.trim()}
-              </li>
-            ))}
-          </ul>
-        </section>
+        {settings.showApplications && product.applications?.length > 0 && (
+          <section>
+            <div className="flex items-center gap-2 mb-6">
+              <Crosshair className="size-5 text-brand" />
+              <h2 className="font-display text-2xl font-bold">Applications</h2>
+            </div>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              Optimized for performance in the following industrial and professional sectors:
+            </p>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {product.applications.map((app: string) => (
+                <li key={app} className="flex items-center gap-2 text-sm text-foreground/80 bg-muted/30 px-3 py-2 rounded-lg border border-border/50">
+                  <CheckCircle2 className="size-4 text-success" />
+                  {app.trim()}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
-        <section>
-          <div className="flex items-center gap-2 mb-6">
-            <Info className="size-5 text-brand" />
-            <h2 className="font-display text-2xl font-bold">Key Features</h2>
-          </div>
-          <ul className="grid gap-3">
-            {product.features.map((feature: string) => (
-              <li key={feature} className="flex items-start gap-3 text-sm text-foreground/80">
-                <div className="mt-1 size-1.5 shrink-0 rounded-full bg-brand" />
-                {feature}
-              </li>
-            ))}
-            {product.specifications.map((spec: any) => (
-              <li key={spec.id} className="flex items-start gap-3 text-sm text-foreground/80">
-                <div className="mt-1 size-1.5 shrink-0 rounded-full bg-primary" />
-                <span className="font-semibold text-foreground/90">{spec.label}:</span> {spec.value}
-              </li>
-            ))}
-          </ul>
-        </section>
+        {settings.showFeatures && product.features?.length > 0 && (
+          <section>
+            <div className="flex items-center gap-2 mb-6">
+              <Info className="size-5 text-brand" />
+              <h2 className="font-display text-2xl font-bold">Key Features</h2>
+            </div>
+            <ul className="grid gap-3">
+              {product.features.map((feature: string) => (
+                <li key={feature} className="flex items-start gap-3 text-sm text-foreground/80">
+                  <div className="mt-1 size-1.5 shrink-0 rounded-full bg-brand" />
+                  {feature}
+                </li>
+              ))}
+              {product.specifications.map((spec: any) => (
+                <li key={spec.id} className="flex items-start gap-3 text-sm text-foreground/80">
+                  <div className="mt-1 size-1.5 shrink-0 rounded-full bg-primary" />
+                  <span className="font-semibold text-foreground/90">{spec.label}:</span> {spec.value}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </div>
 
       {product.longDescription && (
@@ -304,7 +313,7 @@ async function ProductDetailView({ product }: { product: any }) {
   );
 }
 
-function CategoryListingView({ category }: { category: any }) {
+function CategoryListingView({ category, settings }: { category: any; settings: any }) {
   return (
     <div>
       <div className="bg-primary py-16">

@@ -20,6 +20,21 @@ export type SeoDefaultsSetting = {
   ogImage?: string;
 };
 
+export type CatalogSettings = {
+  showMaterial: boolean;
+  showCoating: boolean;
+  showProtectionLevel: boolean;
+  showApplications: boolean;
+  showFeatures: boolean;
+  showColors: boolean;
+  showSizes: boolean;
+  showPackaging: boolean;
+  showMoq: boolean;
+  showWeight: boolean;
+  showSku: boolean;
+  showModelNumber: boolean;
+};
+
 const DEFAULT_CONTACT_INFO: ContactInfoSetting = {
   email: "sales@yourdomain.com",
   phone: "+92 300 0000000",
@@ -34,6 +49,21 @@ const DEFAULT_SEO: SeoDefaultsSetting = {
   defaultDescription:
     "Manufacturer of high-performance industrial, medical, and professional gloves, exporting to 12+ countries with rigorous quality assurance and scalable production capacity.",
   ogImage: "",
+};
+
+const DEFAULT_CATALOG_SETTINGS: CatalogSettings = {
+  showMaterial: true,
+  showCoating: true,
+  showProtectionLevel: true,
+  showApplications: true,
+  showFeatures: true,
+  showColors: true,
+  showSizes: true,
+  showPackaging: true,
+  showMoq: true,
+  showWeight: true,
+  showSku: true,
+  showModelNumber: true,
 };
 
 export const settingsRepository = {
@@ -73,6 +103,19 @@ export const settingsRepository = {
       where: { key: "seo_defaults" },
       update: { value },
       create: { key: "seo_defaults", value },
+    });
+  },
+
+  async getCatalogSettings(): Promise<CatalogSettings> {
+    const row = await prisma.siteSetting.findUnique({ where: { key: "catalog_settings" } });
+    return row ? { ...DEFAULT_CATALOG_SETTINGS, ...(row.value as object) } : DEFAULT_CATALOG_SETTINGS;
+  },
+
+  async setCatalogSettings(value: CatalogSettings) {
+    return prisma.siteSetting.upsert({
+      where: { key: "catalog_settings" },
+      update: { value },
+      create: { key: "catalog_settings", value },
     });
   },
 };

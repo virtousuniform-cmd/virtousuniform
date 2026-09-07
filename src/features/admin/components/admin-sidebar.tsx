@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
@@ -21,6 +22,7 @@ import {
   Settings,
   ScrollText,
   Star,
+  Plus,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -36,6 +38,7 @@ const NAV_SECTIONS: {
     label: "Catalog",
     items: [
       { href: "/admin/products", label: "Products", icon: Package },
+      { href: "/admin/products/batch", label: "Batch Upload", icon: Plus },
       { href: "/admin/categories", label: "Categories", icon: FolderTree },
     ],
   },
@@ -83,8 +86,22 @@ export function AdminSidebar() {
   return (
     <aside className="hidden w-64 shrink-0 border-r border-border bg-card lg:flex lg:flex-col">
       <div className="flex h-14 items-center border-b border-border px-5">
-        <Link href="/admin" className="font-semibold text-foreground">
-          VU<span className="text-primary">Gloves</span>
+        <Link href="/admin" className="flex items-center gap-2 font-semibold text-foreground uppercase tracking-tight">
+          <div className="relative h-8 w-20">
+            <Image
+              src="/images/logo.png"
+              alt="VU"
+              fill
+              className="object-contain"
+              onError={(e) => {
+                (e.target as any).style.display = 'none';
+                (e.target as any).nextSibling.style.display = 'flex';
+              }}
+            />
+            <div className="hidden h-full items-center gap-1.5">
+              VU<span className="text-primary">Uniform</span>
+            </div>
+          </div>
         </Link>
       </div>
 
