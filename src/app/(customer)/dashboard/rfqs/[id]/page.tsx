@@ -74,12 +74,12 @@ export default async function CustomerRfqDetailPage({
             </p>
           ) : (
             <ul className="divide-y divide-border">
-              {rfq.items.map((item) => (
+              {(rfq.items || []).map((item: any) => (
                 <li key={item.id} className="flex items-center justify-between py-2 text-sm">
                   <span className="font-medium text-foreground">
                     {item.product?.name ?? "Custom item"}
                   </span>
-                  <span className="text-muted-foreground">{item.quantity}</span>
+                  <span className="text-muted-foreground">{item.quantity || "—"}</span>
                 </li>
               ))}
             </ul>
@@ -98,7 +98,7 @@ export default async function CustomerRfqDetailPage({
           <CardTitle>Conversation</CardTitle>
         </CardHeader>
         <CardContent>
-          <RfqConversation rfqId={rfq.id} messages={rfq.messages} viewerRole="CUSTOMER" />
+          <RfqConversation rfqId={rfq.id} messages={rfq.messages || []} viewerRole="CUSTOMER" />
         </CardContent>
       </Card>
     </div>

@@ -15,14 +15,19 @@ export default async function RequestQuotePage({
 }) {
   const { product: productSlug } = await searchParams;
 
-  const [products, preselected] = await Promise.all([
+  const [products, categories, preselected] = await Promise.all([
     prisma.product.findMany({
       where: { status: "PUBLISHED", deletedAt: null },
-      select: { id: true, name: true },
+      select: { id: true, name: true, categoryId: true },
       orderBy: { name: "asc" },
     }),
+    prisma.category.findMany({
+      where: { isVisible: true, deletedAt: null },
+      select: { id: true, name: true },
+      orderBy: { sortOrder: "asc" },
+    }),
     productSlug
-      ? prisma.product.findFirst({ where: { slug: productSlug }, select: { id: true } })
+      ? prisma.product.findFirst({ where: { slug: productSlug }, select: { id: true, categoryId: true } })
       : Promise.resolve(null),
   ]);
 
@@ -41,7 +46,12 @@ export default async function RequestQuotePage({
         </p>
       </div>
 
-      <RfqForm products={products} preselectedProductId={preselected?.id} />
+      <RfqForm
+        products={products as any}
+        categories={categories as any}
+        preselectedProductId={preselected?.id}
+        preselectedCategoryId={preselected?.categoryId || undefined}
+      />
     </div>
   );
 }

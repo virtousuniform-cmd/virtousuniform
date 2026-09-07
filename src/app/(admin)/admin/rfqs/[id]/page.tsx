@@ -81,7 +81,7 @@ export default async function AdminRfqDetailPage({
                 </p>
               ) : (
                 <ul className="divide-y divide-border">
-                  {rfq.items.map((item: any) => (
+                  {(rfq.items || []).map((item: any) => (
                     <li key={item.id} className="flex gap-4 py-4 first:pt-0 last:pb-0">
                       {item.product?.images?.[0]?.url ? (
                         <div className="relative size-20 shrink-0 overflow-hidden rounded-md border border-border bg-muted">
@@ -161,7 +161,7 @@ export default async function AdminRfqDetailPage({
               <CardTitle>Conversation</CardTitle>
             </CardHeader>
             <CardContent>
-              <RfqConversation rfqId={rfq.id} messages={rfq.messages} viewerRole="ADMIN" />
+              <RfqConversation rfqId={rfq.id} messages={rfq.messages || []} viewerRole="ADMIN" />
             </CardContent>
           </Card>
         </div>
@@ -172,15 +172,15 @@ export default async function AdminRfqDetailPage({
               <CardTitle>Customer</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 text-sm">
-              <InfoRow label="Company" value={rfq.companyName} />
-              <InfoRow label="Contact" value={rfq.contactName} />
-              <InfoRow label="Email" value={rfq.email} />
-              <InfoRow label="Phone" value={rfq.phone} />
-              <InfoRow label="Country" value={rfq.country} />
-              <InfoRow label="Est. Quantity" value={rfq.quantity} />
+              <InfoRow label="Company" value={rfq.companyName || "—"} />
+              <InfoRow label="Contact" value={rfq.contactName || "—"} />
+              <InfoRow label="Email" value={rfq.email || "—"} />
+              <InfoRow label="Phone" value={rfq.phone || "—"} />
+              <InfoRow label="Country" value={rfq.country || "—"} />
+              <InfoRow label="Est. Quantity" value={rfq.quantity || "—"} />
               <InfoRow
                 label="Preferred Contact"
-                value={rfq.preferredContactMethod}
+                value={rfq.preferredContactMethod || "—"}
               />
               {rfq.user && (
                 <div className="pt-2">
