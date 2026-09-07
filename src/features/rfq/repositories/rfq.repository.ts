@@ -40,15 +40,26 @@ export const rfqRepository = {
         include: {
           product: {
             include: {
-              category: true,
-              images: { orderBy: { sortOrder: "asc" as const }, take: 1 },
-              specifications: { orderBy: { sortOrder: "asc" as const }, take: 3 },
+              category: { select: { id: true, name: true, slug: true } },
+              images: {
+                orderBy: { sortOrder: "asc" as const },
+                take: 1,
+                select: { url: true, altText: true }
+              },
+              specifications: {
+                orderBy: { sortOrder: "asc" as const },
+                take: 5,
+                select: { id: true, label: true, value: true }
+              },
             },
           },
         },
       },
-      attachments: true,
-      messages: { orderBy: { createdAt: "asc" as const } },
+      attachments: { select: { id: true, fileUrl: true, fileName: true } },
+      messages: {
+        orderBy: { createdAt: "asc" as const },
+        select: { id: true, message: true, senderType: true, createdAt: true }
+      },
       user: { select: { id: true, name: true, email: true } },
     };
 

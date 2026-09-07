@@ -56,16 +56,19 @@ export default async function AdminRfqDetailPage({
     notFound();
   }
 
+  const items = rfq.items || [];
+  const messages = rfq.messages || [];
+
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-sm text-muted-foreground">
-            Submitted {formatDate(rfq.createdAt)}
+            Submitted {rfq.createdAt ? formatDate(rfq.createdAt) : "—"}
           </p>
-          <h1 className="text-2xl font-semibold text-foreground">{rfq.refNo}</h1>
+          <h1 className="text-2xl font-semibold text-foreground">{rfq.refNo || "No Ref No"}</h1>
         </div>
-        <RfqStatusSelect rfqId={rfq.id} initialStatus={rfq.status} />
+        {rfq.id && <RfqStatusSelect rfqId={rfq.id} initialStatus={rfq.status} />}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
@@ -75,74 +78,77 @@ export default async function AdminRfqDetailPage({
               <CardTitle>Requested products</CardTitle>
             </CardHeader>
             <CardContent>
-              {rfq.items.length === 0 ? (
+              {items.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
                   No specific products selected — see requirements below.
                 </p>
               ) : (
                 <ul className="divide-y divide-border">
-                  {(rfq.items || []).map((item: any) => (
-                    <li key={item.id} className="flex gap-4 py-4 first:pt-0 last:pb-0">
-                      {item.product?.images?.[0]?.url ? (
-                        <div className="relative size-20 shrink-0 overflow-hidden rounded-md border border-border bg-muted">
-                          <Image
-                            src={item.product.images[0].url}
-                            alt={item.product.images[0].altText || item.product.name || "Product"}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                      ) : (
-                        <div className="flex size-20 shrink-0 items-center justify-center rounded-md border border-dashed border-border bg-muted text-xs text-muted-foreground">
-                          No image
-                        </div>
-                      )}
-                      <div className="flex-1 space-y-1">
-                        <div className="flex items-start justify-between gap-4">
-                          <div>
-                            <p className="font-medium text-foreground">
-                              {item.product?.name ? (
-                                <Link
-                                  href={`/products/${item.product.slug}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="hover:underline"
-                                >
-                                  {item.product.name}
-                                </Link>
-                              ) : (
-                                "Custom item"
+                  {items.map((item: any) => {
+                    if (!item) return null;
+                    return (
+                      <li key={item.id} className="flex gap-4 py-4 first:pt-0 last:pb-0">
+                        {item.product?.images?.[0]?.url ? (
+                          <div className="relative size-20 shrink-0 overflow-hidden rounded-md border border-border bg-muted">
+                            <Image
+                              src={item.product.images[0].url}
+                              alt={item.product.images[0].altText || item.product.name || "Product"}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div className="flex size-20 shrink-0 items-center justify-center rounded-md border border-dashed border-border bg-muted text-xs text-muted-foreground">
+                            No image
+                          </div>
+                        )}
+                        <div className="flex-1 space-y-1">
+                          <div className="flex items-start justify-between gap-4">
+                            <div>
+                              <p className="font-medium text-foreground">
+                                {item.product?.name ? (
+                                  <Link
+                                    href={`/products/${item.product.slug}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:underline"
+                                  >
+                                    {item.product.name}
+                                  </Link>
+                                ) : (
+                                  "Custom item"
+                                )}
+                              </p>
+                              {item.product?.category?.name && (
+                                <p className="text-xs text-muted-foreground">
+                                  Category: {item.product.category.name}
+                                </p>
                               )}
+                            </div>
+                            <Badge variant="outline" className="shrink-0">
+                              Qty: {item.quantity || "—"}
+                            </Badge>
+                          </div>
+
+                          {item.product?.specifications && item.product.specifications.length > 0 && (
+                            <div className="flex flex-wrap gap-x-4 gap-y-1 pt-1">
+                              {item.product.specifications.map((spec: any) => (
+                                <p key={spec.id} className="text-xs text-muted-foreground">
+                                  <span className="font-medium text-foreground/70">{spec.label}:</span> {spec.value}
+                                </p>
+                              ))}
+                            </div>
+                          )}
+
+                          {item.notes && (
+                            <p className="rounded bg-muted px-2 py-1 text-xs text-muted-foreground">
+                              Note: {item.notes}
                             </p>
-                            {item.product?.category?.name && (
-                              <p className="text-xs text-muted-foreground">
-                                Category: {item.product.category.name}
-                              </p>
-                            )}
-                          </div>
-                          <Badge variant="outline" className="shrink-0">
-                            Qty: {item.quantity || "—"}
-                          </Badge>
+                          )}
                         </div>
-
-                        {item.product?.specifications && item.product.specifications.length > 0 && (
-                          <div className="flex flex-wrap gap-x-4 gap-y-1 pt-1">
-                            {item.product.specifications.map((spec: any) => (
-                              <p key={spec.id} className="text-xs text-muted-foreground">
-                                <span className="font-medium text-foreground/70">{spec.label}:</span> {spec.value}
-                              </p>
-                            ))}
-                          </div>
-                        )}
-
-                        {item.notes && (
-                          <p className="rounded bg-muted px-2 py-1 text-xs text-muted-foreground">
-                            Note: {item.notes}
-                          </p>
-                        )}
-                      </div>
-                    </li>
-                  ))}
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
               {rfq.requirements && (
@@ -161,7 +167,7 @@ export default async function AdminRfqDetailPage({
               <CardTitle>Conversation</CardTitle>
             </CardHeader>
             <CardContent>
-              <RfqConversation rfqId={rfq.id} messages={rfq.messages || []} viewerRole="ADMIN" />
+              {rfq.id && <RfqConversation rfqId={rfq.id} messages={messages} viewerRole="ADMIN" />}
             </CardContent>
           </Card>
         </div>

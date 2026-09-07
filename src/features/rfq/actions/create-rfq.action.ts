@@ -52,17 +52,42 @@ export async function createRfqAction(input: RfqFormValues): Promise<ActionResul
     // Database operations inside a try block
     let rfq;
     try {
-      const sequence = (await rfqRepository.countAll()) + 1;
-      const refNo = generateRfqRefNo(sequence);
+      // Use a more resilient sequence count (handle empty case)
+      const rfqCount = await prisma.rfq.count().catch(() => 0);
+      const refNo = generateRfqRefNo(rfqCount + 1);
 
-      rfq = await rfqRepository.create({
-        ...parsed.data,
-        refNo,
-        userId: session?.user.id,
+      // Filter and clean items before saving
+      const itemsToCreate = (parsed.data.items || [])
+        .filter(item => item.quantity && item.quantity.trim() !== "")
+        .map(item => ({
+          productId: (item.productId && item.productId.trim() !== "") ? item.productId : null,
+          quantity: item.quantity,
+          notes: item.notes || null,
+        }));
+
+      rfq = await prisma.rfq.create({
+        data: {
+          refNo,
+          userId: session?.user?.id || null,
+          companyName: parsed.data.companyName,
+          contactName: parsed.data.contactName,
+          email: parsed.data.email,
+          phone: parsed.data.phone,
+          country: parsed.data.country,
+          quantity: parsed.data.quantity,
+          requirements: parsed.data.requirements || null,
+          preferredContactMethod: parsed.data.preferredContactMethod,
+          items: {
+            create: itemsToCreate,
+          },
+        },
       });
     } catch (dbError: any) {
       console.error("Database error during RFQ creation:", dbError);
-      return { success: false, error: "Failed to save your request. Please check your information and try again." };
+      return {
+        success: false,
+        error: `System Error: ${dbError.message || "Failed to save request"}. Please check your internet and try again.`
+      };
     }
 
     // Fire-and-forget side effects with individual error catching to prevent one failure from breaking the response
