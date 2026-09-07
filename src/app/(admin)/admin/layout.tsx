@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { notificationService } from "@/features/notifications/services/notification.service";
 import { AdminSidebar } from "@/features/admin/components/admin-sidebar";
 import { AdminHeader } from "@/features/admin/components/admin-header";
+import { settingsRepository } from "@/features/settings/repositories/settings.repository";
 
 const ADMIN_ROLES = ["SUPER_ADMIN", "ADMIN", "EDITOR"];
 
@@ -23,11 +24,14 @@ export default async function AdminLayout({
     redirect("/dashboard");
   }
 
-  const unreadCount = await notificationService.unreadCount(session.user.id);
+  const [unreadCount, branding] = await Promise.all([
+    notificationService.unreadCount(session.user.id),
+    settingsRepository.getBranding(),
+  ]);
 
   return (
     <div className="flex min-h-screen bg-muted/30">
-      <AdminSidebar />
+      <AdminSidebar branding={branding} />
       <div className="flex flex-1 flex-col">
         <AdminHeader
           user={{
@@ -36,6 +40,7 @@ export default async function AdminLayout({
             image: session.user.image,
           }}
           unreadCount={unreadCount}
+          branding={branding}
         />
         <main className="flex-1">{children}</main>
       </div>

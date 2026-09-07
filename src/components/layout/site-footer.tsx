@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Facebook, Linkedin, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react";
-import { settingsRepository } from "@/features/settings/repositories/settings.repository";
+import { settingsRepository, type BrandingSetting } from "@/features/settings/repositories/settings.repository";
 import { cn } from "@/lib/utils";
 import { BrandLogo } from "./brand-logo";
 
@@ -40,7 +40,13 @@ const FOOTER_COLUMNS = [
   },
 ];
 
-export async function SiteFooter({ publishedSlugs = [] }: { publishedSlugs?: string[] }) {
+export async function SiteFooter({
+  publishedSlugs = [],
+  branding,
+}: {
+  publishedSlugs?: string[];
+  branding?: BrandingSetting;
+}) {
   const [contactInfo, socialLinks] = await Promise.all([
     settingsRepository.getContactInfo(),
     settingsRepository.getSocialLinks(),
@@ -65,7 +71,7 @@ export async function SiteFooter({ publishedSlugs = [] }: { publishedSlugs?: str
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-6">
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 font-display text-lg font-semibold text-primary-foreground group">
-              <BrandLogo />
+              <BrandLogo logoUrl={branding?.logoUrl} />
             </Link>
             <p className="mt-3 max-w-xs text-sm text-primary-foreground/60">
               Manufacturer of high-performance industrial, medical, and professional gloves,

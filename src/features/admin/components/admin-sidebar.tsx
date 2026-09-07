@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BrandLogo } from "@/components/layout/brand-logo";
+import type { BrandingSetting } from "@/features/settings/repositories/settings.repository";
 
 const NAV_SECTIONS: {
   label: string;
@@ -80,14 +81,14 @@ const NAV_SECTIONS: {
   },
 ];
 
-export function AdminSidebar() {
+export function AdminSidebar({ branding }: { branding?: BrandingSetting }) {
   const pathname = usePathname();
 
   return (
     <aside className="hidden w-64 shrink-0 border-r border-border bg-card lg:flex lg:flex-col">
       <div className="flex h-14 items-center border-b border-border px-5">
         <Link href="/admin" className="flex items-center gap-2 font-semibold text-foreground uppercase tracking-tight">
-          <BrandLogo className="h-8 w-20" />
+          <BrandLogo className="h-8 w-20" logoUrl={branding?.logoUrl} />
         </Link>
       </div>
 

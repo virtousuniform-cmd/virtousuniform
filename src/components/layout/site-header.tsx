@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useSession, signOut } from "@/lib/auth-client";
 import { BrandLogo } from "./brand-logo";
+import type { BrandingSetting } from "@/features/settings/repositories/settings.repository";
 
 const COMPANY_LINKS = [
   { href: "/about", label: "About Us" },
@@ -33,7 +34,13 @@ const SIMPLE_LINKS = [
   { href: "/export-markets", label: "Export Markets" },
 ];
 
-export function SiteHeader({ publishedSlugs = [] }: { publishedSlugs?: string[] }) {
+export function SiteHeader({
+  publishedSlugs = [],
+  branding,
+}: {
+  publishedSlugs?: string[];
+  branding?: BrandingSetting;
+}) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -77,7 +84,7 @@ export function SiteHeader({ publishedSlugs = [] }: { publishedSlugs?: string[] 
     <header className="sticky top-0 z-40 border-b border-white/10 bg-primary">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2 font-display text-lg font-semibold text-primary-foreground group">
-          <BrandLogo />
+          <BrandLogo logoUrl={branding?.logoUrl} />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">

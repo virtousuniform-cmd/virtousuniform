@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BrandLogo } from "@/components/layout/brand-logo";
+import type { BrandingSetting } from "@/features/settings/repositories/settings.repository";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
@@ -26,14 +27,14 @@ const NAV_ITEMS = [
   { href: "/dashboard/settings", label: "Account Settings", icon: Settings },
 ];
 
-export function CustomerSidebar() {
+export function CustomerSidebar({ branding }: { branding?: BrandingSetting }) {
   const pathname = usePathname();
 
   return (
     <aside className="hidden w-60 shrink-0 border-r border-border bg-card lg:flex lg:flex-col">
       <div className="flex h-14 items-center border-b border-border px-5">
         <Link href="/" className="flex items-center gap-2 font-semibold text-foreground uppercase tracking-tight">
-          <BrandLogo className="h-8 w-20" />
+          <BrandLogo className="h-8 w-20" logoUrl={branding?.logoUrl} />
         </Link>
       </div>
       <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-4">

@@ -8,13 +8,16 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { authClient } from "@/lib/auth-client";
 import { BrandLogo } from "@/components/layout/brand-logo";
+import type { BrandingSetting } from "@/features/settings/repositories/settings.repository";
 
 export function CustomerHeader({
   user,
   unreadCount,
+  branding,
 }: {
   user: { name: string; email: string; image?: string | null };
   unreadCount: number;
+  branding?: BrandingSetting;
 }) {
   const router = useRouter();
   const initials = user.name
@@ -34,7 +37,7 @@ export function CustomerHeader({
     <header className="flex h-14 items-center justify-between border-b border-border bg-card px-4 lg:px-6">
       <div className="lg:hidden">
         <Link href="/" className="flex items-center gap-2 font-semibold text-foreground uppercase tracking-tight">
-          <BrandLogo className="h-7 w-16" />
+          <BrandLogo className="h-7 w-16" logoUrl={branding?.logoUrl} />
         </Link>
       </div>
       <div className="hidden lg:block" />

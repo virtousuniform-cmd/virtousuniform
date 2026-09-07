@@ -35,6 +35,11 @@ export type CatalogSettings = {
   showModelNumber: boolean;
 };
 
+export type BrandingSetting = {
+  logoUrl?: string;
+  faviconUrl?: string;
+};
+
 const DEFAULT_CONTACT_INFO: ContactInfoSetting = {
   email: "sales@yourdomain.com",
   phone: "+92 300 0000000",
@@ -116,6 +121,19 @@ export const settingsRepository = {
       where: { key: "catalog_settings" },
       update: { value },
       create: { key: "catalog_settings", value },
+    });
+  },
+
+  async getBranding(): Promise<BrandingSetting> {
+    const row = await prisma.siteSetting.findUnique({ where: { key: "branding" } });
+    return row ? (row.value as BrandingSetting) : {};
+  },
+
+  async setBranding(value: BrandingSetting) {
+    return prisma.siteSetting.upsert({
+      where: { key: "branding" },
+      update: { value },
+      create: { key: "branding", value },
     });
   },
 };
