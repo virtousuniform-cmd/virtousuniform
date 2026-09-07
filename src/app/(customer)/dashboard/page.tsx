@@ -36,13 +36,9 @@ export default async function DashboardOverviewPage() {
           </p>
         </div>
         <Button variant="outline" size="sm" asChild className="gap-2">
-          <a
-            href={process.env.NEXT_PUBLIC_COMPANY_WEBSITE_URL || "https://glovesmfg.com"}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Visit Website <ExternalLink className="size-3.5" />
-          </a>
+          <Link href="/">
+            Visit Public Site <ExternalLink className="size-3.5" />
+          </Link>
         </Button>
       </div>
 
