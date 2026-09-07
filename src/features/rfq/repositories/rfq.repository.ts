@@ -22,7 +22,7 @@ export const rfqRepository = {
         preferredContactMethod: data.preferredContactMethod,
         items: {
           create: data.items.map((item) => ({
-            productId: item.productId,
+            productId: item.productId || null,
             quantity: item.quantity,
             notes: item.notes,
           })),
@@ -35,49 +35,48 @@ export const rfqRepository = {
   async findById(id: string) {
     if (!id) return null;
 
+    const include = {
+      items: {
+        include: {
+          product: {
+            include: {
+              category: true,
+              images: { orderBy: { sortOrder: "asc" as const }, take: 1 },
+              specifications: { orderBy: { sortOrder: "asc" as const }, take: 3 },
+            },
+          },
+        },
+      },
+      attachments: true,
+      messages: { orderBy: { createdAt: "asc" as const } },
+      user: { select: { id: true, name: true, email: true } },
+    };
+
     try {
-      // 1. Try finding by internal ID first (fastest)
-      let rfq = await prisma.rfq.findUnique({
-        where: { id },
-        include: {
-          items: {
-            include: {
-              product: {
-                include: {
-                  category: true,
-                  images: { orderBy: { sortOrder: "asc" }, take: 1 },
-                  specifications: { orderBy: { sortOrder: "asc" }, take: 3 },
-                },
-              },
-            },
-          },
-          attachments: true,
-          messages: { orderBy: { createdAt: "asc" } },
-          user: { select: { id: true, name: true, email: true } },
-        },
-      });
+      // 1. Try finding by ID if it looks like a CUID (starts with 'c')
+      if (id.startsWith("c")) {
+        const rfq = await prisma.rfq.findUnique({
+          where: { id },
+          include,
+        });
+        if (rfq) return rfq;
+      }
 
-      if (rfq) return rfq;
+      // 2. Try finding by refNo if it looks like an RFQ number (starts with 'RFQ')
+      if (id.startsWith("RFQ")) {
+        const rfq = await prisma.rfq.findUnique({
+          where: { refNo: id },
+          include,
+        });
+        if (rfq) return rfq;
+      }
 
-      // 2. If not found, try finding by refNo
-      return await prisma.rfq.findUnique({
-        where: { refNo: id },
-        include: {
-          items: {
-            include: {
-              product: {
-                include: {
-                  category: true,
-                  images: { orderBy: { sortOrder: "asc" }, take: 1 },
-                  specifications: { orderBy: { sortOrder: "asc" }, take: 3 },
-                },
-              },
-            },
-          },
-          attachments: true,
-          messages: { orderBy: { createdAt: "asc" } },
-          user: { select: { id: true, name: true, email: true } },
+      // 3. Last ditch: check both (slightly slower)
+      return await prisma.rfq.findFirst({
+        where: {
+          OR: [{ id }, { refNo: id }],
         },
+        include,
       });
     } catch (error) {
       console.error("Critical error in rfqRepository.findById:", error);

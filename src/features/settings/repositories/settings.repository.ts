@@ -50,7 +50,7 @@ const DEFAULT_SOCIAL_LINKS: SocialLinksSetting = {};
 
 const DEFAULT_SEO: SeoDefaultsSetting = {
   siteTitle: "Virtuous Uniform | Premium Professional Protective Gear Manufacturer",
-  titleTemplate: "%s | Virtuous Uniform Co.",
+  titleTemplate: "%s | Virtuous Uniform",
   defaultDescription:
     "Manufacturer of high-performance industrial, medical, and professional gloves, exporting to 12+ countries with rigorous quality assurance and scalable production capacity.",
   ogImage: "",

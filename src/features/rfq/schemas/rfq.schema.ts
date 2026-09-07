@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const rfqItemSchema = z.object({
-  productId: z.string().cuid().optional(),
+  productId: z.string().cuid().optional().or(z.literal("")),
   quantity: z.string().min(1, "Quantity is required"),
   notes: z.string().max(500).optional(),
 });
