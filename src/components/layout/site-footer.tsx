@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
-import { Facebook, Linkedin, Instagram, Twitter, Mail, MapPin } from "lucide-react";
+import { Facebook, Linkedin, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react";
 import { settingsRepository } from "@/features/settings/repositories/settings.repository";
 import { cn } from "@/lib/utils";
+import { BrandLogo } from "./brand-logo";
 
 const FOOTER_COLUMNS = [
   {
@@ -65,25 +65,7 @@ export async function SiteFooter({ publishedSlugs = [] }: { publishedSlugs?: str
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-6">
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 font-display text-lg font-semibold text-primary-foreground group">
-              <div className="relative h-10 w-24 overflow-hidden">
-                <Image
-                  src="/images/logo.png"
-                  alt="Virtuous Uniform"
-                  fill
-                  className="object-contain"
-                  // Fallback logo
-                  onError={(e) => {
-                    (e.target as any).style.display = 'none';
-                    (e.target as any).nextSibling.style.display = 'flex';
-                  }}
-                />
-                <div className="hidden h-full items-center gap-2">
-                  <span className="flex size-7 items-center justify-center rounded-md bg-brand text-sm font-bold text-brand-foreground">
-                    VU
-                  </span>
-                  <span className="text-primary-foreground">Virtuous<span className="text-brand">Uniform</span></span>
-                </div>
-              </div>
+              <BrandLogo />
             </Link>
             <p className="mt-3 max-w-xs text-sm text-primary-foreground/60">
               Manufacturer of high-performance industrial, medical, and professional gloves,

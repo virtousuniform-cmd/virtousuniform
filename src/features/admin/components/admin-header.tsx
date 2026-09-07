@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { Bell, Globe, LogOut, Settings, UserCircle } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -16,6 +15,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { authClient } from "@/lib/auth-client";
+import { BrandLogo } from "@/components/layout/brand-logo";
 
 type AdminUser = {
   name: string;
@@ -48,21 +48,7 @@ export function AdminHeader({
     <header className="flex h-14 items-center justify-between border-b border-border bg-card px-4 lg:px-6">
       <div className="lg:hidden">
         <Link href="/admin" className="flex items-center gap-2 font-semibold text-foreground uppercase tracking-tight">
-          <div className="relative h-7 w-16">
-            <Image
-              src="/images/logo.png"
-              alt="VU"
-              fill
-              className="object-contain"
-              onError={(e) => {
-                (e.target as any).style.display = 'none';
-                (e.target as any).nextSibling.style.display = 'flex';
-              }}
-            />
-            <div className="hidden h-full items-center gap-1">
-              VU<span className="text-primary">Uniform</span>
-            </div>
-          </div>
+          <BrandLogo className="h-7 w-16" />
         </Link>
       </div>
       <div className="hidden lg:block" />

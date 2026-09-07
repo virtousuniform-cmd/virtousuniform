@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import Image from "next/image";
 import { Menu, X, ChevronDown, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useSession, signOut } from "@/lib/auth-client";
+import { BrandLogo } from "./brand-logo";
 
 const COMPANY_LINKS = [
   { href: "/about", label: "About Us" },
@@ -77,26 +77,7 @@ export function SiteHeader({ publishedSlugs = [] }: { publishedSlugs?: string[] 
     <header className="sticky top-0 z-40 border-b border-white/10 bg-primary">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2 font-display text-lg font-semibold text-primary-foreground group">
-          <div className="relative h-10 w-24 overflow-hidden">
-            <Image
-              src="/images/logo.png"
-              alt="Virtuous Uniform"
-              fill
-              className="object-contain transition-transform group-hover:scale-105"
-              priority
-              // Using a simple CSS-based logo as fallback if image fails or isn't uploaded yet
-              onError={(e) => {
-                (e.target as any).style.display = 'none';
-                (e.target as any).nextSibling.style.display = 'flex';
-              }}
-            />
-            <div className="hidden h-full items-center gap-2">
-              <span className="flex size-7 items-center justify-center rounded-md bg-brand text-sm font-bold text-brand-foreground">
-                VU
-              </span>
-              <span className="text-primary-foreground">Virtuous<span className="text-brand">Uniform</span></span>
-            </div>
-          </div>
+          <BrandLogo />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
