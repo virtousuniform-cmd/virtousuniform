@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const seo = await settingsRepository.getSeoDefaults();
 
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"),
+    metadataBase: process.env.NEXT_PUBLIC_APP_URL ? new URL(process.env.NEXT_PUBLIC_APP_URL) : undefined,
     title: {
       default: seo.siteTitle,
       template: seo.titleTemplate,

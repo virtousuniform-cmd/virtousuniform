@@ -5,7 +5,7 @@ import { createAuthClient } from "better-auth/react";
 // This is a client component, so `window` is always available here.
 const baseURL =
   process.env.NEXT_PUBLIC_APP_URL ||
-  (typeof window !== "undefined" ? window.location.origin : "http://localhost:3000");
+  (typeof window !== "undefined" ? window.location.origin : "");
 
 export const authClient = createAuthClient({ baseURL });
 
