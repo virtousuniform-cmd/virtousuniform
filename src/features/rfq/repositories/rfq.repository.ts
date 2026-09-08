@@ -65,7 +65,7 @@ export const rfqRepository = {
 
     try {
       // 1. Try finding by ID if it looks like a CUID (starts with 'c')
-      if (id.startsWith("c")) {
+      if (id.length >= 20 && id.startsWith("c")) {
         const rfq = await prisma.rfq.findUnique({
           where: { id },
           include,
@@ -83,9 +83,13 @@ export const rfqRepository = {
       }
 
       // 3. Last ditch: check both (slightly slower)
+      // Only run if the above specific checks didn't return anything
       return await prisma.rfq.findFirst({
         where: {
-          OR: [{ id }, { refNo: id }],
+          OR: [
+            { id: id.length >= 20 ? id : undefined },
+            { refNo: id }
+          ].filter(Boolean) as Prisma.RfqWhereInput[],
         },
         include,
       });

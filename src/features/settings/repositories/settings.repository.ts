@@ -99,8 +99,13 @@ export const settingsRepository = {
   },
 
   async getSeoDefaults(): Promise<SeoDefaultsSetting> {
-    const row = await prisma.siteSetting.findUnique({ where: { key: "seo_defaults" } });
-    return row ? { ...DEFAULT_SEO, ...(row.value as object) } : DEFAULT_SEO;
+    try {
+      const row = await prisma.siteSetting.findUnique({ where: { key: "seo_defaults" } });
+      return row ? { ...DEFAULT_SEO, ...(row.value as object) } : DEFAULT_SEO;
+    } catch (error) {
+      console.warn("Failed to fetch SEO defaults from DB, using internal defaults.");
+      return DEFAULT_SEO;
+    }
   },
 
   async setSeoDefaults(value: SeoDefaultsSetting) {

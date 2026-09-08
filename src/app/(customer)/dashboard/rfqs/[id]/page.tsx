@@ -51,6 +51,12 @@ export default async function CustomerRfqDetailPage({
     redirect("/dashboard/rfqs");
   }
 
+  // Serialize dates for Client Component (RfqConversation)
+  const messages = (rfq.messages || []).map((m) => ({
+    ...m,
+    createdAt: m.createdAt instanceof Date ? m.createdAt.toISOString() : m.createdAt,
+  }));
+
   return (
     <div className="mx-auto max-w-3xl space-y-6 p-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -98,7 +104,7 @@ export default async function CustomerRfqDetailPage({
           <CardTitle>Conversation</CardTitle>
         </CardHeader>
         <CardContent>
-          <RfqConversation rfqId={rfq.id} messages={rfq.messages || []} viewerRole="CUSTOMER" />
+          <RfqConversation rfqId={rfq.id} messages={messages} viewerRole="CUSTOMER" />
         </CardContent>
       </Card>
     </div>

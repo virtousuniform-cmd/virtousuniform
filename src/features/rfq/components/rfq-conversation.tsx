@@ -72,7 +72,7 @@ export function RfqConversation({
       id: `temp-${Date.now()}`,
       senderType: viewerRole,
       message: draft,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
     };
     setItems((prev) => [...prev, optimisticMessage]);
     const messageToSend = draft;

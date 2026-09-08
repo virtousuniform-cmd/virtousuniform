@@ -57,7 +57,12 @@ export default async function AdminRfqDetailPage({
   }
 
   const items = rfq.items || [];
-  const messages = rfq.messages || [];
+  const attachments = rfq.attachments || [];
+  // Serialize dates for Client Component (RfqConversation)
+  const messages = (rfq.messages || []).map((m) => ({
+    ...m,
+    createdAt: m.createdAt instanceof Date ? m.createdAt.toISOString() : m.createdAt,
+  }));
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-6">
@@ -201,13 +206,13 @@ export default async function AdminRfqDetailPage({
             </CardContent>
           </Card>
 
-          {rfq.attachments.length > 0 && (
+          {attachments.length > 0 && (
             <Card>
               <CardHeader>
                 <CardTitle>Attachments</CardTitle>
               </CardHeader>
               <CardContent className="space-y-1">
-                {rfq.attachments.map((att) => (
+                {attachments.map((att) => (
                   <a
                     key={att.id}
                     href={att.fileUrl}
