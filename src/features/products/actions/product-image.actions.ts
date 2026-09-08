@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { nanoid } from "nanoid";
 import { requireAdmin, logAudit, UnauthorizedError } from "@/lib/auth-guards";
-import { uploadToStorage } from "@/lib/supabase";
+import { uploadToStorage } from "@/lib/supabase-admin";
 import { productRepository } from "../repositories/product.repository";
 
 type ActionResult<T = undefined> =
