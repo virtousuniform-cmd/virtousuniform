@@ -13,6 +13,8 @@ import { updateSectionContentAction } from "../../actions/homepage-section.actio
 
 type HeroSlide = {
   image: string;
+  mobile?: string;
+  mobilePosition?: string;
   headline: string;
   subheadline: string;
 };
@@ -112,6 +114,20 @@ export function HeroSectionEditor({ content }: { content: HeroContent }) {
                 <div className="space-y-1.5 sm:col-span-2">
                   <Label>Background Image URL</Label>
                   <Input {...register(`slides.${index}.image` as const)} placeholder="https://..." />
+                </div>
+                <div className="space-y-1.5 sm:col-span-2">
+                  <Label>Mobile Image URL (optional)</Label>
+                  <Input
+                    {...register(`slides.${index}.mobile` as const)}
+                    placeholder="Leave empty to use the desktop image"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label>Mobile Focal Position (optional)</Label>
+                  <Input
+                    {...register(`slides.${index}.mobilePosition` as const)}
+                    placeholder="center center"
+                  />
                 </div>
                 <div className="space-y-1.5">
                   <Label>Headline</Label>

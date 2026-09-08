@@ -3,12 +3,19 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
+import type { CSSProperties } from "react";
+
+type HeroSlide = {
+  image: string;
+  mobile?: string;
+  mobilePosition?: string;
+};
 
 export function HeroBackgroundSlider({
-  images = [],
+  slides = [],
   onIndexChange
 }: {
-  images?: string[];
+  slides?: HeroSlide[];
   onIndexChange?: (index: number) => void;
 }) {
   const [index, setIndex] = useState(0);
@@ -16,20 +23,20 @@ export function HeroBackgroundSlider({
 
   const nextSlide = useCallback(() => {
     setDirection(1);
-    setIndex((prev) => (prev + 1) % images.length);
-  }, [images.length]);
+    setIndex((prev) => (prev + 1) % slides.length);
+  }, [slides.length]);
 
   useEffect(() => {
     onIndexChange?.(index);
   }, [index, onIndexChange]);
 
   useEffect(() => {
-    if (images.length <= 1) return;
+    if (slides.length <= 1) return;
     const timer = setInterval(nextSlide, 6000);
     return () => clearInterval(timer);
-  }, [images.length, nextSlide]);
+  }, [slides.length, nextSlide]);
 
-  if (images.length === 0) {
+  if (slides.length === 0) {
     return (
       <div className="absolute inset-0 bg-primary/20 backdrop-blur-3xl" />
     );
@@ -39,7 +46,7 @@ export function HeroBackgroundSlider({
     enter: (direction: number) => ({
       x: direction > 0 ? "100%" : "-100%",
       opacity: 0,
-      scale: 1.05,
+      scale: 1,
     }),
     center: {
       zIndex: 1,
@@ -72,13 +79,33 @@ export function HeroBackgroundSlider({
           }}
           className="absolute inset-0"
         >
-          <Image
-            src={images[index] || ""}
-            alt={`Hero Background ${index + 1}`}
-            fill
-            priority
-            className="object-cover object-center md:object-top"
-          />
+          {(() => {
+            const slide = slides[index];
+            if (!slide) return null;
+
+            const imageClassName =
+              "hero-slide-image object-cover object-center md:object-top";
+            const imageStyle = {
+              "--hero-mobile-position": slide.mobilePosition ?? "center",
+            } as CSSProperties;
+
+            return (
+              <picture className="absolute inset-0 block">
+                {slide.mobile && (
+                  <source media="(max-width: 767px)" srcSet={slide.mobile} />
+                )}
+                <Image
+                  src={slide.image}
+                  alt={`Hero Background ${index + 1}`}
+                  fill
+                  priority={index === 0}
+                  sizes="100vw"
+                  className={imageClassName}
+                  style={imageStyle}
+                />
+              </picture>
+            );
+          })()}
           {/* Professional Overlay */}
           <div className="absolute inset-0 bg-black/40" />
         </motion.div>

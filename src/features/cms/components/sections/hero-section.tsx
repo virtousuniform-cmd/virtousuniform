@@ -12,6 +12,8 @@ import { AnimatePresence, motion } from "motion/react";
 
 type HeroSlide = {
   image: string;
+  mobile?: string;
+  mobilePosition?: string;
   headline: string;
   subheadline: string;
 };
@@ -40,13 +42,11 @@ export function HeroSection({ content }: { content: HeroContent }) {
     return () => clearTimeout(timer);
   }, [slideIndex]);
 
-  const imageList = slides.map(s => s.image);
-
   return (
     <>
       <section className="relative overflow-hidden bg-primary min-h-[90vh] md:min-h-[750px] flex items-center">
         {/* Background Images Layer */}
-        <HeroBackgroundSlider images={imageList} onIndexChange={setSlideIndex} />
+        <HeroBackgroundSlider slides={slides} onIndexChange={setSlideIndex} />
 
         {/* Content Layer */}
         <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 px-6 pt-24 pb-28 sm:pt-32 sm:pb-36 lg:grid-cols-[1.2fr_0.8fr] w-full">
