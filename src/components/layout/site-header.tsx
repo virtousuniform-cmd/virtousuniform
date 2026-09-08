@@ -67,7 +67,7 @@ export function SiteHeader({
 
   // Filter links that actually have a published page
   const availableLinks = allPotentialLinks.filter(link =>
-    publishedSlugs.includes(link.href.replace("/", ""))
+    link.href === "/certifications" || publishedSlugs.includes(link.href.replace("/", ""))
   );
 
   // Home, Products, Contact are always there (Home is "/", others are pages/logic)
