@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
-
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://yourdomain.com";
+import { SITE_URL } from "@/lib/site-config";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -28,7 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/privacy-policy",
     "/terms",
   ].map((path) => ({
-    url: `${BASE_URL}${path}`,
+    url: `${SITE_URL}${path}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: path === "" ? 1 : 0.7,
@@ -46,14 +45,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]);
 
   const productRoutes: MetadataRoute.Sitemap = products.map((p) => ({
-    url: `${BASE_URL}/products/${p.slug}`,
+    url: `${SITE_URL}/products/${p.slug}`,
     lastModified: p.updatedAt,
     changeFrequency: "weekly",
     priority: 0.8,
   }));
 
   const blogRoutes: MetadataRoute.Sitemap = posts.map((p) => ({
-    url: `${BASE_URL}/blog/${p.slug}`,
+    url: `${SITE_URL}/blog/${p.slug}`,
     lastModified: p.updatedAt,
     changeFrequency: "monthly",
     priority: 0.6,

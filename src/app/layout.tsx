@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "sonner";
 import { settingsRepository } from "@/features/settings/repositories/settings.repository";
+import { SITE_URL } from "@/lib/site-config";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,15 +28,23 @@ export async function generateMetadata(): Promise<Metadata> {
   const seo = await settingsRepository.getSeoDefaults();
 
   return {
-    metadataBase: process.env.NEXT_PUBLIC_APP_URL ? new URL(process.env.NEXT_PUBLIC_APP_URL) : undefined,
+    metadataBase: new URL(SITE_URL),
     title: {
       default: seo.siteTitle,
       template: seo.titleTemplate,
     },
     description: seo.defaultDescription,
+    alternates: {
+      canonical: "/",
+    },
+    icons: {
+      icon: "/icon.svg",
+      shortcut: "/icon.svg",
+    },
     openGraph: {
       type: "website",
       siteName: "Virtuous Uniform",
+      url: "/",
       images: seo.ogImage ? [{ url: seo.ogImage }] : undefined,
     },
     twitter: {
