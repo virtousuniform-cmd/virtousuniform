@@ -38,8 +38,8 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: "/",
     },
     icons: {
-      icon: "/icon.svg",
-      shortcut: "/icon.svg",
+      icon: "/icon.png",
+      shortcut: "/icon.png",
     },
     openGraph: {
       type: "website",
