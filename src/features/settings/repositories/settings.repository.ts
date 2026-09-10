@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 export type ContactInfoSetting = {
   email: string;
   phone: string;
+  whatsapp: string;
   address: string;
 };
 
@@ -43,6 +44,7 @@ export type BrandingSetting = {
 const DEFAULT_CONTACT_INFO: ContactInfoSetting = {
   email: "sales@yourdomain.com",
   phone: "+92 300 0000000",
+  whatsapp: "+92 300 0000000",
   address: "Industrial Estate, Sialkot, Punjab, Pakistan",
 };
 
@@ -74,7 +76,11 @@ const DEFAULT_CATALOG_SETTINGS: CatalogSettings = {
 export const settingsRepository = {
   async getContactInfo(): Promise<ContactInfoSetting> {
     const row = await prisma.siteSetting.findUnique({ where: { key: "contact_info" } });
-    return row ? { ...DEFAULT_CONTACT_INFO, ...(row.value as object) } : DEFAULT_CONTACT_INFO;
+    if (!row) return DEFAULT_CONTACT_INFO;
+
+    const value = { ...DEFAULT_CONTACT_INFO, ...(row.value as Partial<ContactInfoSetting>) };
+    if (!(row.value as Partial<ContactInfoSetting>).whatsapp) value.whatsapp = value.phone;
+    return value;
   },
 
   async setContactInfo(value: ContactInfoSetting) {

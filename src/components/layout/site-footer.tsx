@@ -83,8 +83,8 @@ export async function SiteFooter({
               </div>
               <div className="flex items-center gap-2">
                 <WhatsAppIcon className="size-4 text-brand fill-brand" />
-                <a href={`https://wa.me/${contactInfo.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="hover:text-brand transition-colors">
-                  {contactInfo.phone}
+                  <a href={`https://wa.me/${contactInfo.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="hover:text-brand transition-colors">
+                  {contactInfo.whatsapp}
                 </a>
               </div>
               <div className="flex items-center gap-2">

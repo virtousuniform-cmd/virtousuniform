@@ -38,6 +38,15 @@ export function ContactInfoForm({ defaultValues }: { defaultValues: ContactInfoS
             <Label htmlFor="phone">Phone</Label>
             <Input id="phone" {...register("phone")} />
           </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="whatsapp">WhatsApp number</Label>
+            <Input
+              id="whatsapp"
+              type="tel"
+              placeholder="+92 300 0000000"
+              {...register("whatsapp")}
+            />
+          </div>
           <div className="space-y-1.5 sm:col-span-2">
             <Label htmlFor="address">Factory address</Label>
             <Input id="address" {...register("address")} />

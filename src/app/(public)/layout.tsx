@@ -1,5 +1,6 @@
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { WhatsAppFloat } from "@/components/layout/whatsapp-float";
 import { contentPageRepository } from "@/features/cms/repositories/content-page.repository";
 import { settingsRepository } from "@/features/settings/repositories/settings.repository";
 
@@ -8,9 +9,10 @@ export default async function PublicLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [pages, branding] = await Promise.all([
+  const [pages, branding, contactInfo] = await Promise.all([
     contentPageRepository.findMany(),
     settingsRepository.getBranding(),
+    settingsRepository.getContactInfo(),
   ]);
 
   const publishedSlugs = pages
@@ -22,6 +24,7 @@ export default async function PublicLayout({
       <SiteHeader publishedSlugs={publishedSlugs} branding={branding} />
       <main className="flex-1">{children}</main>
       <SiteFooter publishedSlugs={publishedSlugs} branding={branding} />
+      <WhatsAppFloat phone={contactInfo.whatsapp} />
     </div>
   );
 }
