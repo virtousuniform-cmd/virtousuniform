@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { certificationsPageContent } from "../src/features/cms/content/certifications-page-content";
 
 const prisma = new PrismaClient();
 
@@ -252,6 +253,14 @@ async function main() {
 
   // ── Custom Pages (CMS) ────────────────────────────────────
   const pages = [
+    {
+      title: "Certifications & Standards",
+      slug: "certifications",
+      content: certificationsPageContent,
+      status: "PUBLISHED",
+      seoTitle: "Certifications & Standards | Virtuous Uniform",
+      seoDescription: "Explore Virtuous Uniform's certifications, registrations, and quality system.",
+    },
     {
       title: "About Us",
       slug: "about",

@@ -30,6 +30,7 @@ export async function createContentPageAction(
 
     revalidatePath("/admin/cms");
     revalidatePath(`/${page.slug}`);
+    if (page.slug === "certifications") revalidatePath("/certifications");
 
     return { success: true, data: { id: page.id } };
   } catch (err) {
@@ -50,6 +51,7 @@ export async function updateContentPageAction(
       return { success: false, error: "Slug already exists." };
     }
 
+    const previousPage = await contentPageRepository.findById(id);
     await contentPageRepository.update(id, data);
 
     await logAudit({
@@ -62,6 +64,9 @@ export async function updateContentPageAction(
 
     revalidatePath("/admin/cms");
     revalidatePath(`/${data.slug}`);
+    if (previousPage?.slug === "certifications" || data.slug === "certifications") {
+      revalidatePath("/certifications");
+    }
 
     return { success: true, data: undefined };
   } catch (err) {
@@ -90,6 +95,7 @@ export async function deleteContentPageAction(id: string): Promise<ActionResult>
 
     revalidatePath("/admin/cms");
     revalidatePath(`/${page.slug}`);
+    if (page.slug === "certifications") revalidatePath("/certifications");
 
     return { success: true, data: undefined };
   } catch (err) {
