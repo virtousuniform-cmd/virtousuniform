@@ -133,7 +133,7 @@ async function main() {
 
   // ── Homepage CMS defaults ──────────────────────────────────
   const sections: {
-    key: "HERO" | "STATISTICS" | "FEATURED_PRODUCTS" | "TESTIMONIALS" | "FAQ" | "CTA";
+    key: "HERO" | "STATISTICS" | "FEATURED_PRODUCTS" | "PRODUCTION_FACILITIES" | "TESTIMONIALS" | "FAQ" | "CTA";
     content: object;
     sortOrder: number;
   }[] = [
@@ -168,18 +168,23 @@ async function main() {
       content: {}, // data-driven — pulled live from the Product table
     },
     {
-      key: "TESTIMONIALS",
+      key: "PRODUCTION_FACILITIES",
       sortOrder: 4,
+      content: {}, // data-driven — pulled live from ProductionFacility
+    },
+    {
+      key: "TESTIMONIALS",
+      sortOrder: 5,
       content: {}, // data-driven — pulled live from the Testimonial table
     },
     {
       key: "FAQ",
-      sortOrder: 5,
+      sortOrder: 6,
       content: {}, // data-driven — pulled live from the FaqItem table
     },
     {
       key: "CTA",
-      sortOrder: 6,
+      sortOrder: 7,
       content: {
         headline: "Ready to discuss your protective requirements?",
         subheadline:

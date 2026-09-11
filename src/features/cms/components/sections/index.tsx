@@ -1,4 +1,5 @@
 import type { HomepageSection } from "@prisma/client";
+import { Fragment } from "react";
 import { HeroSection } from "./hero-section";
 import { StatisticsSection } from "./statistics-section";
 import { FeaturedCategoriesSection } from "./featured-categories-section";
@@ -32,10 +33,10 @@ export function renderHomepageSection(section: HomepageSection) {
       return <StatisticsSection key={section.id} content={section.content as never} />;
     case "FEATURED_PRODUCTS":
       return (
-        <>
-          <FeaturedCategoriesSection key={`${section.id}-categories`} />
-          <FeaturedProductsSection key={`${section.id}-products`} />
-        </>
+        <Fragment key={section.id}>
+          <FeaturedCategoriesSection />
+          <FeaturedProductsSection />
+        </Fragment>
       );
     case "PRODUCTION_FACILITIES":
       return <ProductionFacilitiesSection key={section.id} />;

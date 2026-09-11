@@ -21,6 +21,9 @@ const nextConfig: NextConfig = {
   experimental: {
     // Enables React Compiler once stable in the toolchain.
     // reactCompiler: true,
+    serverActions: {
+      bodySizeLimit: "6mb",
+    },
   },
 
   async headers() {

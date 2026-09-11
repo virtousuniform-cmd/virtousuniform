@@ -11,9 +11,10 @@ export const metadata: Metadata = { title: "Edit Production Facility — Admin" 
 export default async function EditProductionFacilityPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const facility = await productionFacilityRepository.findById(params.id);
+  const { id } = await params;
+  const facility = await productionFacilityRepository.findById(id);
 
   if (!facility) {
     notFound();
