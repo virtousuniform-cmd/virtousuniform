@@ -197,22 +197,6 @@
 }
 
 @layer utilities {
-  .hero-slide-image {
-    object-position: var(--hero-mobile-position, center);
-  }
-
-  @media (max-width: 767px) {
-    .hero-slide-image {
-      object-position: var(--hero-mobile-position, center 35%);
-    }
-  }
-
-  @media (min-width: 768px) {
-    .hero-slide-image {
-      object-position: top;
-    }
-  }
-
   .font-display {
     font-family: var(--font-display);
   }

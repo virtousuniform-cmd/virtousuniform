@@ -15,6 +15,7 @@ type HeroSlide = {
   image: string;
   mobile?: string;
   mobilePosition?: string;
+  hideOverlay?: boolean;
   headline: string;
   subheadline: string;
 };
@@ -129,6 +130,14 @@ export function HeroSectionEditor({ content }: { content: HeroContent }) {
                     placeholder="center center"
                   />
                 </div>
+                <label className="flex items-center gap-2 space-y-0.5">
+                  <input
+                    type="checkbox"
+                    {...register(`slides.${index}.hideOverlay` as const)}
+                    className="h-4 w-4 rounded border-border"
+                  />
+                  <span className="text-sm font-medium">Image contains its own text and CTAs</span>
+                </label>
                 <div className="space-y-1.5">
                   <Label>Headline</Label>
                   <Input {...register(`slides.${index}.headline` as const)} />

@@ -3,12 +3,12 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
-import type { CSSProperties } from "react";
 
 type HeroSlide = {
   image: string;
   mobile?: string;
   mobilePosition?: string;
+  hideOverlay?: boolean;
 };
 
 export function HeroBackgroundSlider({
@@ -63,7 +63,7 @@ export function HeroBackgroundSlider({
   };
 
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden bg-black">
+    <div className="relative z-0 grid w-full overflow-hidden bg-black md:absolute md:inset-0 md:h-full">
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={index}
@@ -77,33 +77,35 @@ export function HeroBackgroundSlider({
             opacity: { duration: 0.6 },
             scale: { duration: 1.2, ease: "easeOut" }
           }}
-          className="absolute inset-0"
+          className="relative col-start-1 row-start-1 w-full md:absolute md:inset-0 md:h-full"
         >
           {(() => {
             const slide = slides[index];
             if (!slide) return null;
 
-            const imageClassName =
-              "hero-slide-image object-cover object-center md:object-top";
-            const imageStyle = {
-              "--hero-mobile-position": slide.mobilePosition ?? "center",
-            } as CSSProperties;
-
             return (
-              <picture className="absolute inset-0 block">
-                {slide.mobile && (
-                  <source media="(max-width: 767px)" srcSet={slide.mobile} />
-                )}
-                <Image
-                  src={slide.image}
-                  alt={`Hero Background ${index + 1}`}
-                  fill
-                  priority={index === 0}
-                  sizes="100vw"
-                  className={imageClassName}
-                  style={imageStyle}
-                />
-              </picture>
+              <>
+                <picture className="block w-full md:hidden">
+                  {slide.mobile && (
+                    <source media="(max-width: 767px)" srcSet={slide.mobile} />
+                  )}
+                  <img
+                    src={slide.image}
+                    alt={`Hero Background ${index + 1}`}
+                    className="block h-auto w-full"
+                  />
+                </picture>
+                <div className="absolute inset-0 hidden md:block">
+                  <Image
+                    src={slide.image}
+                    alt={`Hero Background ${index + 1}`}
+                    fill
+                    priority={index === 0}
+                    sizes="100vw"
+                    className="object-cover object-top"
+                  />
+                </div>
+              </>
             );
           })()}
           {/* Professional Overlay */}

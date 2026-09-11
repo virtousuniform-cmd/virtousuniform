@@ -14,6 +14,7 @@ type HeroSlide = {
   image: string;
   mobile?: string;
   mobilePosition?: string;
+  hideOverlay?: boolean;
   headline: string;
   subheadline: string;
 };
@@ -30,9 +31,11 @@ export function HeroSection({ content }: { content: HeroContent }) {
 
   const slides = content.slides || [];
   const currentSlide = slides[slideIndex] || {
+    hideOverlay: false,
     headline: (content as any).headline || "Virtuous Uniform",
     subheadline: (content as any).subheadline || "Premium Professional Protective Gear",
   };
+  const hideOverlay = currentSlide.hideOverlay === true;
 
   // Re-trigger text animation whenever slide changes
   useEffect(() => {
@@ -44,30 +47,31 @@ export function HeroSection({ content }: { content: HeroContent }) {
 
   return (
     <>
-      <section className="relative flex min-h-[640px] items-center overflow-hidden bg-primary sm:min-h-[90vh] md:min-h-[750px]">
+      <section className="relative overflow-hidden bg-primary md:flex md:min-h-[750px] md:items-center">
         {/* Background Images Layer */}
         <HeroBackgroundSlider slides={slides} onIndexChange={setSlideIndex} />
 
         {/* Content Layer */}
-        <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 px-6 pt-24 pb-28 sm:pt-32 sm:pb-36 lg:grid-cols-[1.2fr_0.8fr] w-full">
-          <div className="text-center lg:text-left min-h-[400px] flex flex-col justify-center">
-            <AnimatePresence mode="wait">
-              {showText && (
-                <motion.div
-                  key={slideIndex}
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{
-                    duration: 0.8,
-                    ease: [0.16, 1, 0.3, 1],
-                    staggerChildren: 0.1
-                  }}
-                >
+        {!hideOverlay && (
+          <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-12 px-6 pt-16 pb-20 md:pt-32 md:pb-36 lg:grid-cols-[1.2fr_0.8fr]">
+            <div className="flex min-h-0 flex-col justify-center text-center md:min-h-[400px] lg:text-left">
+              <AnimatePresence mode="wait">
+                {showText && (
+                  <motion.div
+                    key={slideIndex}
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
+                    transition={{
+                      duration: 0.8,
+                      ease: [0.16, 1, 0.3, 1],
+                      staggerChildren: 0.1
+                    }}
+                  >
                   <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="font-display text-4xl leading-[1.05] font-bold tracking-tight text-white sm:text-5xl lg:text-6xl drop-shadow-2xl"
+                      className="font-display text-4xl leading-[1.05] font-bold tracking-tight text-white sm:text-5xl lg:text-6xl drop-shadow-2xl"
                   >
                     {currentSlide.headline}
                   </motion.h1>
@@ -76,7 +80,7 @@ export function HeroSection({ content }: { content: HeroContent }) {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="mx-auto mt-6 max-w-2xl text-lg text-white/90 lg:mx-0 font-medium drop-shadow-lg leading-relaxed md:text-xl"
+                      className="mx-auto mt-6 max-w-2xl text-lg font-medium leading-relaxed text-white/90 drop-shadow-lg lg:mx-0 md:text-xl"
                   >
                     {currentSlide.subheadline}
                   </motion.p>
@@ -104,16 +108,17 @@ export function HeroSection({ content }: { content: HeroContent }) {
                         <DownloadCatalogueButton variant="white" />
                       </div>
                     </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
-          {/* Optional Right Side Visual (Cards) */}
-          <div className="hidden lg:block">
-            <HeroVisualLoader />
+            {/* Optional Right Side Visual (Cards) */}
+            <div className="hidden lg:block">
+              <HeroVisualLoader />
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Progress Bar (Visual indicator of slide timing) */}
         <div className="absolute bottom-0 left-0 h-1.5 bg-white/10 w-full z-20">
