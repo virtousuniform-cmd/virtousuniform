@@ -44,7 +44,7 @@ export function HeroSection({ content }: { content: HeroContent }) {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-primary min-h-[90vh] md:min-h-[750px] flex items-center">
+      <section className="relative flex min-h-[640px] items-center overflow-hidden bg-primary sm:min-h-[90vh] md:min-h-[750px]">
         {/* Background Images Layer */}
         <HeroBackgroundSlider slides={slides} onIndexChange={setSlideIndex} />
 

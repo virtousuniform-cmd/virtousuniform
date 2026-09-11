@@ -146,23 +146,8 @@ async function main() {
           "Manufacturer of high-performance gloves, exporting to 12+ countries with rigorous quality assurance.",
         ctaPrimary: { label: "Explore Collection", href: "/products" },
         ctaSecondary: { label: "Request Quotation", href: "/request-quote" },
-        slides: [
-          {
-            image: "https://images.unsplash.com/photo-1590736704728-f4730bb30770?q=80&w=2074&auto=format&fit=crop",
-            headline: "Engineered for Safety",
-            subheadline: "High-performance nitrile and specialized protective solutions for demanding industrial environments."
-          },
-          {
-            image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop",
-            headline: "Uncompromising Quality",
-            subheadline: "Every glove reflects our 20-year legacy of manufacturing excellence and international standards compliance."
-          },
-          {
-            image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop",
-            headline: "Global Export Partner",
-            subheadline: "Providing reliable protective gear to healthcare and industrial sectors across 12+ countries."
-          }
-        ]
+        // Add your own slides from Admin > CMS > Hero Slider.
+        slides: []
       },
     },
     {
@@ -427,6 +412,63 @@ async function main() {
     where: { slug: { in: ["industrial-safety", "medical-healthcare", "chemical-resistant"] } },
     data: { isFeaturedOnHome: true, isVisible: true },
   });
+
+  // ── Production Facilities ──────────────────────────────
+  // Sample production facility data (images would be uploaded via admin)
+  // Starting with placeholder descriptions
+  const facilitiesData = [
+    {
+      title: "R&D",
+      description: "Research and development lab where new glove formulations and designs are created.",
+      imageUrl: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&h=625&fit=crop",
+      imageAlt: "Research and development team working in the lab",
+      displayOrder: 0,
+      isActive: true,
+    },
+    {
+      title: "Cutting",
+      description: "Precision cutting process where raw materials are shaped into glove components.",
+      imageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=500&h=625&fit=crop",
+      imageAlt: "Industrial cutting machinery for glove production",
+      displayOrder: 1,
+      isActive: true,
+    },
+    {
+      title: "Printing",
+      description: "Digital printing station for applying logos, patterns, and branding.",
+      imageUrl: "https://images.unsplash.com/photo-1584864624752-7dd289f50f5b?w=500&h=625&fit=crop",
+      imageAlt: "Printing equipment for custom glove designs",
+      displayOrder: 2,
+      isActive: true,
+    },
+    {
+      title: "Stitching",
+      description: "Expert stitching and assembly of glove components with precision stitching machines.",
+      imageUrl: "https://images.unsplash.com/photo-1578991620033-d8d26c7abf88?w=500&h=625&fit=crop",
+      imageAlt: "Stitching workstation for glove assembly",
+      displayOrder: 3,
+      isActive: true,
+    },
+    {
+      title: "Quality Control",
+      description: "Rigorous testing and inspection to ensure every glove meets international standards.",
+      imageUrl: "https://images.unsplash.com/photo-1576091160670-112d8e0c7dc7?w=500&h=625&fit=crop",
+      imageAlt: "Quality control team inspecting finished products",
+      displayOrder: 4,
+      isActive: true,
+    },
+  ];
+
+  for (const facility of facilitiesData) {
+    await prisma.productionFacility.upsert({
+      where: { id: `facility-${facility.displayOrder}` },
+      update: facility,
+      create: {
+        id: `facility-${facility.displayOrder}`,
+        ...facility,
+      },
+    });
+  }
 
   console.log("Seed complete. Register an account, then run: pnpm promote:admin <email>");
 }

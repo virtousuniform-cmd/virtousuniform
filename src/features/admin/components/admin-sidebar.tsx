@@ -22,6 +22,7 @@ import {
   ScrollText,
   Star,
   Plus,
+  Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BrandLogo } from "@/components/layout/brand-logo";
@@ -67,6 +68,7 @@ const NAV_SECTIONS: {
       { href: "/admin/blogs", label: "Blog", icon: Newspaper },
       { href: "/admin/gallery", label: "Gallery", icon: ImageIcon },
       { href: "/admin/certificates", label: "Certifications", icon: Award },
+      { href: "/admin/production-facilities", label: "Production Facilities", icon: Zap },
       { href: "/admin/testimonials", label: "Testimonials", icon: Star },
     ],
   },

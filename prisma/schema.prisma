@@ -102,6 +102,7 @@ enum HomepageSectionKey {
   LATEST_BLOG
   FAQ
   CTA
+  PRODUCTION_FACILITIES
   FOOTER
 }
 
@@ -717,6 +718,23 @@ model Career {
   updatedAt DateTime @updatedAt
 
   @@map("careers")
+}
+
+model ProductionFacility {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?  @db.Text
+  imageUrl      String
+  imageAlt      String?
+  displayOrder  Int      @default(0)
+  isActive      Boolean  @default(true)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([displayOrder])
+  @@index([isActive])
+  @@map("production_facilities")
 }
 
 // ────────────────────────────────────────────────────────────────

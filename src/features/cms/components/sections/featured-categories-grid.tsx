@@ -11,14 +11,14 @@ export function FeaturedCategoriesGrid({ categories = [] }: { categories: any[] 
   const [activeId, setActiveId] = useState<string | null>(null);
 
   return (
-    <RevealGroup className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    <RevealGroup className="grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {categories.map((category) => {
         const isTouchActive = activeId === category.id;
 
         return (
           <RevealItem key={category.id}>
             <div
-              className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-muted shadow-lg cursor-pointer"
+              className="group relative aspect-[3/4] overflow-hidden rounded-lg bg-muted shadow-md cursor-pointer"
               onMouseEnter={() => setActiveId(category.id)}
               onMouseLeave={() => setActiveId(null)}
               onClick={() => setActiveId(activeId === category.id ? null : category.id)}
@@ -44,44 +44,44 @@ export function FeaturedCategoriesGrid({ categories = [] }: { categories: any[] 
 
               {/* Category Name - Bold & Centered Initially */}
               <div className={cn(
-                "absolute inset-0 flex items-center justify-center p-6 text-center transition-opacity duration-300",
+                "absolute inset-0 flex items-center justify-center p-4 text-center transition-opacity duration-300",
                 isTouchActive ? "opacity-0" : "opacity-100 group-hover:opacity-0"
               )}>
-                <h3 className="font-display text-3xl font-bold text-white uppercase tracking-tighter drop-shadow-lg">
+                <h3 className="font-display text-xl font-bold text-white uppercase tracking-tight drop-shadow-lg line-clamp-3">
                   {category.name}
                 </h3>
               </div>
 
               {/* Hover/Touch Content - Products List */}
               <div className={cn(
-                "absolute inset-0 flex flex-col justify-end p-6 transition-all duration-500",
+                "absolute inset-0 flex flex-col justify-end p-4 transition-all duration-500",
                 isTouchActive
                   ? "opacity-100 translate-y-0 bg-black/60 backdrop-blur-[2px]"
                   : "opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 group-hover:bg-black/60 group-hover:backdrop-blur-[2px]"
               )}>
-                <h3 className="mb-4 font-display text-xl font-bold text-white border-b border-white/20 pb-2">
+                <h3 className="mb-3 font-display text-base font-bold text-white border-b border-white/20 pb-2">
                   {category.name}
                 </h3>
 
-                <div className="mb-6 space-y-2">
-                  {category.products.map((product: any) => (
+                <div className="mb-4 space-y-1 max-h-32 overflow-y-auto">
+                  {category.products.slice(0, 4).map((product: any) => (
                     <Link
                       key={product.id}
                       href={`/products/${product.slug}`}
-                      className="flex items-center gap-3 text-white/90 hover:text-brand transition-colors group/item"
+                      className="flex items-center gap-2 text-white/90 hover:text-brand transition-colors group/item text-xs"
                     >
-                      <div className="size-8 shrink-0 overflow-hidden rounded bg-white/10">
+                      <div className="size-6 shrink-0 overflow-hidden rounded bg-white/10">
                         {product.images?.[0] && (
                           <Image
                             src={product.images[0].url}
                             alt={product.name}
-                            width={32}
-                            height={32}
+                            width={24}
+                            height={24}
                             className="object-cover"
                           />
                         )}
                       </div>
-                      <span className="truncate text-sm font-medium">{product.name}</span>
+                      <span className="truncate text-xs font-medium line-clamp-1">{product.name}</span>
                     </Link>
                   ))}
                   {category.products.length === 0 && (
@@ -91,9 +91,9 @@ export function FeaturedCategoriesGrid({ categories = [] }: { categories: any[] 
 
                 <Link
                   href={`/products?categoryId=${category.id}`}
-                  className="inline-flex items-center gap-2 text-sm font-bold text-brand hover:underline"
+                  className="inline-flex items-center gap-1 text-xs font-bold text-brand hover:underline"
                 >
-                  View Collection <ArrowRight className="size-4" />
+                  View <ArrowRight className="size-3" />
                 </Link>
               </div>
             </div>

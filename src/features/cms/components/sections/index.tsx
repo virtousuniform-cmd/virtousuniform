@@ -2,9 +2,11 @@ import type { HomepageSection } from "@prisma/client";
 import { HeroSection } from "./hero-section";
 import { StatisticsSection } from "./statistics-section";
 import { FeaturedCategoriesSection } from "./featured-categories-section";
+import { FeaturedProductsSection } from "./featured-products-section";
 import { TestimonialsSection } from "./testimonials-section";
 import { FaqSection } from "./faq-section";
 import { CtaSection } from "./cta-section";
+import { ProductionFacilitiesSection } from "./production-facilities-section";
 
 /**
  * Renders one HomepageSection row based on its `key`.
@@ -29,7 +31,14 @@ export function renderHomepageSection(section: HomepageSection) {
     case "STATISTICS":
       return <StatisticsSection key={section.id} content={section.content as never} />;
     case "FEATURED_PRODUCTS":
-      return <FeaturedCategoriesSection key={section.id} />;
+      return (
+        <>
+          <FeaturedCategoriesSection key={`${section.id}-categories`} />
+          <FeaturedProductsSection key={`${section.id}-products`} />
+        </>
+      );
+    case "PRODUCTION_FACILITIES":
+      return <ProductionFacilitiesSection key={section.id} />;
     case "TESTIMONIALS":
       return <TestimonialsSection key={section.id} />;
     case "FAQ":
